@@ -6,7 +6,7 @@
     <style>
         body {
             font-family: "Arial", sans-serif;
-            background: linear-gradient(135deg, #ffefd5, #ffe4f2, #e0f7ff, #e5ffe0);
+            background: linear-gradient(135deg, #f3e8f7, #f7e6e6, #f0e0f5);
             padding: 40px;
             max-width: 1000px;
             margin: auto;
@@ -56,7 +56,7 @@
             font-size: 90px;
             margin: 0;
             letter-spacing: 6px;
-            background: linear-gradient(90deg, #ff6ec7, #6ecbff, #7dff6b);
+            background: linear-gradient(90deg, #d7b3e8, #e8b3b3, #cfa7d9);
             -webkit-background-clip: text;
             color: transparent;
             animation: glow 3s infinite alternate;
@@ -86,7 +86,7 @@
 
         /* SECTION BANNERS */
         .banner {
-            background: linear-gradient(90deg, #ffb3ec, #b3e5ff, #c1ffb3);
+            background: linear-gradient(90deg, #d7b3e8, #e8b3b3, #cfa7d9);
             padding: 12px;
             text-align: center;
             border-radius: 12px;
@@ -96,23 +96,23 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.15);
         }
 
-        .empty-box {
-            border: 4px dashed #999;
-            background: rgba(255,255,255,0.6);
-            padding: 40px;
-            margin: 30px 0;
-            text-align: center;
-            font-size: 26px;
-            font-style: italic;
-            color: #555;
-            border-radius: 15px;
-            transition: 0.2s ease;
+        .article {
+            background: rgba(255,255,255,0.85);
+            border: 2px solid rgba(0,0,0,0.06);
+            padding: 18px;
+            margin: 18px 0;
+            border-radius: 10px;
+            font-size: 18px;
         }
 
-        .empty-box:hover {
-            transform: scale(1.03);
-            border-color: #666;
+        .article h3 {
+            margin: 0 0 8px 0;
+            font-size: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
+
+        .small { font-size: 15px; color: #444; }
 
         .contact-box {
             padding: 25px;
@@ -128,22 +128,11 @@
             font-weight: bold;
         }
 
-        .contact-box a:hover {
-            text-decoration: underline;
-        }
+        .contact-box a:hover { text-decoration: underline; }
 
-        .visitor-counter {
-            text-align: center;
-            margin-top: 25px;
-        }
+        .visitor-counter { text-align: center; margin-top: 25px; }
 
-        .visitor-counter img {
-            width: 140px;
-            border-radius: 10px;
-            border: 2px solid #000;
-            padding: 5px;
-            background: #fff;
-        }
+        .visitor-counter img { width: 140px; border-radius: 10px; border: 2px solid #000; padding: 5px; background: #fff; }
     </style>
 </head>
 <body>
@@ -163,20 +152,41 @@
 <div class="date-line">2025</div>
 
 <div id="news" class="banner">NEWS</div>
-<div class="empty-box">Add your first news article here</div>
+
+<div class="article">
+    <h3>PEACOCKS TAKE OVER CAMPUS???</h3>
+    <p class="small">Three peacocks randomly strutted into campus like they paid tuition. One chased anyone who moved too fast. Another stared at its reflection in a vending machine for ages. Security just stared back. If someone owns these birds… why.</p>
+</div>
+
+<div class="article">
+    <h3>CHRISTMAS FAIR IS COMING (pray for us)</h3>
+    <p class="small">The Christmas Fair is happening soon and nobody is ready. Rumours say: a giant inflatable Santa that might fall over, a bake sale run by people who burn toast, hot chocolate so strong it might be illegal, and way too many fairy lights. Place your bets on what breaks first.</p>
+</div>
 
 <div id="campus" class="banner">CAMPUS LIFE</div>
-<div class="empty-box">Add something happening at college</div>
+
+<div class="article">
+    <h3>POST-IT NOTES EVERYWHERE</h3>
+    <p class="small">Someone left tiny motivational notes all over campus. Things like “U got this” and “Drink water pls.” People keep finding them in weird places and smiling like idiots. It’s mysterious and slightly wholesome. Keep the notes coming.</p>
+</div>
 
 <div id="opinion" class="banner">OPINION</div>
-<div class="empty-box">Write your thoughts, reviews, rants, etc.</div>
+
+<div class="article">
+    <h3>9AM CLASSES SHOULD BE ILLEGAL</h3>
+    <p class="small">Nobody’s brain works at 9AM. Move everything later. Life would improve. Attendance would rise. Also coffee would be less dramatic. That is the argument. Fight me.</p>
+</div>
 
 <div id="events" class="banner">EVENTS</div>
-<div class="empty-box">List upcoming events here</div>
+
+<div class="article">
+    <h3>STRESS-FREE WEDNESDAY (yes, really)</h3>
+    <p class="small">Next Wednesday the atrium turns into a chilled zone: free hot choc, a quiet reading corner, a rage table for smashing paper cups, and therapy dogs. Go for the snacks. Stay for the dogs. Pretend your deadlines don’t exist.</p>
+</div>
 
 <div class="contact-box">
     <h2>Contact</h2>
-    <p>If you want to reach me, call or text:</p>
+    <p>If you want to reach the paper, call or text:</p>
     <p><a href="tel:07423093169">07423093169</a></p>
 </div>
 
@@ -188,6 +198,7 @@
 
 </body>
 </html>
+
 
 
 
