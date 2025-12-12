@@ -1,240 +1,295 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>ASPIRE</title>
-    <style>
-        body {
-            font-family: "Arial", sans-serif;
-            background: linear-gradient(135deg, #f3e8f7, #f7e6e6, #f0e0f5);
-            padding: 40px;
-            max-width: 1000px;
-            margin: auto;
-            color: #222;
-            border: 10px solid #ffffff;
-            box-shadow: 0 0 40px rgba(0,0,0,0.2);
-            border-radius: 20px;
-            transition: 0.3s ease;
-        }
+<meta charset="UTF-8">
+<title>THE EVERGREEN GAZETTE</title>
 
-        body:hover {
-            box-shadow: 0 0 60px rgba(0,0,0,0.3);
-        }
+<style>
+/* =======================
+   PAGE STYLE
+   ======================= */
+body {
+    font-family: "Georgia", serif;
+    background: #f3efe5;
+    margin: 0;
+    padding: 40px;
+    text-align: center;
+    position: relative;
+}
 
-        nav {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-bottom: 30px;
-            font-size: 20px;
-            font-weight: bold;
-        }
+/* Animated branch border */
+body:before, body:after {
+    content: "";
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0; left: 0;
+    pointer-events: none;
+    background-image: url('https://i.imgur.com/q0Z2A8k.png'); /* semi-transparent branch frame */
+    background-size: cover;
+    opacity: 0.25;
+    animation: sway 6s ease-in-out infinite alternate;
+}
 
-        nav a {
-            text-decoration: none;
-            color: #444;
-            background: white;
-            padding: 10px 18px;
-            border-radius: 10px;
-            transition: 0.2s;
-            border: 2px solid transparent;
-        }
+@keyframes sway {
+    from { transform: rotate(-1deg); }
+    to { transform: rotate(1deg); }
+}
 
-        nav a:hover {
-            color: black;
-            border-color: #555;
-            transform: scale(1.08);
-        }
+/* Falling leaves */
+.leaf {
+    position: fixed;
+    top: -10px;
+    width: 25px;
+    height: 25px;
+    background-image: url('https://i.imgur.com/vwzY9Pe.png');
+    background-size: cover;
+    opacity: 0.9;
+    animation: fall linear infinite;
+}
+@keyframes fall {
+    0% { transform: translateY(0) rotate(0); }
+    100% { transform: translateY(110vh) rotate(360deg); }
+}
 
-        header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+/* Header */
+h1 {
+    font-size: 80px;
+    color: #3a2f1a;
+    text-shadow: 2px 2px 8px #c7b391;
+    margin-bottom: 0;
+}
+.sub {
+    font-size: 25px;
+    color: #5c4a2c;
+    letter-spacing: 2px;
+}
 
-        h1 {
-            font-size: 90px;
-            margin: 0;
-            letter-spacing: 6px;
-            background: linear-gradient(90deg, #d7b3e8, #e8b3b3, #cfa7d9);
-            -webkit-background-clip: text;
-            color: transparent;
-            animation: glow 3s infinite alternate;
-        }
+/* Section banners */
+.banner {
+    margin: 40px auto 20px;
+    padding: 12px 20px;
+    background: #6d4f2a;
+    color: #fff;
+    font-size: 28px;
+    border-radius: 12px;
+    width: 400px;
+}
 
-        @keyframes glow {
-            from { text-shadow: 0 0 10px rgba(255,255,255,0.4); }
-            to { text-shadow: 0 0 30px rgba(255,255,255,0.9); }
-        }
+/* Articles */
+.article {
+    width: 70%;
+    margin: 20px auto;
+    background: #fffef8;
+    border: 3px solid #d8c8ac;
+    padding: 18px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px #c4b8a5;
+}
 
-        .subhead {
-            font-size: 26px;
-            margin-top: -10px;
-            text-transform: uppercase;
-            font-weight: bold;
-            padding: 8px 0;
-            letter-spacing: 3px;
-            color: #444;
-        }
+/* Collapsible puzzles */
+details {
+    width: 70%;
+    margin: 30px auto;
+    background: #faf4e3;
+    border: 3px solid #b8a078;
+    border-radius: 15px;
+    padding: 12px;
+}
+details summary {
+    font-size: 24px;
+    cursor: pointer;
+    padding: 10px;
+    color: #4b381f;
+}
 
-        .date-line {
-            text-align: center;
-            font-size: 22px;
-            font-weight: bold;
-            margin-bottom: 30px;
-        }
+/* Puzzle areas */
+.puzzle-container {
+    margin-top: 20px;
+}
 
-        .banner {
-            background: linear-gradient(90deg, #d7b3e8, #e8b3b3, #cfa7d9);
-            padding: 12px;
-            text-align: center;
-            border-radius: 12px;
-            font-size: 26px;
-            font-weight: bold;
-            margin: 40px 0 20px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.15);
-        }
+/* Crossword styling */
+.crossword-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 30px);
+    gap: 3px;
+    margin: auto;
+}
+.crossword-cell {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #444;
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+}
+.block {
+    background: #3d2f1d;
+}
 
-        .article {
-            background: rgba(255,255,255,0.85);
-            border: 2px solid rgba(0,0,0,0.06);
-            padding: 18px;
-            margin: 18px 0;
-            border-radius: 10px;
-            font-size: 18px;
-        }
+/* Sudoku */
+.sudoku-grid {
+    display: grid;
+    grid-template-columns: repeat(9, 35px);
+    gap: 2px;
+    margin: auto;
+}
+.sudoku-cell {
+    width: 35px;
+    height: 35px;
+    font-size: 20px;
+    text-align: center;
+    border: 1px solid #444;
+}
 
-        .article h3 {
-            margin: 0 0 8px 0;
-            font-size: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .small { font-size: 15px; color: #444; }
-
-        .contact-box {
-            padding: 25px;
-            background: rgba(255,255,255,0.7);
-            border: 4px solid #444;
-            border-radius: 15px;
-            margin-top: 40px;
-        }
-
-        .contact-box a {
-            color: #000;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .contact-box a:hover { text-decoration: underline; }
-
-        .visitor-counter { text-align: center; margin-top: 25px; }
-
-        .visitor-counter img { width: 140px; border-radius: 10px; border: 2px solid #000; padding: 5px; background: #fff; }
-    </style>
+/* Wordsearch */
+.wordsearch-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 28px);
+    gap: 2px;
+    margin: auto;
+}
+.wordsearch-cell {
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+    text-align: center;
+    border: 1px solid #666;
+}
+.word-list {
+    margin-top: 15px;
+    font-size: 18px;
+}
+</style>
 </head>
+
 <body>
 
-<header>
-    <h1>ASPIRE</h1>
-    <div class="subhead">COLLEGE NEWSPAPER</div>
-</header>
+<!-- falling leaves -->
+<script>
+for (let i = 0; i < 20; i++) {
+    let leaf = document.createElement("div");
+    leaf.className = "leaf";
+    leaf.style.left = Math.random() * 100 + "vw";
+    leaf.style.animationDuration = 5 + Math.random() * 5 + "s";
+    document.body.appendChild(leaf);
+}
+</script>
 
-<nav>
-    <a href="#news">News</a>
-    <a href="#campus">Campus Life</a>
-    <a href="#opinion">Opinion</a>
-    <a href="#events">Events</a>
-    <a href="#fun">Fun Page</a>
-</nav>
 
-<div class="date-line">2025</div>
+<h1>THE EVERGREEN GAZETTE</h1>
+<div class="sub">A Nature-Themed College Newspaper</div>
 
-<!-- NEWS -->
-<div id="news" class="banner">NEWS</div>
+<div class="banner">NEWS</div>
+<div class="article">Coming soon...</div>
+<div class="article">Coming soon...</div>
 
-<div class="article">
-    <h3>PEACOCKS TAKE OVER CAMPUS???</h3>
-    <p class="small">Three peacocks randomly strutted into campus like they paid tuition. One chased anyone who moved too fast. Another stared at its reflection in a vending machine for ages. Security just stared back. If someone owns these birds… why.</p>
+<div class="banner">CAMPUS LIFE</div>
+<div class="article">Coming soon...</div>
+
+<div class="banner">OPINION</div>
+<div class="article">Coming soon...</div>
+
+<div class="banner">EVENTS</div>
+<div class="article">Coming soon...</div>
+
+<div class="banner">FUN PAGE</div>
+
+<!-- =======================
+     CROSSWORD
+     ======================= -->
+<details>
+<summary>🌳 Crossword Puzzle</summary>
+<div class="puzzle-container">
+    <div id="crossword" class="crossword-grid"></div>
+    <h3>Clues</h3>
+    <div id="clues"></div>
 </div>
+</details>
 
-<div class="article">
-    <h3>CHRISTMAS FAIR IS COMING (pray for us)</h3>
-    <p class="small">The Christmas Fair is happening soon and nobody is ready. Rumours say: a giant inflatable Santa that might fall over, a bake sale run by people who burn toast, hot chocolate so strong it might be illegal, and way too many fairy lights. Place your bets on what breaks first.</p>
+<!-- =======================
+     SUDOKU
+     ======================= -->
+<details>
+<summary>🍂 Sudoku</summary>
+<div class="puzzle-container">
+    <div id="sudoku" class="sudoku-grid"></div>
 </div>
+</details>
 
-<div class="article">
-    <h3>CAFÉ RUNS OUT OF MILK AGAIN</h3>
-    <p class="small">The campus café ran out of milk for the fifth time this month. Students were forced to drink black coffee and pretend they liked it. Staff said it was “an unforeseen dairy shortage.” Students said it was “a war crime.”</p>
+<!-- =======================
+       WORDSEARCH
+     ======================= -->
+<details>
+<summary>🌿 Wordsearch</summary>
+<div class="puzzle-container">
+    <div id="wordsearch" class="wordsearch-grid"></div>
+    <div id="wordlist" class="word-list"></div>
 </div>
+</details>
 
-<!-- CAMPUS LIFE -->
-<div id="campus" class="banner">CAMPUS LIFE</div>
 
-<div class="article">
-    <h3>POST-IT NOTES EVERYWHERE</h3>
-    <p class="small">Someone left tiny motivational notes all over campus. Things like “U got this” and “Drink water pls.” People keep finding them in weird places and smiling like idiots. It’s mysterious and slightly wholesome. Keep the notes coming.</p>
-</div>
+<!-- =======================
+     PUZZLE GENERATION JS
+     ======================= -->
+<script>
+// ============= Random Crossword =============
+const crosswordWords = ["TREE","ROOT","BRANCH","LEAF","FOREST","BARK","MOSS","RIVER","WIND","STONE"];
+function generateCrossword() {
+    const grid = document.getElementById("crossword");
+    const cluesDiv = document.getElementById("clues");
+    grid.innerHTML = "";
+    cluesDiv.innerHTML = "";
 
-<div class="article">
-    <h3>THE ELEVATOR HAS GIVEN UP</h3>
-    <p class="small">The lift in Building B is officially done with life. It now makes a noise like a dying robot every time it moves. Students have started taking the stairs “for safety reasons,” which is honestly the most exercise anyone has done all year.</p>
-</div>
+    for (let i=0;i<144;i++) {
+        let cell = document.createElement("div");
+        cell.className = "crossword-cell";
+        if (Math.random() < 0.18) cell.classList.add("block");
+        grid.appendChild(cell);
+    }
 
-<!-- OPINION -->
-<div id="opinion" class="banner">OPINION</div>
+    crosswordWords.forEach((w,i)=>{
+        let clue = document.createElement("div");
+        clue.innerHTML = (i+1) + ". " + w.length + " letters — nature related.";
+        cluesDiv.appendChild(clue);
+    });
+}
+generateCrossword();
 
-<div class="article">
-    <h3>9AM CLASSES SHOULD BE ILLEGAL</h3>
-    <p class="small">Nobody’s brain works at 9AM. Move everything later. Life would improve. Attendance would rise. Also coffee would be less dramatic. That is the argument. Fight me.</p>
-</div>
 
-<div class="article">
-    <h3>THE WIFI IS LYING TO US</h3>
-    <p class="small">The WiFi claims it’s “high-speed.” That is false advertising. Half the time it loads like it’s running on hopes and prayers. Students have started bringing their own data because the campus signal is basically decorative.</p>
-</div>
+// ============= Random Sudoku =============
+function generateSudoku() {
+    const grid = document.getElementById("sudoku");
+    grid.innerHTML = "";
+    for (let i=0;i<81;i++) {
+        let cell = document.createElement("input");
+        cell.className = "sudoku-cell";
+        cell.maxLength = 1;
+        if (Math.random() < 0.25) cell.value = Math.ceil(Math.random()*9);
+        grid.appendChild(cell);
+    }
+}
+generateSudoku();
 
-<!-- EVENTS -->
-<div id="events" class="banner">EVENTS</div>
 
-<div class="article">
-    <h3>STRESS-FREE WEDNESDAY (yes, really)</h3>
-    <p class="small">Next Wednesday the atrium turns into a chilled zone: free hot choc, a quiet reading corner, a rage table for smashing paper cups, and therapy dogs. Go for the snacks. Stay for the dogs. Pretend your deadlines don’t exist.</p>
-</div>
+// ============= Random Wordsearch =============
+const wsWords = ["TREE","ROOT","BRANCH","LEAF","ACORN","BREEZE","EARTH"];
+function generateWordsearch() {
+    const grid = document.getElementById("wordsearch");
+    const list = document.getElementById("wordlist");
+    grid.innerHTML = "";
+    list.innerHTML = "Find these words: <br>" + wsWords.join(", ");
 
-<div class="article">
-    <h3>OPEN MIC NIGHT RETURNS</h3>
-    <p class="small">Performers welcome: singing, poetry, comedy, or whatever that one kid with the ukulele does. Audience members: prepare to clap politely even when it’s awkward.</p>
-</div>
+    for (let i=0;i<144;i++) {
+        let cell = document.createElement("div");
+        cell.className = "wordsearch-cell";
+        cell.innerText = String.fromCharCode(65 + Math.floor(Math.random()*26));
+        grid.appendChild(cell);
+    }
+}
+generateWordsearch();
 
-<!-- FUN PAGE -->
-<div id="fun" class="banner">FUN PAGE</div>
-
-<div class="article">
-    <h3>CAMPUS SUPERLATIVES</h3>
-    <p class="small">
-        • Most likely to spill coffee: **Everyone in the atrium**<br>
-        • Most likely to drop their laptop: **Business students**<br>
-        • Most suspiciously awake: **That one guy with four energy drinks**
-    </p>
-</div>
-
-<div class="article">
-    <h3>QUOTE OF THE WEEK</h3>
-    <p class="small">“I studied for three hours and understood nothing.” — Every student, 2025.</p>
-</div>
-
-<!-- CONTACT -->
-<div class="contact-box">
-    <h2>Contact</h2>
-    <p>If you want to reach the paper, call or text:</p>
-    <p><a href="tel:07423093169">07423093169</a></p>
-</div>
-
-<div class="visitor-counter">
-<a href="https://www.hitwebcounter.com/" target="_blank">
-<img src="https://hitwebcounter.com/counter/counter.php?page=21460310&style=0032&nbdigits=5&type=page&initCount=0" title="Free Tools" Alt="Free Tools"   border="0" /></a>       
-</div>
+</script>
 
 </body>
 </html>
