@@ -4,20 +4,24 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>PATHWAYS — College Newspaper</title>
-  <meta name="description" content="PATHWAYS — a fun-but-serious college newspaper site with articles + daily puzzles." />
+  <meta name="description" content="PATHWAYS — a college newspaper site with sections, articles and daily puzzles." />
 
   <style>
     :root{
-      --bg: #dff7df;              /* light green, clear background */
-      --oak: #5a3a22;             /* oak brown text */
+      /* slightly more green */
+      --bg: #cfeecf;
+
+      --oak: #5a3a22;  /* oak brown text */
       --ink: var(--oak);
 
-      /* vivid block colours */
-      --block-1: #ffea70;
-      --block-2: #7ee7ff;
-      --block-3: #ff9ad5;
-      --block-4: #b5ff7a;
-      --block-5: #c6a6ff;
+      /* vivid section blocks */
+      --block-1: #ffea70; /* yellow */
+      --block-2: #7ee7ff; /* cyan */
+      --block-3: #ff9ad5; /* pink */
+      --block-4: #b5ff7a; /* green */
+      --block-5: #c6a6ff; /* purple */
+      --block-6: #ffa86b; /* orange */
+      --block-7: #8ef2c5; /* mint */
 
       --white: #ffffff;
       --shadow: 0 10px 25px rgba(0,0,0,.12);
@@ -30,7 +34,7 @@
       --line: rgba(90,58,34,.20);
 
       --nav: rgba(255,255,255,.65);
-      --nav2: rgba(255,255,255,.82);
+      --nav2: rgba(255,255,255,.84);
     }
 
     *{ box-sizing:border-box; }
@@ -40,9 +44,9 @@
       font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
       color:var(--ink);
       background:
-        radial-gradient(1000px 700px at 10% 10%, rgba(255,255,255,.55), transparent 55%),
-        radial-gradient(900px 650px at 90% 20%, rgba(255,255,255,.35), transparent 60%),
-        radial-gradient(900px 700px at 50% 100%, rgba(255,255,255,.25), transparent 60%),
+        radial-gradient(1000px 700px at 10% 10%, rgba(255,255,255,.50), transparent 55%),
+        radial-gradient(900px 650px at 90% 20%, rgba(255,255,255,.32), transparent 60%),
+        radial-gradient(900px 700px at 50% 100%, rgba(255,255,255,.22), transparent 60%),
         var(--bg);
       min-height:100vh;
     }
@@ -67,7 +71,7 @@
       display:flex; align-items:center; gap:10px;
       padding:8px 10px;
       border-radius:999px;
-      background: rgba(255,255,255,.7);
+      background: rgba(255,255,255,.72);
       box-shadow: 0 6px 16px rgba(0,0,0,.08);
       border:1px solid var(--line);
       user-select:none;
@@ -78,6 +82,7 @@
       text-transform: uppercase;
     }
     .brand small{ display:block; margin-top:2px; color:var(--muted); font-size:11px; letter-spacing:.08em; }
+
     .nav-btns{
       display:flex; gap:8px; flex-wrap:wrap;
       margin-left:auto;
@@ -85,11 +90,11 @@
     .btn{
       appearance:none;
       border:1px solid var(--line);
-      background: rgba(255,255,255,.74);
+      background: rgba(255,255,255,.78);
       color:var(--ink);
       padding:10px 12px;
       border-radius:999px;
-      font-weight:700;
+      font-weight:900;
       letter-spacing:.04em;
       cursor:pointer;
       transition: transform .08s ease, background .15s ease;
@@ -97,7 +102,7 @@
       display:inline-flex; align-items:center; gap:8px;
       white-space:nowrap;
     }
-    .btn:hover{ background: rgba(255,255,255,.9); transform: translateY(-1px); }
+    .btn:hover{ background: rgba(255,255,255,.92); transform: translateY(-1px); }
     .btn:active{ transform: translateY(1px); }
     .btn:focus{ outline: 3px solid rgba(90,58,34,.25); outline-offset: 2px; }
 
@@ -106,7 +111,7 @@
       border:1px solid var(--line);
       border-radius:999px;
       padding:8px 12px;
-      background: rgba(255,255,255,.75);
+      background: rgba(255,255,255,.78);
       box-shadow: 0 8px 18px rgba(0,0,0,.08);
       min-width: min(420px, 100%);
       flex: 1 1 260px;
@@ -116,20 +121,20 @@
       border:0;
       background:transparent;
       color:var(--ink);
-      font-weight:700;
+      font-weight:900;
       letter-spacing:.03em;
       font-size:14px;
       outline:none;
     }
-    .search .hint{ color:var(--muted); font-weight:700; font-size:12px; white-space:nowrap; }
+    .search .hint{ color:var(--muted); font-weight:900; font-size:12px; white-space:nowrap; }
     .pill{
       border:1px dashed var(--line);
       border-radius:999px;
       padding:4px 10px;
       font-size:12px;
-      font-weight:900;
+      font-weight:1000;
       letter-spacing:.08em;
-      background: rgba(255,255,255,.55);
+      background: rgba(255,255,255,.58);
     }
 
     /* HERO */
@@ -139,7 +144,7 @@
       overflow:hidden;
       box-shadow: var(--shadow);
       border: 1px solid var(--line);
-      background: linear-gradient(135deg, rgba(255,255,255,.80), rgba(255,255,255,.45));
+      background: linear-gradient(135deg, rgba(255,255,255,.82), rgba(255,255,255,.42));
       position:relative;
     }
     .hero-grid{
@@ -155,30 +160,31 @@
     .big-title{
       margin:0;
       font-size: clamp(28px, 4vw, 46px);
-      letter-spacing:.10em;
+      letter-spacing:.12em;
       text-transform: uppercase;
       line-height:1.05;
     }
     .tagline{
       margin:10px 0 0;
-      font-size: 16px;
-      font-weight:800;
+      font-size: 15px;
+      font-weight:1000;
       color: rgba(90,58,34,.86);
-      max-width: 52ch;
+      max-width: 60ch;
     }
     .sub{
-      margin:12px 0 0;
+      margin:10px 0 0;
       color:var(--muted);
-      font-weight:800;
+      font-weight:900;
       line-height:1.55;
-      max-width: 70ch;
+      max-width: 80ch;
+      font-size: 13px;
     }
 
     /* STICKMEN */
     .stickbox{
       border-radius: var(--soft);
       border:1px solid var(--line);
-      background: rgba(255,255,255,.66);
+      background: rgba(255,255,255,.70);
       padding:14px;
       display:flex;
       gap:12px;
@@ -186,20 +192,19 @@
       justify-content:space-between;
       min-height: 160px;
     }
-    .sticktext{
-      flex:1;
-    }
+    .sticktext{ flex:1; }
     .sticktext h3{
       margin:0;
       font-size:14px;
       text-transform: uppercase;
       letter-spacing:.12em;
+      font-weight:1100;
     }
     .sticktext p{
       margin:8px 0 0;
-      font-weight:800;
+      font-weight:1000;
       color: rgba(90,58,34,.78);
-      line-height:1.4;
+      line-height:1.35;
       font-size:13px;
     }
     svg.stickman{ width:140px; height:140px; flex: 0 0 auto; }
@@ -228,31 +233,34 @@
       font-size: 18px;
       letter-spacing:.18em;
       text-transform: uppercase;
+      font-weight:1100;
     }
     .sec-head p{
       margin:8px 0 0;
-      font-weight:800;
+      font-weight:1000;
       color: rgba(90,58,34,.78);
       max-width: 72ch;
-      line-height:1.4;
+      line-height:1.35;
       font-size: 13px;
     }
     .sec-body{ padding:18px 22px 22px; }
 
-    .block-1{ background: linear-gradient(135deg, rgba(255,255,255,.45), rgba(255,255,255,.12)), var(--block-1); }
-    .block-2{ background: linear-gradient(135deg, rgba(255,255,255,.45), rgba(255,255,255,.12)), var(--block-2); }
-    .block-3{ background: linear-gradient(135deg, rgba(255,255,255,.45), rgba(255,255,255,.12)), var(--block-3); }
-    .block-4{ background: linear-gradient(135deg, rgba(255,255,255,.45), rgba(255,255,255,.12)), var(--block-4); }
-    .block-5{ background: linear-gradient(135deg, rgba(255,255,255,.45), rgba(255,255,255,.12)), var(--block-5); }
+    .block-1{ background: linear-gradient(135deg, rgba(255,255,255,.42), rgba(255,255,255,.12)), var(--block-1); }
+    .block-2{ background: linear-gradient(135deg, rgba(255,255,255,.42), rgba(255,255,255,.12)), var(--block-2); }
+    .block-3{ background: linear-gradient(135deg, rgba(255,255,255,.42), rgba(255,255,255,.12)), var(--block-3); }
+    .block-4{ background: linear-gradient(135deg, rgba(255,255,255,.42), rgba(255,255,255,.12)), var(--block-4); }
+    .block-5{ background: linear-gradient(135deg, rgba(255,255,255,.42), rgba(255,255,255,.12)), var(--block-5); }
+    .block-6{ background: linear-gradient(135deg, rgba(255,255,255,.42), rgba(255,255,255,.12)), var(--block-6); }
+    .block-7{ background: linear-gradient(135deg, rgba(255,255,255,.42), rgba(255,255,255,.12)), var(--block-7); }
 
-    /* ARTICLE LIST (Orbis Vox-ish vertical list) */
+    /* ARTICLE LIST */
     .articles{
       display:grid;
       grid-template-columns: 1fr;
       gap:14px;
     }
     .article{
-      background: rgba(255,255,255,.72);
+      background: rgba(255,255,255,.74);
       border:1px solid var(--line);
       border-radius: var(--soft);
       padding:14px 14px 12px;
@@ -261,12 +269,12 @@
       align-items:flex-start;
     }
     .badge{
-      font-weight:1000;
+      font-weight:1100;
       letter-spacing:.12em;
       text-transform:uppercase;
       font-size:11px;
       border:1px solid var(--line);
-      background: rgba(255,255,255,.60);
+      background: rgba(255,255,255,.62);
       border-radius:999px;
       padding:6px 10px;
       white-space:nowrap;
@@ -277,12 +285,13 @@
       letter-spacing:.06em;
       text-transform:uppercase;
       line-height:1.2;
+      font-weight:1100;
     }
     .article p{
       margin:8px 0 0;
-      font-weight:800;
+      font-weight:1000;
       color: rgba(90,58,34,.78);
-      line-height:1.45;
+      line-height:1.4;
       font-size:13px;
       max-width: 82ch;
     }
@@ -295,15 +304,14 @@
     }
     .tiny{
       font-size:12px;
-      font-weight:900;
+      font-weight:1000;
       letter-spacing:.06em;
       color: rgba(90,58,34,.72);
       border:1px dashed var(--line);
       padding:6px 10px;
       border-radius:999px;
-      background: rgba(255,255,255,.55);
+      background: rgba(255,255,255,.56);
     }
-
     .article .print{
       margin-left:auto;
       align-self:stretch;
@@ -311,7 +319,38 @@
       align-items:center;
     }
 
-    /* PUZZLES LAYOUT */
+    /* STICK DIVIDER */
+    .divider{
+      margin-top:18px;
+      border-radius: var(--soft2);
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
+      background: linear-gradient(135deg, rgba(255,255,255,.74), rgba(255,255,255,.42));
+      padding:16px 18px;
+      display:flex;
+      gap:14px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .divider p{
+      margin:0;
+      font-weight:1100;
+      letter-spacing:.08em;
+      text-transform: uppercase;
+      line-height:1.2;
+    }
+    .divider small{
+      display:block;
+      margin-top:6px;
+      font-weight:1000;
+      color: rgba(90,58,34,.75);
+      letter-spacing:.02em;
+      text-transform:none;
+    }
+    .divider svg{ width:90px; height:90px; }
+
+    /* PUZZLES */
     .puzzles-grid{
       display:grid;
       grid-template-columns: 1fr 1fr;
@@ -321,7 +360,7 @@
       .puzzles-grid{ grid-template-columns:1fr; }
     }
     .card{
-      background: rgba(255,255,255,.72);
+      background: rgba(255,255,255,.74);
       border:1px solid var(--line);
       border-radius: var(--soft);
       padding:14px;
@@ -333,12 +372,13 @@
       font-size:14px;
       letter-spacing:.14em;
       text-transform:uppercase;
+      font-weight:1100;
     }
     .card p{
       margin:8px 0 12px;
-      font-weight:800;
+      font-weight:1000;
       color: rgba(90,58,34,.78);
-      line-height:1.45;
+      line-height:1.4;
       font-size:13px;
     }
     .status{
@@ -348,13 +388,13 @@
     .status .lamp{
       width:12px; height:12px; border-radius:999px;
       border: 2px solid rgba(90,58,34,.45);
-      background: rgba(255,255,255,.7);
+      background: rgba(255,255,255,.72);
       box-shadow: inset 0 0 0 2px rgba(255,255,255,.55);
     }
     .status .lamp.good{ background: rgba(27,143,58,.85); border-color: rgba(27,143,58,.9); }
     .status .lamp.bad{ background: rgba(176,27,27,.85); border-color: rgba(176,27,27,.9); }
     .status .label{
-      font-weight:1000;
+      font-weight:1100;
       letter-spacing:.08em;
       font-size:12px;
       text-transform:uppercase;
@@ -365,7 +405,7 @@
       width:100%;
       border-collapse: collapse;
       table-layout: fixed;
-      background: rgba(255,255,255,.75);
+      background: rgba(255,255,255,.78);
       border:1px solid var(--line);
       border-radius: 14px;
       overflow:hidden;
@@ -385,15 +425,15 @@
       border:0;
       background: transparent;
       text-align:center;
-      font-weight:1000;
+      font-weight:1100;
       font-size:16px;
       color: var(--ink);
       outline:none;
       caret-color: var(--ink);
     }
     .sudoku input.given{
-      background: rgba(255,255,255,.85);
-      font-weight:1100;
+      background: rgba(255,255,255,.88);
+      font-weight:1200;
       color: rgba(90,58,34,.92);
     }
     .cell-good{ background: rgba(27,143,58,.18); }
@@ -413,8 +453,8 @@
       justify-content:center;
       border-radius: 10px;
       border:1px solid rgba(90,58,34,.20);
-      background: rgba(255,255,255,.75);
-      font-weight:1000;
+      background: rgba(255,255,255,.78);
+      font-weight:1100;
       letter-spacing:.08em;
       cursor:pointer;
       transition: transform .05s ease;
@@ -423,14 +463,11 @@
     .ws-cell:hover{ transform: translateY(-1px); }
     .ws-cell.sel{ outline: 3px solid rgba(90,58,34,.25); }
     .ws-cell.found{ background: rgba(27,143,58,.22); border-color: rgba(27,143,58,.55); }
-    .ws-cell.badflash{
-      animation: badflash .25s ease 0s 2;
-    }
+    .ws-cell.badflash{ animation: badflash .25s ease 0s 2; }
     @keyframes badflash{
       0%{ background: rgba(176,27,27,.24); }
-      100%{ background: rgba(255,255,255,.75); }
+      100%{ background: rgba(255,255,255,.78); }
     }
-
     .ws-words{
       margin-top:12px;
       display:flex;
@@ -438,34 +475,34 @@
       gap:8px;
     }
     .ws-word{
-      font-weight:1000;
+      font-weight:1100;
       letter-spacing:.08em;
       text-transform:uppercase;
       font-size:12px;
       padding:6px 10px;
       border-radius:999px;
       border:1px solid var(--line);
-      background: rgba(255,255,255,.6);
+      background: rgba(255,255,255,.62);
     }
     .ws-word.done{
       background: rgba(27,143,58,.18);
       border-color: rgba(27,143,58,.55);
       text-decoration: line-through;
-      opacity:.9;
+      opacity:.95;
     }
 
     /* FOOTER */
     footer{
       margin:22px 0 8px;
       color: rgba(90,58,34,.70);
-      font-weight:900;
+      font-weight:1000;
       letter-spacing:.08em;
       text-transform: uppercase;
       font-size: 12px;
       text-align:center;
     }
 
-    /* POPUP (dramatic well done) */
+    /* WELL DONE MODAL */
     .modal{
       position:fixed; inset:0;
       display:none;
@@ -493,6 +530,7 @@
       letter-spacing:.14em;
       text-transform:uppercase;
       font-size: 13px;
+      font-weight:1100;
     }
     .modal-body{
       padding:22px 20px 18px;
@@ -510,12 +548,13 @@
       letter-spacing:.14em;
       text-transform:uppercase;
       line-height:1.05;
+      font-weight:1200;
     }
     .boom-sub{
       margin:12px 0 0;
-      font-weight:900;
+      font-weight:1100;
       color: rgba(90,58,34,.78);
-      line-height:1.45;
+      line-height:1.4;
     }
     .modal-actions{
       padding: 0 20px 20px;
@@ -528,15 +567,12 @@
       pointer-events:none;
       transform: rotate(-10deg);
     }
-    .modal .btn{ background: rgba(255,255,255,.85); }
 
-    /* PRINT: two-column newspaper look */
+    /* PRINT: two-column newspaper */
     @media print{
       body{ background:#fff !important; }
-      .nav, .hero, section, footer{ display:none !important; }
-      #printArea{
-        display:block !important;
-      }
+      .nav, .hero, section, .divider, footer{ display:none !important; }
+      #printArea{ display:block !important; }
       #printArea{
         color:#000;
         padding:0;
@@ -564,7 +600,6 @@
       #printArea .columns p{ margin:0 0 10pt; }
     }
 
-    /* hidden print area */
     #printArea{ display:none; }
   </style>
 </head>
@@ -576,20 +611,24 @@
         <div aria-hidden="true" class="pill">📰</div>
         <div>
           <h1>PATHWAYS</h1>
-          <small>College Newspaper • Fun. Serious. Slightly stupid.</small>
+          <small>College Newspaper • Proper sections • Proper chaos</small>
         </div>
       </div>
 
       <div class="search" role="search" aria-label="Search articles">
         <span aria-hidden="true">🔎</span>
-        <input id="searchInput" type="search" placeholder="Search articles… (try: coming soon)" autocomplete="off" />
+        <input id="searchInput" type="search" placeholder="Search the paper…" autocomplete="off" />
         <span class="hint" id="searchHint">0 shown</span>
       </div>
 
       <div class="nav-btns" aria-label="Navigation">
-        <button class="btn" data-go="#articles" title="Go to Articles">🧾 Articles</button>
-        <button class="btn" data-go="#puzzles" title="Go to Puzzles">🧩 Puzzles</button>
-        <button class="btn" data-go="#about" title="Go to About">🧍 About</button>
+        <button class="btn" data-go="#topstories" title="Top Stories">🗞 Top</button>
+        <button class="btn" data-go="#campus" title="Campus">🏫 Campus</button>
+        <button class="btn" data-go="#opinion" title="Opinion">🗯 Opinion</button>
+        <button class="btn" data-go="#culture" title="Culture">🎭 Culture</button>
+        <button class="btn" data-go="#whatson" title="What's On">📅 What’s On</button>
+        <button class="btn" data-go="#puzzles" title="Puzzles">🧩 Puzzles</button>
+        <button class="btn" data-go="#about" title="About">🧍 About</button>
         <button class="btn" id="resetBtn" title="Reset today's puzzles">♻ Reset Today</button>
       </div>
     </div>
@@ -604,10 +643,9 @@
       <div class="hero-grid">
         <div>
           <h2 class="big-title">PATHWAYS</h2>
-          <p class="tagline">The college newspaper site that looks clean… but still has chaotic little stickmen running around.</p>
+          <p class="tagline">A college newspaper that looks clean — but still has tiny stickmen with opinions.</p>
           <p class="sub">
-            Articles drop here. Puzzles reset daily. Buttons actually work. Everything stays in <b>oak-brown</b>
-            because we’re classy like that. And if you get it right… you get a dramatic <b>WELL DONE</b> that makes you feel proud.
+            Oak-brown text. Vivid sections. Print-ready articles. Daily puzzles. If you solve it: <b>WELL DONE</b> (dramatic).
           </p>
         </div>
 
@@ -616,12 +654,11 @@
             <h3>Stickmen Bulletin</h3>
             <p>
               “We are serious journalists.”<br/>
-              “We are also tiny. And dramatic.”<br/>
-              “Please do the Sudoku.”
+              “We are also 9cm tall.”<br/>
+              “Do the Sudoku.”
             </p>
           </div>
 
-          <!-- Stickman SVG -->
           <svg class="stickman" viewBox="0 0 200 200" role="img" aria-label="Cheerful stickman">
             <circle cx="70" cy="55" r="22" fill="none" stroke="currentColor" stroke-width="6"/>
             <path d="M70 78 L70 132" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
@@ -637,73 +674,317 @@
       </div>
     </div>
 
-    <!-- ARTICLES -->
-    <section id="articles" class="block-2" aria-label="Articles section">
+    <!-- TOP STORIES -->
+    <section id="topstories" class="block-2" aria-label="Top Stories section">
       <div class="sec-head">
         <div>
-          <h2>Articles</h2>
-          <p>Orbis Vox-style vertical list. Three for now. All “coming soon” (but the layout is ready).</p>
+          <h2>Top Stories</h2>
+          <p>Big headlines first. No waffling.</p>
         </div>
-        <div class="pill" aria-label="Articles count pill"><span id="articleCount">3</span> total</div>
+        <div class="pill">3 articles</div>
       </div>
 
       <div class="sec-body">
-        <div class="articles" id="articleList">
+        <div class="articles">
+          <article class="article" data-title="Top Story: Coming Soon" data-tags="top stories headline">
+            <span class="badge">TOP</span>
+            <div class="content">
+              <h3>Top Story — Coming Soon</h3>
+              <p>When this drops, the stickmen will pretend they knew it all along.</p>
+              <div class="meta">
+                <span class="tiny">PATHWAYS</span>
+                <span class="tiny">Status: Coming soon</span>
+                <span class="tiny">Section: Top</span>
+              </div>
+            </div>
+            <div class="print"><button class="btn" data-print="0">🖨 Print</button></div>
+          </article>
 
-          <article class="article" data-title="Campus Life: Coming Soon" data-tags="campus life">
+          <article class="article" data-title="Breaking: Coming Soon" data-tags="breaking top">
+            <span class="badge">BREAK</span>
+            <div class="content">
+              <h3>Breaking — Coming Soon</h3>
+              <p>Important. Probably. Or it’s just the printer on strike again.</p>
+              <div class="meta">
+                <span class="tiny">PATHWAYS</span>
+                <span class="tiny">Status: Coming soon</span>
+                <span class="tiny">Section: Top</span>
+              </div>
+            </div>
+            <div class="print"><button class="btn" data-print="1">🖨 Print</button></div>
+          </article>
+
+          <article class="article" data-title="Spotlight: Coming Soon" data-tags="spotlight top">
+            <span class="badge">SPOT</span>
+            <div class="content">
+              <h3>Spotlight — Coming Soon</h3>
+              <p>Someone’s about to get interviewed. Pray for them.</p>
+              <div class="meta">
+                <span class="tiny">PATHWAYS</span>
+                <span class="tiny">Status: Coming soon</span>
+                <span class="tiny">Section: Top</span>
+              </div>
+            </div>
+            <div class="print"><button class="btn" data-print="2">🖨 Print</button></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider" aria-label="Stickmen divider">
+      <div>
+        <p>Stickman says:</p>
+        <small>“If the headline is boring, I’m quitting journalism and becoming a traffic cone.”</small>
+      </div>
+      <svg viewBox="0 0 200 200" aria-hidden="true">
+        <circle cx="70" cy="55" r="20" fill="none" stroke="currentColor" stroke-width="6"/>
+        <path d="M70 75 L70 125" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+        <path d="M70 92 L40 80" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+        <path d="M70 92 L104 76" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+        <path d="M70 125 L45 165" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+        <path d="M70 125 L98 165" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <!-- CAMPUS -->
+    <section id="campus" class="block-7" aria-label="Campus section">
+      <div class="sec-head">
+        <div>
+          <h2>Campus</h2>
+          <p>College life. Real bits. No sugar-coating.</p>
+        </div>
+        <div class="pill">3 articles</div>
+      </div>
+
+      <div class="sec-body">
+        <div class="articles">
+          <article class="article" data-title="Campus Life: Coming Soon" data-tags="campus students">
             <span class="badge">CAMPUS</span>
             <div class="content">
               <h3>Campus Life — Coming Soon</h3>
-              <p>
-                The kind of story where the canteen queue is a warzone, the printers are cursed, and everyone’s pretending it’s fine.
-              </p>
+              <p>Canteen queues, deadlines, and that one corridor that always feels haunted.</p>
               <div class="meta">
-                <span class="tiny">By PATHWAYS Staff</span>
+                <span class="tiny">PATHWAYS</span>
                 <span class="tiny">Status: Coming soon</span>
-                <span class="tiny">Category: Campus</span>
+                <span class="tiny">Section: Campus</span>
               </div>
             </div>
-            <div class="print">
-              <button class="btn" data-print="0" title="Print this article">🖨 Print</button>
-            </div>
+            <div class="print"><button class="btn" data-print="3">🖨 Print</button></div>
           </article>
 
+          <article class="article" data-title="Student Voice: Coming Soon" data-tags="students campus">
+            <span class="badge">VOICE</span>
+            <div class="content">
+              <h3>Student Voice — Coming Soon</h3>
+              <p>Actual opinions from actual humans (and one suspiciously confident stickman).</p>
+              <div class="meta">
+                <span class="tiny">PATHWAYS</span>
+                <span class="tiny">Status: Coming soon</span>
+                <span class="tiny">Section: Campus</span>
+              </div>
+            </div>
+            <div class="print"><button class="btn" data-print="4">🖨 Print</button></div>
+          </article>
+
+          <article class="article" data-title="Campus Update: Coming Soon" data-tags="campus update">
+            <span class="badge">UPDATE</span>
+            <div class="content">
+              <h3>Campus Update — Coming Soon</h3>
+              <p>New rules, changes, wins, problems. If it affects students, it goes here.</p>
+              <div class="meta">
+                <span class="tiny">PATHWAYS</span>
+                <span class="tiny">Status: Coming soon</span>
+                <span class="tiny">Section: Campus</span>
+              </div>
+            </div>
+            <div class="print"><button class="btn" data-print="5">🖨 Print</button></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider" aria-label="Stickmen divider">
+      <div>
+        <p>Stickman says:</p>
+        <small>“If the printer jams again, I’m writing the article in blood. (Joking. Mostly.)”</small>
+      </div>
+      <svg viewBox="0 0 200 200" aria-hidden="true">
+        <circle cx="120" cy="55" r="20" fill="none" stroke="currentColor" stroke-width="6"/>
+        <path d="M120 75 L120 128" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+        <path d="M120 92 L95 110" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+        <path d="M120 92 L150 110" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+        <path d="M120 128 L98 165" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+        <path d="M120 128 L142 165" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <!-- OPINION -->
+    <section id="opinion" class="block-3" aria-label="Opinion section">
+      <div class="sec-head">
+        <div>
+          <h2>Opinion</h2>
+          <p>Sharp. Fair. Not beige.</p>
+        </div>
+        <div class="pill">3 articles</div>
+      </div>
+
+      <div class="sec-body">
+        <div class="articles">
           <article class="article" data-title="Opinion: Coming Soon" data-tags="opinion voice">
             <span class="badge">OPINION</span>
             <div class="content">
               <h3>Opinion — Coming Soon</h3>
-              <p>
-                A serious point, delivered with a grin: if everyone wants a voice, why is nobody listening?
-              </p>
+              <p>If everyone wants a voice, why is nobody listening?</p>
               <div class="meta">
-                <span class="tiny">By PATHWAYS Staff</span>
+                <span class="tiny">PATHWAYS</span>
                 <span class="tiny">Status: Coming soon</span>
-                <span class="tiny">Category: Opinion</span>
+                <span class="tiny">Section: Opinion</span>
               </div>
             </div>
-            <div class="print">
-              <button class="btn" data-print="1" title="Print this article">🖨 Print</button>
-            </div>
+            <div class="print"><button class="btn" data-print="6">🖨 Print</button></div>
           </article>
 
-          <article class="article" data-title="Events & What's On: Coming Soon" data-tags="events whats on">
+          <article class="article" data-title="Hot Take: Coming Soon" data-tags="opinion hot take">
+            <span class="badge">TAKE</span>
+            <div class="content">
+              <h3>Hot Take — Coming Soon</h3>
+              <p>Somebody has to say it. Might as well be us.</p>
+              <div class="meta">
+                <span class="tiny">PATHWAYS</span>
+                <span class="tiny">Status: Coming soon</span>
+                <span class="tiny">Section: Opinion</span>
+              </div>
+            </div>
+            <div class="print"><button class="btn" data-print="7">🖨 Print</button></div>
+          </article>
+
+          <article class="article" data-title="The Comment Section: Coming Soon" data-tags="opinion commentary">
+            <span class="badge">COMMENT</span>
+            <div class="content">
+              <h3>The Comment Section — Coming Soon</h3>
+              <p>Not online. Not toxic. Just actual commentary that makes sense.</p>
+              <div class="meta">
+                <span class="tiny">PATHWAYS</span>
+                <span class="tiny">Status: Coming soon</span>
+                <span class="tiny">Section: Opinion</span>
+              </div>
+            </div>
+            <div class="print"><button class="btn" data-print="8">🖨 Print</button></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CULTURE / FEATURES -->
+    <section id="culture" class="block-5" aria-label="Culture section">
+      <div class="sec-head">
+        <div>
+          <h2>Culture & Features</h2>
+          <p>Stories with flavour. Interviews. Reviews. Weird stuff (the good kind).</p>
+        </div>
+        <div class="pill">3 articles</div>
+      </div>
+
+      <div class="sec-body">
+        <div class="articles">
+          <article class="article" data-title="Feature: Coming Soon" data-tags="culture feature">
+            <span class="badge">FEATURE</span>
+            <div class="content">
+              <h3>Feature — Coming Soon</h3>
+              <p>Longer reads. Better writing. Stickmen pretending they’re editors.</p>
+              <div class="meta">
+                <span class="tiny">PATHWAYS</span>
+                <span class="tiny">Status: Coming soon</span>
+                <span class="tiny">Section: Culture</span>
+              </div>
+            </div>
+            <div class="print"><button class="btn" data-print="9">🖨 Print</button></div>
+          </article>
+
+          <article class="article" data-title="Review: Coming Soon" data-tags="culture review">
+            <span class="badge">REVIEW</span>
+            <div class="content">
+              <h3>Review — Coming Soon</h3>
+              <p>Music, games, films, whatever’s actually being talked about.</p>
+              <div class="meta">
+                <span class="tiny">PATHWAYS</span>
+                <span class="tiny">Status: Coming soon</span>
+                <span class="tiny">Section: Culture</span>
+              </div>
+            </div>
+            <div class="print"><button class="btn" data-print="10">🖨 Print</button></div>
+          </article>
+
+          <article class="article" data-title="Interview: Coming Soon" data-tags="culture interview">
+            <span class="badge">INTERVIEW</span>
+            <div class="content">
+              <h3>Interview — Coming Soon</h3>
+              <p>Someone’s getting asked questions they didn’t prepare for. Iconic.</p>
+              <div class="meta">
+                <span class="tiny">PATHWAYS</span>
+                <span class="tiny">Status: Coming soon</span>
+                <span class="tiny">Section: Culture</span>
+              </div>
+            </div>
+            <div class="print"><button class="btn" data-print="11">🖨 Print</button></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT'S ON -->
+    <section id="whatson" class="block-6" aria-label="What's On section">
+      <div class="sec-head">
+        <div>
+          <h2>What’s On</h2>
+          <p>Events, clubs, deadlines, and the chaos calendar.</p>
+        </div>
+        <div class="pill">3 articles</div>
+      </div>
+
+      <div class="sec-body">
+        <div class="articles">
+          <article class="article" data-title="Events: Coming Soon" data-tags="events whats on">
             <span class="badge">EVENTS</span>
             <div class="content">
-              <h3>Events & What’s On — Coming Soon</h3>
-              <p>
-                Clubs, deadlines, random chaos, and the one event everyone claims they’ll go to (but nobody will).
-              </p>
+              <h3>Events — Coming Soon</h3>
+              <p>Things happening. Times. Places. Minimal pain.</p>
               <div class="meta">
-                <span class="tiny">By PATHWAYS Staff</span>
+                <span class="tiny">PATHWAYS</span>
                 <span class="tiny">Status: Coming soon</span>
-                <span class="tiny">Category: Events</span>
+                <span class="tiny">Section: What’s On</span>
               </div>
             </div>
-            <div class="print">
-              <button class="btn" data-print="2" title="Print this article">🖨 Print</button>
-            </div>
+            <div class="print"><button class="btn" data-print="12">🖨 Print</button></div>
           </article>
 
+          <article class="article" data-title="Clubs & Groups: Coming Soon" data-tags="clubs groups whats on">
+            <span class="badge">CLUBS</span>
+            <div class="content">
+              <h3>Clubs & Groups — Coming Soon</h3>
+              <p>Join stuff. Meet people. Don’t get adopted by the library chairs.</p>
+              <div class="meta">
+                <span class="tiny">PATHWAYS</span>
+                <span class="tiny">Status: Coming soon</span>
+                <span class="tiny">Section: What’s On</span>
+              </div>
+            </div>
+            <div class="print"><button class="btn" data-print="13">🖨 Print</button></div>
+          </article>
+
+          <article class="article" data-title="Deadlines: Coming Soon" data-tags="deadlines whats on">
+            <span class="badge">DEADLINE</span>
+            <div class="content">
+              <h3>Deadlines — Coming Soon</h3>
+              <p>Everything due “soon”. Helpful, thanks. (We’ll fix it.)</p>
+              <div class="meta">
+                <span class="tiny">PATHWAYS</span>
+                <span class="tiny">Status: Coming soon</span>
+                <span class="tiny">Section: What’s On</span>
+              </div>
+            </div>
+            <div class="print"><button class="btn" data-print="14">🖨 Print</button></div>
+          </article>
         </div>
       </div>
     </section>
@@ -713,51 +994,32 @@
       <div class="sec-head">
         <div>
           <h2>Puzzles</h2>
-          <p>
-            Sudoku + Wordsearch. Resets daily (local date). Correct = green. Wrong = red. Solve it and get a dramatic WELL DONE.
-          </p>
+          <p>Daily reset. Green if correct. Red if not. Big proud pop-up when you win.</p>
         </div>
-        <div class="pill" id="dailyPill" aria-label="Daily reset indicator">Daily: <span id="dailyDate"></span></div>
+        <div class="pill" id="dailyPill">Daily: <span id="dailyDate"></span></div>
       </div>
 
       <div class="sec-body">
         <div class="puzzles-grid">
-
           <!-- SUDOKU -->
           <div class="card" aria-label="Sudoku puzzle">
             <h3>Sudoku (Daily)</h3>
-            <p>Fill the blanks (1–9). Hit <b>Check</b>. If you’re right… you get the pride popup. If not… red. Brutal. Fair.</p>
+            <p>Fill blanks (1–9). Check it. Win. Flex.</p>
 
             <div id="sudokuWrap" aria-label="Sudoku grid"></div>
 
             <div class="status" aria-live="polite">
               <span class="lamp" id="sudokuLamp" aria-hidden="true"></span>
-              <span class="label" id="sudokuStatus">Not checked yet.</span>
+              <span class="label" id="sudokuStatus">Not checked.</span>
               <button class="btn" id="checkSudoku">✅ Check</button>
               <button class="btn" id="clearSudoku">🧽 Clear</button>
-            </div>
-
-            <div style="margin-top:12px; display:flex; gap:10px; align-items:center;">
-              <svg class="stickman" viewBox="0 0 200 200" aria-hidden="true" style="width:90px; height:90px;">
-                <circle cx="70" cy="55" r="20" fill="none" stroke="currentColor" stroke-width="6"/>
-                <path d="M70 75 L70 125" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
-                <path d="M70 92 L40 80" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
-                <path d="M70 92 L104 76" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
-                <path d="M70 125 L45 165" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
-                <path d="M70 125 L98 165" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
-                <path d="M130 120 q20 -18 40 0" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
-              </svg>
-              <div style="font-weight:900; color: rgba(90,58,34,.78); line-height:1.3; font-size:13px;">
-                Stickman says: “If you solve this, I will legally have to salute you.”<br/>
-                He also says: “I am not a lawyer.”
-              </div>
             </div>
           </div>
 
           <!-- WORDSEARCH -->
           <div class="card" aria-label="Wordsearch puzzle">
             <h3>Wordsearch (Daily)</h3>
-            <p>Click a start letter, then click an end letter in a straight line. If it matches a word: green. If not: red flash.</p>
+            <p>Click start letter, then end letter (straight line). If it’s a real word: green.</p>
 
             <div id="wsGrid" class="ws-grid" aria-label="Wordsearch grid"></div>
             <div class="ws-words" id="wsWords" aria-label="Word list"></div>
@@ -768,23 +1030,7 @@
               <button class="btn" id="wsHintBtn">🧠 Hint</button>
               <button class="btn" id="wsClearBtn">🧽 Clear</button>
             </div>
-
-            <div style="margin-top:12px; display:flex; gap:10px; align-items:center;">
-              <svg class="stickman" viewBox="0 0 200 200" aria-hidden="true" style="width:90px; height:90px;">
-                <circle cx="120" cy="55" r="20" fill="none" stroke="currentColor" stroke-width="6"/>
-                <path d="M120 75 L120 128" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
-                <path d="M120 92 L95 110" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
-                <path d="M120 92 L150 110" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
-                <path d="M120 128 L98 165" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
-                <path d="M120 128 L142 165" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
-                <path d="M30 140 q40 -40 80 0" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
-              </svg>
-              <div style="font-weight:900; color: rgba(90,58,34,.78); line-height:1.3; font-size:13px;">
-                Stickman says: “I found ‘PATHWAYS’ and now I’m emotionally attached.”
-              </div>
-            </div>
           </div>
-
         </div>
       </div>
     </section>
@@ -794,30 +1040,24 @@
       <div class="sec-head">
         <div>
           <h2>About PATHWAYS</h2>
-          <p>A college newspaper site that’s clean, readable, and still has personality. Serious tone — with fun energy.</p>
+          <p>Simple, readable, print-ready. Built to feel like a real paper.</p>
         </div>
-        <div class="pill">Version: 1.0</div>
+        <div class="pill">v1</div>
       </div>
       <div class="sec-body" style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
         <div class="card" style="margin:0;">
-          <h3>The vibe</h3>
-          <p>
-            We can do important stories without being boring about it. If you’ve ever read a headline and thought
-            “why is this written like a toaster manual?” — PATHWAYS is the opposite.
-          </p>
+          <h3>Rules</h3>
+          <p>Oak-brown text. Vivid blocks. Sections separated. No filler.</p>
         </div>
         <div class="card" style="margin:0;">
-          <h3>What’s next</h3>
-          <p>
-            Swap the “coming soon” articles for real ones, add a proper archive page, and if your college allows it:
-            a simple submissions form.
-          </p>
+          <h3>Stickmen policy</h3>
+          <p>They stay. They judge. They celebrate your wins.</p>
         </div>
       </div>
     </section>
 
     <footer aria-label="Footer">
-      PATHWAYS • Oak-brown words • Light green background • Built to work (and be a bit daft)
+      PATHWAYS • Oak-brown words • Vivid sections • Print-ready
     </footer>
   </main>
 
@@ -837,7 +1077,7 @@
         <div>
           <p class="boom">WELL DONE.</p>
           <p class="boom-sub" id="modalDesc">
-            That wasn’t luck. That was you being actually good at this. Enjoy the win — you earned it.
+            That’s not luck. That’s you being good at this.
           </p>
         </div>
 
@@ -868,7 +1108,6 @@
     </div>
   </div>
 
-  <!-- PRINT AREA (hidden on screen, shown in print) -->
   <div id="printArea" aria-hidden="true"></div>
 
   <script>
@@ -890,20 +1129,12 @@
     function dailyResetIfNeeded(force=false){
       const last = localStorage.getItem(DAY_KEY);
       if(force || last !== today){
-        // Reset puzzle progress for the day
         localStorage.setItem(DAY_KEY, today);
         localStorage.removeItem("pathways_sudoku_state");
         localStorage.removeItem("pathways_ws_state");
       }
     }
     dailyResetIfNeeded(false);
-
-    document.getElementById("resetBtn").addEventListener("click", () => {
-      dailyResetIfNeeded(true);
-      initSudoku();
-      initWordsearch();
-      showModal("RESET DONE.", "Fresh day. Fresh grid. Stickmen salute you for taking control.");
-    });
 
     /***********************
      * NAV SCROLL
@@ -917,30 +1148,26 @@
     });
 
     /***********************
-     * SEARCH FILTER (articles)
+     * SEARCH FILTER (ALL articles)
      ***********************/
     const searchInput = document.getElementById("searchInput");
     const searchHint  = document.getElementById("searchHint");
-    const articlesEl  = document.getElementById("articleList");
-
-    function updateArticleCount(){
-      const cards = [...articlesEl.querySelectorAll(".article")];
-      const shown = cards.filter(c => c.style.display !== "none").length;
-      searchHint.textContent = `${shown} shown`;
-      document.getElementById("articleCount").textContent = String(cards.length);
-    }
 
     function filterArticles(q){
       const query = (q || "").trim().toLowerCase();
-      const cards = [...articlesEl.querySelectorAll(".article")];
+      const cards = [...document.querySelectorAll(".article")];
+
+      let shown = 0;
       cards.forEach(card=>{
         const title = (card.dataset.title || "").toLowerCase();
         const tags  = (card.dataset.tags || "").toLowerCase();
         const body  = (card.innerText || "").toLowerCase();
         const match = !query || title.includes(query) || tags.includes(query) || body.includes(query);
         card.style.display = match ? "" : "none";
+        if(match) shown++;
       });
-      updateArticleCount();
+
+      searchHint.textContent = `${shown} shown`;
     }
 
     searchInput.addEventListener("input", (e)=> filterArticles(e.target.value));
@@ -959,53 +1186,49 @@
       modalTitle.textContent = title;
       modalDesc.textContent  = desc;
       modal.classList.add("show");
-      // focus
       setTimeout(()=> modalOk.focus(), 10);
     }
-    function hideModal(){
-      modal.classList.remove("show");
-    }
+    function hideModal(){ modal.classList.remove("show"); }
+
     closeModalBtn.addEventListener("click", hideModal);
     modalOk.addEventListener("click", hideModal);
-    modal.addEventListener("click", (e)=>{
-      if(e.target === modal) hideModal();
+    modal.addEventListener("click", (e)=>{ if(e.target === modal) hideModal(); });
+    document.addEventListener("keydown", (e)=>{ if(e.key === "Escape" && modal.classList.contains("show")) hideModal(); });
+
+    /***********************
+     * RESET TODAY BUTTON
+     ***********************/
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      dailyResetIfNeeded(true);
+      initSudoku();
+      initWordsearch();
+      showModal("RESET DONE.", "Fresh puzzles. Fresh ego. Go win.");
+ acknowledge();
     });
-    document.addEventListener("keydown", (e)=>{
-      if(e.key === "Escape" && modal.classList.contains("show")) hideModal();
-    });
+
+    function acknowledge(){ /* tiny spacer, does nothing */ }
 
     /***********************
      * PRINT (two-column newspaper)
      ***********************/
-    const ARTICLE_DATA = [
-      {
-        title: "Campus Life — Coming Soon",
-        meta:  "PATHWAYS • Campus • Coming soon",
-        paragraphs: [
-          "This is a placeholder article so the layout works right now.",
-          "Swap these paragraphs for your real writing when you’re ready.",
-          "Print view is set to a two-column newspaper layout so it looks proper on paper."
-        ]
-      },
-      {
-        title: "Opinion — Coming Soon",
-        meta:  "PATHWAYS • Opinion • Coming soon",
-        paragraphs: [
-          "Opinions will live here — sharp, fair, and readable.",
-          "You can keep it serious without killing the vibe.",
-          "Also yes, the stickmen will judge you silently."
-        ]
-      },
-      {
-        title: "Events & What’s On — Coming Soon",
-        meta:  "PATHWAYS • Events • Coming soon",
-        paragraphs: [
-          "Events go here. Clubs, deadlines, trips, whatever’s actually happening.",
-          "If it matters to students, it goes on PATHWAYS.",
-          "The site is ready — now you just drop your content in."
-        ]
-      }
-    ];
+    const ARTICLE_DATA = Array.from({length: 15}, (_,i)=>({
+      title: document.querySelectorAll(".article h3")[i]?.textContent || `Article ${i+1}`,
+      meta:  "PATHWAYS • Printed copy",
+      paragraphs: [
+        "Coming soon.",
+        "Replace this with the real article text when ready.",
+        "This print layout is two-column newspaper style."
+      ]
+    }));
+
+    function escapeHTML(s){
+      return String(s)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
 
     function buildPrintHTML(article){
       const paras = article.paragraphs.map(p => `<p>${escapeHTML(p)}</p>`).join("");
@@ -1018,22 +1241,12 @@
       `;
     }
 
-    function escapeHTML(s){
-      return String(s)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
-
     document.querySelectorAll("[data-print]").forEach(btn=>{
       btn.addEventListener("click", ()=>{
         const idx = Number(btn.getAttribute("data-print"));
         const article = ARTICLE_DATA[idx];
         if(!article) return;
 
-        // Create a new window for printing (keeps this page clean)
         const w = window.open("", "_blank", "width=900,height=700");
         const html = `
           <!doctype html>
@@ -1065,9 +1278,7 @@
                 line-height:1.4;
               }
               .columns p{ margin:0 0 10pt; }
-              @media print{
-                @page{ margin: 10mm; }
-              }
+              @media print{ @page{ margin: 10mm; } }
             </style>
           </head>
           <body>
@@ -1083,12 +1294,8 @@
     });
 
     /***********************
-     * SUDOKU (pre-made puzzle + solution)
-     * - Inputs save to localStorage daily
-     * - Check highlights green/red
-     * - Solved => WELL DONE popup
+     * SUDOKU (puzzle + solution)
      ***********************/
-    // 0 = blank
     const SUDOKU_PUZZLE = [
       [0,0,0, 2,6,0, 7,0,1],
       [6,8,0, 0,7,0, 0,9,0],
@@ -1122,9 +1329,8 @@
     const sudokuStatus = document.getElementById("sudokuStatus");
 
     function loadSudokuState(){
-      try{
-        return JSON.parse(localStorage.getItem("pathways_sudoku_state") || "null");
-      }catch{ return null; }
+      try{ return JSON.parse(localStorage.getItem("pathways_sudoku_state") || "null"); }
+      catch{ return null; }
     }
     function saveSudokuState(grid){
       localStorage.setItem("pathways_sudoku_state", JSON.stringify(grid));
@@ -1133,7 +1339,7 @@
     function initSudoku(){
       sudokuWrap.innerHTML = "";
       sudokuLamp.classList.remove("good","bad");
-      sudokuStatus.textContent = "Not checked yet.";
+      sudokuStatus.textContent = "Not checked.";
 
       const saved = loadSudokuState();
       const current = Array.from({length:9}, (_,r)=> Array.from({length:9}, (_,c)=>{
@@ -1154,7 +1360,6 @@
           td.dataset.r = String(r);
           td.dataset.c = String(c);
 
-          const val = current[r][c];
           const given = SUDOKU_PUZZLE[r][c] !== 0;
 
           const input = document.createElement("input");
@@ -1165,12 +1370,9 @@
             input.value = String(SUDOKU_PUZZLE[r][c]);
             input.disabled = true;
             input.classList.add("given");
-            input.setAttribute("aria-label", `Row ${r+1} Col ${c+1} given ${input.value}`);
           }else{
-            input.value = val ? String(val) : "";
-            input.setAttribute("aria-label", `Row ${r+1} Col ${c+1}`);
+            input.value = current[r][c] ? String(current[r][c]) : "";
             input.addEventListener("input", ()=>{
-              // allow only 1-9
               let v = input.value.replace(/[^1-9]/g,"");
               input.value = v.slice(0,1);
               const n = input.value ? Number(input.value) : 0;
@@ -1178,10 +1380,8 @@
               saveSudokuState(current);
               td.classList.remove("cell-good","cell-bad");
               sudokuLamp.classList.remove("good","bad");
-              sudokuStatus.textContent = "Typing… (not checked)";
+              sudokuStatus.textContent = "Typing…";
             });
-
-            // nice arrow navigation
             input.addEventListener("keydown", (e)=>{
               const key = e.key;
               const move = (dr,dc)=>{
@@ -1204,8 +1404,6 @@
       }
 
       sudokuWrap.appendChild(table);
-
-      // store current state to ensure consistent
       saveSudokuState(current);
     }
 
@@ -1239,19 +1437,16 @@
       if(allFilled && allCorrect){
         sudokuLamp.classList.remove("bad");
         sudokuLamp.classList.add("good");
-        sudokuStatus.textContent = "Correct. You smashed it.";
-        showModal("WELL DONE.", "Sudoku solved. That’s pure brainpower — take the win. 🏆");
+        sudokuStatus.textContent = "Correct.";
+        showModal("WELL DONE.", "Sudoku solved. That’s skill.");
       }else{
         sudokuLamp.classList.remove("good");
         sudokuLamp.classList.add("bad");
-        sudokuStatus.textContent = allFilled
-          ? "Not quite — red bits are wrong."
-          : "Fill all blanks first (then check).";
+        sudokuStatus.textContent = allFilled ? "Not quite." : "Fill all blanks first.";
       }
     }
 
     function clearSudoku(){
-      // clear only user cells
       const blank = Array.from({length:9}, (_,r)=> Array.from({length:9}, (_,c)=> SUDOKU_PUZZLE[r][c] || 0));
       saveSudokuState(blank);
       initSudoku();
@@ -1259,35 +1454,11 @@
 
     document.getElementById("checkSudoku").addEventListener("click", checkSudoku);
     document.getElementById("clearSudoku").addEventListener("click", clearSudoku);
-
     initSudoku();
 
     /***********************
-     * WORDSEARCH (pre-made grid + words)
-     * Interaction:
-     *  - click start cell
-     *  - click end cell in straight line
-     *  - reads letters along line
-     *  - matches word (forward/back)
-     *  - found => cells + word list green
-     *  - all found => WELL DONE popup
+     * WORDSEARCH (fixed: every word exists)
      ***********************/
-    // 12x12 grid (pre-made)
-    const WS_GRID = [
-      "P A T H W A Y S X Q L M",
-      "N O T I C E B O A R D Z",
-      "E V E N T S R K T S U D",
-      "W O R D S E A R C H O K",
-      "R E A D E R S T O R Y S",
-      "S T U D E N T S N E W S",
-      "A R T I C L E S P R I N",
-      "B Y L I N E S J O U R N",
-      "C A M P U S L I F E X Y",
-      "O P I N I O N W R I T E",
-      "P U Z Z L E S D A I L Y",
-      "F U N B U T S E R I O U"
-    ].map(row => row.split(" "));
-
     const WS_WORDS = [
       "PATHWAYS",
       "SUDOKU",
@@ -1301,22 +1472,37 @@
       "DAILY"
     ];
 
+    /* 12x12 grid with ALL words present (mostly horizontal to keep it clean) */
+    const WS_GRID = [
+      "P A T H W A Y S Q R T U".split(" "),          // PATHWAYS (col 1-8)
+      "D A I L Y M N O P Q R S".split(" "),          // DAILY (col 1-5)
+      "W O R D S E A R C H V W".split(" "),          // WORDSEARCH (col 1-10)
+      "S T U D E N T S X Y Z A".split(" "),          // STUDENTS (col 1-8)
+      "A R T I C L E S B C D E".split(" "),          // ARTICLES (col 1-8)
+      "P U Z Z L E S F G H I J".split(" "),          // PUZZLES (col 1-7)
+      "O P I N I O N K L M N O".split(" "),          // OPINION (col 1-7)
+      "C A M P U S P Q R S T U".split(" "),          // CAMPUS (col 1-6)
+      "S U D O K U V W X Y Z A".split(" "),          // SUDOKU (col 1-6)
+      "P R I N T B C D E F G H".split(" "),          // PRINT (col 1-5)
+      "L M N O P Q R S T U V W".split(" "),
+      "X Y Z A B C D E F G H I".split(" ")
+    ];
+
     const wsGridEl = document.getElementById("wsGrid");
     const wsWordsEl = document.getElementById("wsWords");
     const wsLamp = document.getElementById("wsLamp");
     const wsStatus = document.getElementById("wsStatus");
 
     function loadWSState(){
-      try{
-        return JSON.parse(localStorage.getItem("pathways_ws_state") || "null");
-      }catch{ return null; }
+      try{ return JSON.parse(localStorage.getItem("pathways_ws_state") || "null"); }
+      catch{ return null; }
     }
     function saveWSState(state){
       localStorage.setItem("pathways_ws_state", JSON.stringify(state));
     }
 
-    let wsState = null; // will include foundWords + foundCells
-    let wsStart = null; // {r,c}
+    let wsState = null;
+    let wsStart = null;
 
     function initWordsearch(){
       wsGridEl.innerHTML = "";
@@ -1327,7 +1513,6 @@
       const saved = loadWSState();
       wsState = saved || { foundWords: {}, foundCells: {} };
 
-      // word chips
       WS_WORDS.forEach(w=>{
         const chip = document.createElement("div");
         chip.className = "ws-word" + (wsState.foundWords[w] ? " done" : "");
@@ -1336,7 +1521,6 @@
         wsWordsEl.appendChild(chip);
       });
 
-      // grid
       for(let r=0;r<12;r++){
         for(let c=0;c<12;c++){
           const cell = document.createElement("div");
@@ -1355,17 +1539,16 @@
 
       wsStart = null;
       saveWSState(wsState);
-      updateWSProgress();
+      updateWSProgress(false);
     }
 
     function handleWSClick(r,c,cellEl){
-      // clear any selection styling
       wsGridEl.querySelectorAll(".ws-cell.sel").forEach(el=> el.classList.remove("sel"));
 
       if(!wsStart){
         wsStart = {r,c};
         cellEl.classList.add("sel");
-        wsStatus.textContent = "Pick an end letter in a straight line.";
+        wsStatus.textContent = "Pick an end letter (straight line).";
         wsLamp.classList.remove("good","bad");
         return;
       }
@@ -1379,7 +1562,7 @@
         flashBad([cellEl]);
         wsLamp.classList.remove("good");
         wsLamp.classList.add("bad");
-        wsStatus.textContent = "That wasn’t a straight line. Try again.";
+        wsStatus.textContent = "Straight line only.";
         return;
       }
 
@@ -1389,31 +1572,29 @@
       const match = WS_WORDS.find(w => w === letters || w === rev);
 
       if(match && !wsState.foundWords[match]){
-        // mark found
         wsState.foundWords[match] = true;
+
         line.forEach(({r,c})=>{
           wsState.foundCells[`${r},${c}`] = true;
           const el = wsGridEl.querySelector(`.ws-cell[data-r="${r}"][data-c="${c}"]`);
           if(el) el.classList.add("found");
         });
 
-        // update word chip
         const chip = wsWordsEl.querySelector(`.ws-word[data-word="${match}"]`);
         if(chip) chip.classList.add("done");
 
         wsLamp.classList.remove("bad");
         wsLamp.classList.add("good");
-        wsStatus.textContent = `Correct: ${match} ✅`;
+        wsStatus.textContent = `Correct: ${match}`;
 
         saveWSState(wsState);
         updateWSProgress(true);
       }else{
-        // wrong selection
         const els = line.map(({r,c}) => wsGridEl.querySelector(`.ws-cell[data-r="${r}"][data-c="${c}"]`)).filter(Boolean);
         flashBad(els);
         wsLamp.classList.remove("good");
         wsLamp.classList.add("bad");
-        wsStatus.textContent = "Nope. That’s not one of the words.";
+        wsStatus.textContent = "Nope.";
       }
     }
 
@@ -1427,8 +1608,6 @@
     function getLineCells(a,b){
       const dr = b.r - a.r;
       const dc = b.c - a.c;
-
-      // must be straight: horizontal, vertical, or diagonal (45 degrees)
       const absDr = Math.abs(dr);
       const absDc = Math.abs(dc);
 
@@ -1458,18 +1637,15 @@
       return cells;
     }
 
-    function updateWSProgress(maybeSolved=false){
+    function updateWSProgress(maybeSolved){
       const foundCount = WS_WORDS.filter(w => wsState.foundWords[w]).length;
-      const total = WS_WORDS.length;
-      if(foundCount === total){
+      if(foundCount === WS_WORDS.length){
         wsLamp.classList.remove("bad");
         wsLamp.classList.add("good");
-        wsStatus.textContent = "All found. You’re cracked.";
+        wsStatus.textContent = "All found.";
         if(maybeSolved){
-          showModal("WELL DONE.", "Wordsearch cleared. That’s sharp eyes and pure stubbornness. 🏆");
+          showModal("WELL DONE.", "Wordsearch cleared. Eyes like a hawk.");
         }
-      }else{
-        // keep status as-is; just subtle update if needed
       }
     }
 
@@ -1477,37 +1653,30 @@
       localStorage.removeItem("pathways_ws_state");
       initWordsearch();
       wsLamp.classList.remove("good","bad");
-      wsStatus.textContent = "Cleared. Find the words again.";
+      wsStatus.textContent = "Cleared.";
     });
 
     document.getElementById("wsHintBtn").addEventListener("click", ()=>{
-      // Give a gentle hint: highlight first letter of a random not-found word
       const remaining = WS_WORDS.filter(w => !wsState.foundWords[w]);
       if(!remaining.length){
-        showModal("ALREADY DONE.", "You’ve already found everything. Superstar.");
+        showModal("DONE.", "You already cleared it. Stop being good.");
         return;
       }
       const pick = remaining[Math.floor(Math.random()*remaining.length)];
-      // find any cell matching first letter
       const first = pick[0];
       const all = [...wsGridEl.querySelectorAll(".ws-cell")].filter(el => el.textContent === first && !el.classList.contains("found"));
       if(!all.length){
-        wsStatus.textContent = `Hint: Start with “${pick}” (somewhere).`;
+        wsStatus.textContent = `Hint: ${pick}`;
         return;
       }
       const el = all[Math.floor(Math.random()*all.length)];
       el.classList.add("sel");
       setTimeout(()=> el.classList.remove("sel"), 900);
-      wsStatus.textContent = `Hint: Look for “${pick}” starting near that highlighted letter.`;
+      wsStatus.textContent = `Hint: ${pick}`;
       wsLamp.classList.remove("good","bad");
     });
 
     initWordsearch();
-
-    /***********************
-     * Friendly polish: click anywhere in hero scrolls to articles (optional)
-     ***********************/
-    // (keep it simple; not forcing)
   </script>
 </body>
 </html>
