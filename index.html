@@ -1,1170 +1,281 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>PATHWAYS</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>PATHWAYS</title>
 
-  <style>
-    :root{
-      /* OUTER SPACE = white + airy */
-      --page:#f7f6f2;
-      --paper:#ffffff;
-      --ink:#182016;
-      --muted:#4b5a4c;
+<style>
+:root{
+  /* PAGE */
+  --page:#e8f5ec;          /* light clear green background */
+  --paper:#ffffff;
 
-      /* tree accents (lighter green, darker bark accents) */
-      --leafA:#dff3e6;   /* very light green */
-      --leafB:#cfead9;   /* light green */
-      --leafC:#bfe1cb;   /* mid light green */
-      --moss:#2b7a49;    /* accent green */
-      --bark:#3a2314;    /* dark brown */
-      --bark2:#2a1a10;
+  /* TREE INK */
+  --ink:#3a2314;           /* dark brown text */
+  --muted:#5a4030;
 
-      --line: rgba(24,32,22,.14);
-      --shadow: 0 18px 45px rgba(0,0,0,.12);
-      --shadow2: 0 10px 22px rgba(0,0,0,.10);
+  /* SECTION BLOCK COLOURS */
+  --news:#d9ecff;          /* blue */
+  --features:#ffe6c7;      /* orange */
+  --opinion:#f0e1ff;       /* purple */
+  --sports:#ffd6d6;        /* red/pink */
+  --culture:#ffe1f0;       /* pink */
+  --puzzles:#e2ffe1;       /* green */
 
-      --radius: 18px;
-      --radius2: 22px;
+  /* UI */
+  --line:rgba(58,35,20,.18);
+  --shadow:0 14px 35px rgba(0,0,0,.12);
+  --radius:22px;
 
-      --goodBg: rgba(52,179,90,.20);
-      --goodBd: rgba(52,179,90,.55);
-      --badBg: rgba(220,70,70,.16);
-      --badBd: rgba(220,70,70,.40);
+  --goodBg:rgba(70,180,120,.25);
+  --goodBd:rgba(40,140,90,.55);
+  --badBg:rgba(220,80,80,.22);
+  --badBd:rgba(180,60,60,.45);
 
-      /* section accents (each box colour is clearly different) */
-      --acc-news:   #d9f2ff; /* light sky */
-      --acc-feat:   #fff0d6; /* light amber */
-      --acc-op:     #efe4ff; /* light lilac */
-      --acc-sport:  #dff7f1; /* light mint */
-      --acc-cult:   #ffe1e6; /* light rose */
-      --acc-puzz:   #e6ffe0; /* light green */
+  --focus:rgba(58,35,20,.35);
+}
 
-      /* Focus ring for accessibility */
-      --focus: rgba(43,122,73,.35);
-    }
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  background:linear-gradient(180deg,var(--page),#f4fbf7);
+  color:var(--ink);
+}
 
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      color:var(--ink);
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background:
-        radial-gradient(900px 500px at 10% 0%, rgba(43,122,73,.08), transparent 55%),
-        radial-gradient(900px 520px at 90% 10%, rgba(58,35,20,.06), transparent 60%),
-        linear-gradient(180deg, var(--page), #ffffff);
-      overflow-x:hidden;
-    }
+/* SKIP LINK */
+.skip-link{
+  position:absolute;left:-999px;top:10px;
+  background:#fff;padding:10px;border-radius:10px;
+}
+.skip-link:focus{left:16px}
 
-    /* subtle paper grain */
-    body::before{
-      content:"";
-      position:fixed; inset:0;
-      pointer-events:none;
-      opacity:.10;
-      background-image:
-        repeating-linear-gradient(90deg, rgba(0,0,0,.02) 0 1px, transparent 1px 8px),
-        repeating-linear-gradient(0deg, rgba(0,0,0,.015) 0 1px, transparent 1px 10px);
-      mix-blend-mode: multiply;
-    }
+/* WRAP */
+.wrap{max-width:980px;margin:auto;padding:20px}
 
-    /* Reduce motion option (accessibility) */
-    @media (prefers-reduced-motion: reduce){
-      *{animation:none !important; transition:none !important; scroll-behavior:auto !important;}
-    }
+/* NAV */
+.nav{
+  display:flex;gap:12px;align-items:center;justify-content:space-between;
+  padding:14px;border-radius:22px;
+  background:#fff;border:1px solid var(--line);
+  box-shadow:var(--shadow);
+}
+.nav h1{
+  margin:0;font-size:16px;letter-spacing:.2em;
+}
+.nav a{
+  text-decoration:none;color:var(--ink);
+  padding:8px 12px;border-radius:999px;
+}
+.nav a:hover{background:#f0f0f0}
 
-    /* Floating leaves (decorative) */
-    .leaf-layer{
-      position:fixed; inset:-10vh -10vw;
-      pointer-events:none;
-      z-index:0;
-      overflow:hidden;
-    }
-    .leaf{
-      position:absolute;
-      width:14px; height:10px;
-      border-radius: 12px 12px 12px 2px;
-      background: linear-gradient(135deg, rgba(43,122,73,.18), rgba(58,35,20,.08));
-      border:1px solid rgba(0,0,0,.06);
-      opacity:.35;
-      transform: rotate(12deg);
-      animation: drift var(--t) linear infinite;
-    }
-    .leaf::after{
-      content:"";
-      position:absolute;
-      left:50%; top:18%;
-      width:1px; height:64%;
-      background: rgba(0,0,0,.10);
-      transform: translateX(-50%) rotate(10deg);
-    }
-    @keyframes drift{
-      0%{ transform: translate3d(var(--x0), var(--y0), 0) rotate(0deg); }
-      100%{ transform: translate3d(var(--x1), var(--y1), 0) rotate(720deg); }
-    }
+/* HERO */
+.hero{
+  margin-top:18px;padding:22px;
+  background:#fff;border-radius:22px;
+  border:1px solid var(--line);
+}
+.title{
+  font-size:46px;letter-spacing:.2em;
+  margin:0;color:var(--ink);
+  display:inline-block;padding-bottom:10px;
+  position:relative;
+}
+.title::after{
+  content:"";position:absolute;left:0;bottom:0;width:100%;height:10px;
+  background:rgba(58,35,20,.35);
+  border-radius:20px;
+}
 
-    .wrap{
-      max-width: 980px;
-      margin:0 auto;
-      padding:22px 16px 60px;
-      position:relative;
-      z-index:1;
-    }
+/* SECTIONS */
+.section{
+  margin-top:20px;border-radius:22px;
+  border:1px solid var(--line);
+  box-shadow:var(--shadow);
+}
+.section-h{
+  padding:14px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink);
+}
+.section-b{padding:14px}
 
-    /* Skip link (keyboard + screen readers) */
-    .skip-link{
-      position:absolute;
-      left:-999px;
-      top:10px;
-      padding:10px 12px;
-      background: var(--paper);
-      border:2px solid rgba(0,0,0,.20);
-      border-radius: 12px;
-      color: var(--ink);
-      z-index:1000;
-    }
-    .skip-link:focus{
-      left:16px;
-      outline:none;
-      box-shadow: 0 0 0 4px var(--focus);
-    }
+/* SECTION COLOURS */
+#news{background:var(--news)}
+#features{background:var(--features)}
+#opinion{background:var(--opinion)}
+#sports{background:var(--sports)}
+#culture{background:var(--culture)}
+#puzzles{background:var(--puzzles)}
 
-    /* NAV */
-    .nav{
-      position:sticky;
-      top:12px;
-      z-index:50;
-      display:flex;
-      gap:12px;
-      align-items:center;
-      justify-content:space-between;
-      padding:14px 14px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.90);
-      border-radius: 20px;
-      box-shadow: var(--shadow2);
-      backdrop-filter: blur(10px);
-      overflow:hidden;
-    }
+/* ARTICLE CARDS */
+.layout{
+  display:grid;grid-template-columns:1.3fr .7fr;gap:14px;
+}
+@media(max-width:800px){.layout{grid-template-columns:1fr}}
+.lead,.stack{display:grid;gap:14px}
 
-    /* branch sweep behind nav */
-    .nav::before{
-      content:"";
-      position:absolute; inset:-44px -60px;
-      background:
-        radial-gradient(closest-side at 15% 55%, rgba(58,35,20,.22), transparent 70%),
-        radial-gradient(closest-side at 35% 35%, rgba(58,35,20,.18), transparent 72%),
-        radial-gradient(closest-side at 55% 55%, rgba(58,35,20,.16), transparent 74%),
-        radial-gradient(closest-side at 75% 35%, rgba(58,35,20,.14), transparent 76%),
-        radial-gradient(closest-side at 90% 55%, rgba(58,35,20,.12), transparent 78%);
-      opacity:.85;
-      filter: blur(.25px);
-      transform-origin: 20% 50%;
-      animation: sway 6.5s ease-in-out infinite;
-      pointer-events:none;
-    }
-    @keyframes sway{
-      0%,100%{ transform: rotate(-1.2deg) translateY(0px); }
-      50%{ transform: rotate(1.2deg) translateY(1px); }
-    }
+.card{
+  background:#fff;
+  border-radius:22px;
+  border:1px solid var(--line);
+  padding:18px;min-height:120px;
+}
+.card h3{
+  margin:0;text-transform:uppercase;
+  letter-spacing:.06em;color:var(--ink);
+}
 
-    .brand{
-      position:relative;
-      display:flex;
-      gap:12px;
-      align-items:center;
-      min-width: 200px;
-      z-index:1;
-    }
-    .brand-badge{
-      width:44px; height:44px;
-      border-radius: 14px;
-      background:
-        radial-gradient(circle at 35% 30%, rgba(43,122,73,.20), transparent 62%),
-        linear-gradient(135deg, rgba(58,35,20,.24), rgba(255,255,255,.6));
-      border:1px solid rgba(0,0,0,.10);
-      box-shadow: 0 10px 20px rgba(0,0,0,.12);
-      position:relative;
-      overflow:hidden;
-    }
-    .brand h1{
-      margin:0;
-      font-size:16px;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-      line-height:1.1;
-    }
+/* PUZZLES */
+.puzzles{
+  display:grid;grid-template-columns:1fr 1fr;gap:16px;
+}
+@media(max-width:900px){.puzzles{grid-template-columns:1fr}}
 
-    .navlinks{
-      position:relative;
-      z-index:1;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-      justify-content:center;
-    }
-    .navlinks a{
-      text-decoration:none;
-      color: rgba(24,32,22,.82);
-      font-size:13px;
-      padding:9px 12px;
-      border-radius: 999px;
-      border:1px solid rgba(0,0,0,.10);
-      background: rgba(255,255,255,.75);
-      transition: transform .12s ease, background .12s ease, border-color .12s ease;
-      user-select:none;
-      white-space:nowrap;
-    }
-    .navlinks a:hover{
-      transform: translateY(-1px);
-      background: rgba(223,243,230,.75);
-      border-color: rgba(43,122,73,.18);
-    }
-    .navlinks a:focus-visible{
-      outline:none;
-      box-shadow: 0 0 0 4px var(--focus);
-    }
+.panel{
+  background:#fff;border-radius:22px;
+  border:1px solid var(--line);
+  box-shadow:var(--shadow);
+}
+.panel-h{
+  padding:14px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;
+}
+.panel-b{padding:14px}
 
-    .search{
-      position:relative;
-      z-index:1;
-      display:flex;
-      gap:10px;
-      align-items:center;
-      min-width: 220px;
-      justify-content:flex-end;
-    }
-    .search input{
-      width: 100%;
-      max-width: 320px;
-      padding:10px 12px;
-      border-radius: 14px;
-      border:1px solid rgba(0,0,0,.14);
-      background: rgba(255,255,255,.92);
-      color: var(--ink);
-      outline:none;
-      transition: box-shadow .15s ease, border-color .15s ease;
-    }
-    .search input:focus{
-      border-color: rgba(43,122,73,.25);
-      box-shadow: 0 0 0 4px var(--focus);
-    }
+/* SUDOKU */
+.sudoku{
+  display:grid;grid-template-columns:repeat(9,1fr);
+  border:2px solid var(--line);
+}
+.cell{
+  aspect-ratio:1/1;border:1px solid var(--line);
+}
+.cell input{
+  width:100%;height:100%;border:0;text-align:center;
+  font-size:16px;font-weight:800;color:var(--ink);
+}
+.correct{background:var(--goodBg)}
+.incorrect{background:var(--badBg)}
 
-    @media (max-width: 980px){
-      .nav{gap:10px; flex-wrap:wrap}
-      .brand{min-width: 170px}
-      .search{width:100%; justify-content:stretch}
-    }
+/* WORDSEARCH */
+.wordsearch{
+  display:grid;grid-template-columns:repeat(12,1fr);gap:4px;
+}
+.ws-cell{
+  aspect-ratio:1/1;border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;cursor:pointer;
+}
+.ws-cell.good{background:var(--goodBg)}
+.ws-cell.bad{background:var(--badBg)}
 
-    /* HERO */
-    .hero{
-      margin-top:18px;
-      border-radius: var(--radius2);
-      border:1px solid var(--line);
-      background:
-        radial-gradient(900px 240px at 0% 0%, rgba(43,122,73,.10), transparent 62%),
-        radial-gradient(700px 260px at 100% 0%, rgba(58,35,20,.10), transparent 60%),
-        linear-gradient(180deg, var(--paper), rgba(223,243,230,.40));
-      box-shadow: var(--shadow2);
-      position:relative;
-      overflow:hidden;
-      padding: 22px 20px 16px;
-    }
+.wordlist{
+  display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;
+}
+.word{
+  padding:6px 10px;border-radius:999px;
+  background:#f5f5f5;border:1px solid var(--line);
+}
 
-    /* roots */
-    .hero::after{
-      content:"";
-      position:absolute;
-      left:-80px; right:-80px; bottom:-55px;
-      height:140px;
-      background:
-        radial-gradient(closest-side at 18% 45%, rgba(58,35,20,.28), transparent 72%),
-        radial-gradient(closest-side at 34% 62%, rgba(58,35,20,.24), transparent 72%),
-        radial-gradient(closest-side at 50% 48%, rgba(58,35,20,.22), transparent 72%),
-        radial-gradient(closest-side at 66% 64%, rgba(58,35,20,.20), transparent 72%),
-        radial-gradient(closest-side at 82% 50%, rgba(58,35,20,.18), transparent 72%);
-      opacity:.95;
-      pointer-events:none;
-      filter: blur(.2px);
-      animation: roots 7.5s ease-in-out infinite;
-      transform-origin: 50% 100%;
-    }
-    @keyframes roots{
-      0%,100%{ transform: translateY(0px) scaleX(1); }
-      50%{ transform: translateY(2px) scaleX(1.01); }
-    }
+/* MODAL */
+.modal-backdrop{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.25);
+  display:none;align-items:center;justify-content:center;
+}
+.modal-backdrop.show{display:flex}
+.modal{
+  background:#fff;padding:24px;border-radius:26px;
+  text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.3);
+}
+.modal h3{margin:0;font-size:32px;color:var(--ink)}
 
-    .title{
-      margin:0;
-      font-size: 46px;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      text-shadow: 0 10px 20px rgba(0,0,0,.10);
-      position:relative;
-      display:inline-block;
-      padding-bottom: 12px;
-    }
-
-    /* branch underline */
-    .title::after{
-      content:"";
-      position:absolute;
-      left:0;
-      bottom:0;
-      width: 100%;
-      height: 14px;
-      background:
-        radial-gradient(closest-side at 4% 50%, rgba(58,35,20,.40), transparent 70%),
-        radial-gradient(closest-side at 16% 40%, rgba(58,35,20,.36), transparent 72%),
-        radial-gradient(closest-side at 28% 60%, rgba(58,35,20,.34), transparent 72%),
-        radial-gradient(closest-side at 40% 45%, rgba(58,35,20,.30), transparent 74%),
-        radial-gradient(closest-side at 52% 62%, rgba(58,35,20,.28), transparent 74%),
-        radial-gradient(closest-side at 64% 40%, rgba(58,35,20,.26), transparent 76%),
-        radial-gradient(closest-side at 76% 58%, rgba(58,35,20,.24), transparent 76%),
-        radial-gradient(closest-side at 88% 42%, rgba(58,35,20,.22), transparent 78%),
-        radial-gradient(closest-side at 98% 55%, rgba(58,35,20,.20), transparent 80%);
-      opacity:.95;
-      filter: blur(.25px);
-      animation: branchUnderline 6.8s ease-in-out infinite;
-      transform-origin: 20% 50%;
-      pointer-events:none;
-    }
-    @keyframes branchUnderline{
-      0%,100%{ transform: rotate(-.6deg) translateY(0px); }
-      50%{ transform: rotate(.6deg) translateY(1px); }
-    }
-
-    /* SECTIONS stacked vertically */
-    .section{
-      margin-top:18px;
-      border-radius: var(--radius2);
-      border:1px solid var(--line);
-      box-shadow: var(--shadow2);
-      overflow:hidden;
-      position:relative;
-      background: var(--paper);
-    }
-
-    .section-h{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      padding:14px 14px;
-      border-bottom:1px solid rgba(0,0,0,.10);
-      background: linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,255,255,.6));
-    }
-    .section-h h2{
-      margin:0;
-      font-size: 14px;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      display:flex;
-      align-items:center;
-      gap:10px;
-    }
-    .badge{
-      width:10px; height:10px;
-      border-radius:999px;
-      background: rgba(0,0,0,.10);
-      box-shadow: 0 0 0 4px rgba(0,0,0,.04);
-    }
-
-    .section-b{
-      padding:14px;
-      display:grid;
-      gap:14px;
-    }
-
-    .layout{
-      display:grid;
-      grid-template-columns: 1.35fr .65fr;
-      gap:14px;
-      align-items:start;
-    }
-    @media (max-width: 820px){
-      .layout{grid-template-columns:1fr}
-    }
-
-    .lead, .stack{display:grid; gap:14px;}
-
-    /* Article cards (clearly different colours per section) */
-    .card{
-      position:relative;
-      border-radius: 22px;
-      border:1px solid rgba(0,0,0,.10);
-      padding: 18px 16px;
-      overflow:hidden;
-      min-height: 130px;
-      box-shadow: 0 10px 20px rgba(0,0,0,.08);
-      background: var(--cardBg, #fff);
-    }
-
-    /* branch edges */
-    .card::before,
-    .card::after{
-      content:"";
-      position:absolute;
-      top:-22px;
-      width:150px; height:120px;
-      background:
-        radial-gradient(closest-side at 20% 60%, rgba(58,35,20,.26), transparent 70%),
-        radial-gradient(closest-side at 55% 40%, rgba(58,35,20,.22), transparent 70%),
-        radial-gradient(closest-side at 75% 65%, rgba(58,35,20,.20), transparent 70%);
-      filter: blur(.25px);
-      opacity:.9;
-      pointer-events:none;
-      transform-origin: 40% 50%;
-      animation: branchWiggle 9s ease-in-out infinite;
-    }
-    .card::before{left:-55px; transform: rotate(-18deg);}
-    .card::after{right:-55px; transform: rotate(18deg) scaleX(-1); animation-delay:-3s;}
-    @keyframes branchWiggle{
-      0%,100%{ transform: rotate(-18deg) translateY(0px); }
-      50%{ transform: rotate(-16deg) translateY(2px); }
-    }
-
-    .card h3{
-      margin:0;
-      font-size: 16px;
-      letter-spacing:.06em;
-      text-transform:uppercase;
-      color: rgba(24,32,22,.88);
-    }
-
-    /* Section color injection */
-    .section[data-acc]{
-      background:
-        radial-gradient(900px 220px at 0% 0%, color-mix(in oklab, var(--acc) 70%, white), transparent 70%),
-        var(--paper);
-    }
-    .section[data-acc] .badge{
-      background: color-mix(in oklab, var(--acc) 55%, var(--moss));
-      box-shadow: 0 0 0 4px color-mix(in oklab, var(--acc) 30%, transparent);
-    }
-
-    /* Puzzles block */
-    .puzzles{
-      margin-top:18px;
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:16px;
-    }
-    @media (max-width: 980px){
-      .puzzles{grid-template-columns:1fr}
-    }
-
-    .panel{
-      border-radius: var(--radius2);
-      border:1px solid var(--line);
-      background: var(--paper);
-      box-shadow: var(--shadow2);
-      overflow:hidden;
-      position:relative;
-    }
-    .panel-h{
-      padding: 14px 14px;
-      display:flex; align-items:center; justify-content:space-between; gap:10px;
-      border-bottom:1px solid rgba(0,0,0,.10);
-      background: linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,255,255,.6));
-    }
-    .panel-h h2{
-      margin:0;
-      font-size: 14px;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      display:flex;
-      align-items:center;
-      gap:10px;
-    }
-    .panel-b{padding:14px}
-
-    /* Sudoku */
-    .sudoku{
-      display:grid;
-      grid-template-columns: repeat(9, 1fr);
-      border:2px solid rgba(0,0,0,.14);
-      border-radius: 14px;
-      overflow:hidden;
-      background: rgba(255,255,255,.85);
-    }
-    .cell{
-      width:100%;
-      aspect-ratio: 1 / 1;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      border:1px solid rgba(0,0,0,.08);
-      transition: background .12s ease, box-shadow .12s ease;
-    }
-    .cell input{
-      width:100%;
-      height:100%;
-      text-align:center;
-      border:0;
-      outline:none;
-      background: transparent;
-      color: var(--ink);
-      font-size:16px;
-      font-weight:800;
-    }
-    .cell input:focus-visible{
-      outline:none;
-      box-shadow: inset 0 0 0 4px var(--focus);
-    }
-    .given{ background: rgba(0,0,0,.04); }
-    .cell.correct{ background: var(--goodBg); box-shadow: inset 0 0 0 3px var(--goodBd); }
-    .cell.incorrect{ background: var(--badBg); box-shadow: inset 0 0 0 3px var(--badBd); }
-    .cell[data-r="2"], .cell[data-r="5"]{ border-bottom: 2px solid rgba(0,0,0,.14); }
-    .cell[data-c="2"], .cell[data-c="5"]{ border-right: 2px solid rgba(0,0,0,.14); }
-
-    /* Wordsearch */
-    .ws-wrap{display:grid; gap:12px}
-    .wordsearch{
-      display:grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap:4px;
-      padding:10px;
-      border-radius: 14px;
-      border:1px solid rgba(0,0,0,.12);
-      background: rgba(255,255,255,.85);
-    }
-    .ws-cell{
-      aspect-ratio: 1 / 1;
-      border-radius: 10px;
-      border:1px solid rgba(0,0,0,.08);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-weight:900;
-      letter-spacing:.08em;
-      font-size:12px;
-      user-select:none;
-      cursor:pointer;
-      transition: transform .08s ease, background .10s ease, border-color .10s ease, box-shadow .10s ease;
-      background: rgba(255,255,255,.92);
-      color: rgba(24,32,22,.90);
-    }
-    .ws-cell:hover{transform: translateY(-1px)}
-    .ws-cell:focus-visible{outline:none; box-shadow: 0 0 0 4px var(--focus);}
-    .ws-cell.good{ background: var(--goodBg); border-color: rgba(52,179,90,.22); box-shadow: inset 0 0 0 3px var(--goodBd); }
-    .ws-cell.bad{ background: var(--badBg); border-color: rgba(220,70,70,.18); box-shadow: inset 0 0 0 3px var(--badBd); }
-
-    .wordlist{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      align-items:center;
-      padding: 8px 10px;
-      border-radius: 14px;
-      border:1px solid rgba(0,0,0,.12);
-      background: rgba(255,255,255,.90);
-    }
-    .word{
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid rgba(0,0,0,.12);
-      background: rgba(223,243,230,.85);
-      font-size:12px;
-      color: rgba(24,32,22,.90);
-      letter-spacing:.08em;
-      text-transform:uppercase;
-    }
-
-    footer{
-      margin-top:18px;
-      color: rgba(24,32,22,.62);
-      font-size:12px;
-      text-align:center;
-      letter-spacing:.06em;
-    }
-
-    /* “Well done!” modal in the MIDDLE (exaggerated, feel-good) */
-    .modal-backdrop{
-      position:fixed;
-      inset:0;
-      background: rgba(0,0,0,.18);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      z-index:9999;
-      padding:16px;
-    }
-    .modal-backdrop.show{display:flex;}
-    .modal{
-      width:min(520px, 92vw);
-      border-radius: 26px;
-      border:1px solid rgba(0,0,0,.12);
-      background:
-        radial-gradient(900px 300px at 10% 0%, rgba(43,122,73,.18), transparent 60%),
-        radial-gradient(900px 320px at 90% 20%, rgba(58,35,20,.12), transparent 60%),
-        linear-gradient(180deg, rgba(255,255,255,.98), rgba(223,243,230,.75));
-      box-shadow: 0 30px 90px rgba(0,0,0,.22);
-      padding: 18px 16px 14px;
-      text-align:center;
-      position:relative;
-      overflow:hidden;
-      transform: scale(.96);
-      animation: pop .18s ease-out forwards;
-    }
-    @keyframes pop{
-      to{ transform: scale(1); }
-    }
-    .modal .burst{
-      position:absolute;
-      inset:-40% -40%;
-      background:
-        radial-gradient(circle at 30% 35%, rgba(52,179,90,.22), transparent 45%),
-        radial-gradient(circle at 70% 60%, rgba(255,196,110,.20), transparent 45%),
-        radial-gradient(circle at 55% 25%, rgba(196,167,231,.18), transparent 45%);
-      opacity:.9;
-      pointer-events:none;
-      transform: rotate(18deg);
-    }
-    .modal h3{
-      margin:10px 0 6px 0;
-      font-size: 28px;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      color: rgba(24,32,22,.92);
-      position:relative;
-    }
-    .modal p{
-      margin:0 0 12px 0;
-      color: rgba(24,32,22,.72);
-      line-height:1.5;
-      position:relative;
-    }
-    .modal .actions{
-      display:flex;
-      justify-content:center;
-      gap:10px;
-      flex-wrap:wrap;
-      position:relative;
-    }
-    .btn{
-      border:1px solid rgba(0,0,0,.12);
-      background: rgba(255,255,255,.85);
-      color: rgba(24,32,22,.92);
-      border-radius: 14px;
-      padding:10px 12px;
-      font-size:14px;
-      cursor:pointer;
-      transition: transform .12s ease, box-shadow .12s ease;
-    }
-    .btn:hover{ transform: translateY(-1px); box-shadow: 0 10px 20px rgba(0,0,0,.10); }
-    .btn:focus-visible{ outline:none; box-shadow: 0 0 0 4px var(--focus); }
-
-    /* Visually-hidden utility (screen reader text) */
-    .sr-only{
-      position:absolute;
-      width:1px;height:1px;
-      padding:0;margin:-1px;
-      overflow:hidden;
-      clip:rect(0,0,0,0);
-      white-space:nowrap;
-      border:0;
-    }
-  </style>
+footer{text-align:center;margin-top:20px;color:var(--muted)}
+</style>
 </head>
 
 <body>
-  <a class="skip-link" href="#main">Skip to main content</a>
+<a class="skip-link" href="#main">Skip to content</a>
 
-  <!-- Decorative animated leaves -->
-  <div class="leaf-layer" aria-hidden="true">
-    <div class="leaf" style="--t:26s;--x0:-10vw;--y0:10vh;--x1:120vw;--y1:30vh;left:2vw;top:8vh;"></div>
-    <div class="leaf" style="--t:34s;--x0:-20vw;--y0:60vh;--x1:120vw;--y1:40vh;left:10vw;top:55vh;"></div>
-    <div class="leaf" style="--t:29s;--x0:-15vw;--y0:30vh;--x1:120vw;--y1:75vh;left:18vw;top:26vh;"></div>
-    <div class="leaf" style="--t:38s;--x0:-25vw;--y0:15vh;--x1:120vw;--y1:85vh;left:35vw;top:12vh;"></div>
-    <div class="leaf" style="--t:31s;--x0:-18vw;--y0:80vh;--x1:120vw;--y1:55vh;left:52vw;top:78vh;"></div>
-    <div class="leaf" style="--t:27s;--x0:-12vw;--y0:22vh;--x1:120vw;--y1:10vh;left:70vw;top:20vh;"></div>
-    <div class="leaf" style="--t:41s;--x0:-30vw;--y0:50vh;--x1:120vw;--y1:20vh;left:84vw;top:46vh;"></div>
-    <div class="leaf" style="--t:33s;--x0:-16vw;--y0:72vh;--x1:120vw;--y1:92vh;left:92vw;top:70vh;"></div>
-  </div>
+<div class="wrap">
+<header class="nav">
+  <h1>PATHWAYS</h1>
+  <nav>
+    <a href="#news">News</a>
+    <a href="#features">Features</a>
+    <a href="#opinion">Opinion</a>
+    <a href="#sports">Sports</a>
+    <a href="#culture">Culture</a>
+    <a href="#puzzles">Puzzles</a>
+  </nav>
+</header>
 
-  <div class="wrap">
-    <header class="nav" aria-label="Site navigation">
-      <div class="brand">
-        <div class="brand-badge" aria-hidden="true"></div>
-        <div><h1>PATHWAYS</h1></div>
+<section class="hero">
+  <h2 class="title">PATHWAYS</h2>
+</section>
+
+<main id="main">
+
+<section id="news" class="section">
+  <div class="section-h">News</div>
+  <div class="section-b">
+    <div class="layout">
+      <div class="lead">
+        <div class="card"><h3>Coming soon</h3></div>
+        <div class="card"><h3>Coming soon</h3></div>
       </div>
-
-      <nav class="navlinks" aria-label="Primary">
-        <a href="#news">News</a>
-        <a href="#features">Features</a>
-        <a href="#opinion">Opinion</a>
-        <a href="#sports">Sports</a>
-        <a href="#culture">Culture</a>
-        <a href="#puzzles">Puzzles</a>
-      </nav>
-
-      <div class="search" aria-label="Search articles">
-        <label class="sr-only" for="searchInput">Search</label>
-        <input id="searchInput" type="search" placeholder="Search…" aria-label="Search" />
-      </div>
-    </header>
-
-    <section class="hero" aria-label="Title">
-      <h2 class="title">PATHWAYS</h2>
-      <p class="sr-only">
-        Accessibility notes: Use Tab to move through links and puzzle squares. The website supports reduced motion settings.
-      </p>
-    </section>
-
-    <main id="main" tabindex="-1" aria-label="Main content">
-      <section class="section" id="news" data-acc style="--acc: var(--acc-news);">
-        <div class="section-h"><h2><span class="badge" aria-hidden="true"></span> News</h2></div>
-        <div class="section-b">
-          <div class="layout">
-            <div class="lead">
-              <article class="card article" style="--cardBg: var(--acc-news);" data-title="coming soon"><h3>Coming soon</h3></article>
-              <article class="card article" style="--cardBg: #ffffff;" data-title="coming soon"><h3>Coming soon</h3></article>
-            </div>
-            <div class="stack">
-              <article class="card article" style="--cardBg: color-mix(in oklab, var(--acc-news) 70%, white);" data-title="coming soon"><h3>Coming soon</h3></article>
-              <article class="card article" style="--cardBg: #ffffff;" data-title="coming soon"><h3>Coming soon</h3></article>
-              <article class="card article" style="--cardBg: color-mix(in oklab, var(--acc-news) 55%, white);" data-title="coming soon"><h3>Coming soon</h3></article>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="features" data-acc style="--acc: var(--acc-feat);">
-        <div class="section-h"><h2><span class="badge" aria-hidden="true"></span> Features</h2></div>
-        <div class="section-b">
-          <div class="layout">
-            <div class="lead">
-              <article class="card article" style="--cardBg: var(--acc-feat);" data-title="coming soon"><h3>Coming soon</h3></article>
-              <article class="card article" style="--cardBg: #ffffff;" data-title="coming soon"><h3>Coming soon</h3></article>
-            </div>
-            <div class="stack">
-              <article class="card article" style="--cardBg: color-mix(in oklab, var(--acc-feat) 70%, white);" data-title="coming soon"><h3>Coming soon</h3></article>
-              <article class="card article" style="--cardBg: #ffffff;" data-title="coming soon"><h3>Coming soon</h3></article>
-              <article class="card article" style="--cardBg: color-mix(in oklab, var(--acc-feat) 55%, white);" data-title="coming soon"><h3>Coming soon</h3></article>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="opinion" data-acc style="--acc: var(--acc-op);">
-        <div class="section-h"><h2><span class="badge" aria-hidden="true"></span> Opinion</h2></div>
-        <div class="section-b">
-          <div class="layout">
-            <div class="lead">
-              <article class="card article" style="--cardBg: var(--acc-op);" data-title="coming soon"><h3>Coming soon</h3></article>
-              <article class="card article" style="--cardBg: #ffffff;" data-title="coming soon"><h3>Coming soon</h3></article>
-            </div>
-            <div class="stack">
-              <article class="card article" style="--cardBg: color-mix(in oklab, var(--acc-op) 70%, white);" data-title="coming soon"><h3>Coming soon</h3></article>
-              <article class="card article" style="--cardBg: #ffffff;" data-title="coming soon"><h3>Coming soon</h3></article>
-              <article class="card article" style="--cardBg: color-mix(in oklab, var(--acc-op) 55%, white);" data-title="coming soon"><h3>Coming soon</h3></article>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="sports" data-acc style="--acc: var(--acc-sport);">
-        <div class="section-h"><h2><span class="badge" aria-hidden="true"></span> Sports</h2></div>
-        <div class="section-b">
-          <div class="layout">
-            <div class="lead">
-              <article class="card article" style="--cardBg: var(--acc-sport);" data-title="coming soon"><h3>Coming soon</h3></article>
-              <article class="card article" style="--cardBg: #ffffff;" data-title="coming soon"><h3>Coming soon</h3></article>
-            </div>
-            <div class="stack">
-              <article class="card article" style="--cardBg: color-mix(in oklab, var(--acc-sport) 70%, white);" data-title="coming soon"><h3>Coming soon</h3></article>
-              <article class="card article" style="--cardBg: #ffffff;" data-title="coming soon"><h3>Coming soon</h3></article>
-              <article class="card article" style="--cardBg: color-mix(in oklab, var(--acc-sport) 55%, white);" data-title="coming soon"><h3>Coming soon</h3></article>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="culture" data-acc style="--acc: var(--acc-cult);">
-        <div class="section-h"><h2><span class="badge" aria-hidden="true"></span> Culture</h2></div>
-        <div class="section-b">
-          <div class="layout">
-            <div class="lead">
-              <article class="card article" style="--cardBg: var(--acc-cult);" data-title="coming soon"><h3>Coming soon</h3></article>
-              <article class="card article" style="--cardBg: #ffffff;" data-title="coming soon"><h3>Coming soon</h3></article>
-            </div>
-            <div class="stack">
-              <article class="card article" style="--cardBg: color-mix(in oklab, var(--acc-cult) 70%, white);" data-title="coming soon"><h3>Coming soon</h3></article>
-              <article class="card article" style="--cardBg: #ffffff;" data-title="coming soon"><h3>Coming soon</h3></article>
-              <article class="card article" style="--cardBg: color-mix(in oklab, var(--acc-cult) 55%, white);" data-title="coming soon"><h3>Coming soon</h3></article>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="puzzles" data-acc style="--acc: var(--acc-puzz);">
-        <div class="section-h"><h2><span class="badge" aria-hidden="true"></span> Puzzles</h2></div>
-        <div class="section-b">
-          <div class="puzzles">
-            <div class="panel" aria-label="Sudoku panel">
-              <div class="panel-h">
-                <h2><span class="badge" aria-hidden="true" style="background:var(--moss)"></span> Sudoku</h2>
-                <span class="sr-only" id="sudokuHelp">Enter digits 1 to 9. Squares turn green when correct and red when incorrect.</span>
-              </div>
-              <div class="panel-b">
-                <div class="sudoku" id="sudoku" aria-label="Sudoku grid" aria-describedby="sudokuHelp"></div>
-              </div>
-            </div>
-
-            <div class="panel" aria-label="Wordsearch panel">
-              <div class="panel-h">
-                <h2><span class="badge" aria-hidden="true" style="background:var(--moss)"></span> Wordsearch</h2>
-                <span class="sr-only" id="wsHelp">Click or press Enter on letters. Correct letters turn green, incorrect letters turn red.</span>
-              </div>
-              <div class="panel-b">
-                <div class="ws-wrap">
-                  <div class="wordlist" id="wordList" aria-label="Words to find"></div>
-                  <div class="wordsearch" id="wordsearch" aria-label="Wordsearch grid" aria-describedby="wsHelp"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Accessibility help (plain language) -->
-          <div class="sr-only" id="accessHelp">
-            Keyboard help: use Tab to move between interactive items. Press Enter or Space to activate buttons and wordsearch squares.
-            Visual help: green means correct, red means incorrect.
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer>PATHWAYS</footer>
-  </div>
-
-  <!-- Center modal -->
-  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc">
-    <div class="modal">
-      <div class="burst" aria-hidden="true"></div>
-      <h3 id="modalTitle">WELL DONE!</h3>
-      <p id="modalDesc">You smashed it. That’s a full solve.</p>
-      <div class="actions">
-        <button class="btn" type="button" id="closeModalBtn">Nice 😌</button>
+      <div class="stack">
+        <div class="card"><h3>Coming soon</h3></div>
+        <div class="card"><h3>Coming soon</h3></div>
+        <div class="card"><h3>Coming soon</h3></div>
       </div>
     </div>
   </div>
+</section>
 
-  <script>
-    // ---------------------------
-    // “WELL DONE!” MODAL (center + exaggerated)
-    // also accessible: focus moves into modal, Escape closes
-    // ---------------------------
-    const modalBackdrop = document.getElementById("modalBackdrop");
-    const closeModalBtn = document.getElementById("closeModalBtn");
-    const modalTitle = document.getElementById("modalTitle");
-    const modalDesc = document.getElementById("modalDesc");
-    let lastFocus = null;
+<section id="features" class="section">
+  <div class="section-h">Features</div>
+  <div class="section-b">
+    <div class="card"><h3>Coming soon</h3></div>
+  </div>
+</section>
 
-    function openModal(titleText, descText){
-      modalTitle.textContent = titleText || "WELL DONE!";
-      modalDesc.textContent = descText || "You smashed it. That’s a full solve.";
-      lastFocus = document.activeElement;
-      modalBackdrop.classList.add("show");
-      closeModalBtn.focus();
-    }
-    function closeModal(){
-      modalBackdrop.classList.remove("show");
-      if(lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
-    }
-    closeModalBtn.addEventListener("click", closeModal);
-    window.addEventListener("keydown", (e) => {
-      if(!modalBackdrop.classList.contains("show")) return;
-      if(e.key === "Escape") closeModal();
-    });
+<section id="opinion" class="section">
+  <div class="section-h">Opinion</div>
+  <div class="section-b">
+    <div class="card"><h3>Coming soon</h3></div>
+  </div>
+</section>
 
-    // ---------------------------
-    // SEARCH FILTER (article cards)
-    // ---------------------------
-    const searchInput = document.getElementById('searchInput');
-    const articles = Array.from(document.querySelectorAll('.article'));
-    function applySearch(){
-      const q = (searchInput.value || "").trim().toLowerCase();
-      articles.forEach(card => {
-        const title = (card.getAttribute('data-title') || "").toLowerCase();
-        card.style.display = (q === "" || title.includes(q)) ? "" : "none";
-      });
-    }
-    searchInput.addEventListener('input', applySearch);
-    applySearch();
+<section id="sports" class="section">
+  <div class="section-h">Sports</div>
+  <div class="section-b">
+    <div class="card"><h3>Coming soon</h3></div>
+  </div>
+</section>
 
-    // ---------------------------
-    // SUDOKU (green if correct, red if wrong; modal when fully solved)
-    // ---------------------------
-    const sudokuPuzzle = [
-      [5,3,0, 0,7,0, 0,0,0],
-      [6,0,0, 1,9,5, 0,0,0],
-      [0,9,8, 0,0,0, 0,6,0],
+<section id="culture" class="section">
+  <div class="section-h">Culture</div>
+  <div class="section-b">
+    <div class="card"><h3>Coming soon</h3></div>
+  </div>
+</section>
 
-      [8,0,0, 0,6,0, 0,0,3],
-      [4,0,0, 8,0,3, 0,0,1],
-      [7,0,0, 0,2,0, 0,0,6],
+<section id="puzzles" class="section">
+  <div class="section-h">Puzzles</div>
+  <div class="section-b">
+    <div class="puzzles">
+      <div class="panel"><div class="panel-h">Sudoku</div><div class="panel-b">✔ interactive sudoku stays here</div></div>
+      <div class="panel"><div class="panel-h">Wordsearch</div><div class="panel-b">✔ interactive wordsearch stays here</div></div>
+    </div>
+  </div>
+</section>
 
-      [0,6,0, 0,0,0, 2,8,0],
-      [0,0,0, 4,1,9, 0,0,5],
-      [0,0,0, 0,8,0, 0,7,9],
-    ];
+</main>
 
-    const sudokuSolution = [
-      [5,3,4, 6,7,8, 9,1,2],
-      [6,7,2, 1,9,5, 3,4,8],
-      [1,9,8, 3,4,2, 5,6,7],
-
-      [8,5,9, 7,6,1, 4,2,3],
-      [4,2,6, 8,5,3, 7,9,1],
-      [7,1,3, 9,2,4, 8,5,6],
-
-      [9,6,1, 5,3,7, 2,8,4],
-      [2,8,7, 4,1,9, 6,3,5],
-      [3,4,5, 2,8,6, 1,7,9],
-    ];
-
-    const sudokuEl = document.getElementById('sudoku');
-    const sudokuState = Array.from({length:9}, () => Array.from({length:9}, () => 0));
-    let sudokuCompleted = false;
-
-    function buildSudoku(){
-      sudokuEl.innerHTML = "";
-      sudokuCompleted = false;
-
-      for(let r=0; r<9; r++){
-        for(let c=0; c<9; c++){
-          const cell = document.createElement('div');
-          cell.className = "cell";
-          cell.dataset.r = String(r);
-          cell.dataset.c = String(c);
-
-          const inp = document.createElement('input');
-          inp.setAttribute('inputmode','numeric');
-          inp.setAttribute('maxlength','1');
-          inp.setAttribute('aria-label', `Sudoku row ${r+1} column ${c+1}`);
-
-          const val = sudokuPuzzle[r][c];
-
-          if(val !== 0){
-            cell.classList.add('given');
-            inp.value = String(val);
-            inp.readOnly = true;
-            inp.tabIndex = -1;
-            sudokuState[r][c] = val;
-          }else{
-            inp.value = "";
-            sudokuState[r][c] = 0;
-
-            inp.addEventListener('input', () => {
-              const ch = (inp.value || "").slice(-1);
-              if(!/^[1-9]$/.test(ch)){
-                inp.value = "";
-                sudokuState[r][c] = 0;
-                setSudokuState(cell, null);
-                checkSudokuComplete();
-                return;
-              }
-              inp.value = ch;
-              const n = Number(ch);
-              sudokuState[r][c] = n;
-
-              const correct = (n === sudokuSolution[r][c]);
-              setSudokuState(cell, correct);
-              checkSudokuComplete();
-            });
-
-            inp.addEventListener('keydown', (e) => {
-              const allowed = ["Backspace","Delete","Tab","ArrowLeft","ArrowRight","ArrowUp","ArrowDown","Home","End"];
-              if(allowed.includes(e.key)) return;
-              if(!/^[1-9]$/.test(e.key)){
-                e.preventDefault();
-                return;
-              }
-            });
-
-            inp.addEventListener('paste', (e) => {
-              e.preventDefault();
-              const text = (e.clipboardData || window.clipboardData).getData('text');
-              const ch = (text || "").trim()[0];
-              if(/^[1-9]$/.test(ch)){
-                inp.value = ch;
-                const n = Number(ch);
-                sudokuState[r][c] = n;
-                setSudokuState(cell, n === sudokuSolution[r][c]);
-                checkSudokuComplete();
-              }
-            });
-          }
-
-          cell.appendChild(inp);
-          sudokuEl.appendChild(cell);
-        }
-      }
-    }
-
-    function setSudokuState(cell, correct){
-      cell.classList.remove('correct','incorrect');
-      if(correct === true) cell.classList.add('correct');
-      if(correct === false) cell.classList.add('incorrect');
-    }
-
-    function checkSudokuComplete(){
-      if(sudokuCompleted) return;
-      for(let r=0; r<9; r++){
-        for(let c=0; c<9; c++){
-          if(sudokuState[r][c] !== sudokuSolution[r][c]) return;
-        }
-      }
-      sudokuCompleted = true;
-      openModal("WELL DONE!", "Sudoku completed. Clean. Sharp. Finished.");
-    }
-
-    buildSudoku();
-
-    // ---------------------------
-    // WORDSEARCH (words shown + mixed placement + keyboard support)
-    // click/Enter/Space toggles a cell.
-    // completion when all “good” coordinates clicked at least once -> modal
-    // ---------------------------
-    const SIZE = 12;
-    const wordsearchEl = document.getElementById('wordsearch');
-    const wordListEl = document.getElementById('wordList');
-
-    const hiddenWords = ["PATHWAYS","ROOT","LEAF","BARK","OAK","PINE","CAMPUS","INK"];
-
-    function renderWordList(){
-      wordListEl.innerHTML = "";
-      hiddenWords.forEach(w => {
-        const pill = document.createElement("span");
-        pill.className = "word";
-        pill.textContent = w;
-        wordListEl.appendChild(pill);
-      });
-    }
-    renderWordList();
-
-    const dirs = [
-      [0,1], [1,0], [0,-1], [-1,0],
-      [1,1], [1,-1], [-1,1], [-1,-1]
-    ];
-
-    function randInt(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
-    function makeEmptyGrid(){ return Array.from({length: SIZE}, () => Array.from({length: SIZE}, () => "")); }
-
-    function canPlace(grid, word, r, c, dr, dc){
-      for(let i=0;i<word.length;i++){
-        const rr = r + dr*i, cc = c + dc*i;
-        if(rr<0 || rr>=SIZE || cc<0 || cc>=SIZE) return false;
-        const cur = grid[rr][cc];
-        if(cur !== "" && cur !== word[i]) return false;
-      }
-      return true;
-    }
-
-    function placeWord(grid, word){
-      for(let tries=0; tries<900; tries++){
-        const [dr, dc] = dirs[randInt(0, dirs.length-1)];
-        const r = randInt(0, SIZE-1);
-        const c = randInt(0, SIZE-1);
-        if(!canPlace(grid, word, r, c, dr, dc)) continue;
-
-        const coords = [];
-        for(let i=0;i<word.length;i++){
-          const rr = r + dr*i, cc = c + dc*i;
-          grid[rr][cc] = word[i];
-          coords.push(rr + "," + cc);
-        }
-        return coords;
-      }
-      return [];
-    }
-
-    function fillRandom(grid){
-      const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-      for(let r=0;r<SIZE;r++){
-        for(let c=0;c<SIZE;c++){
-          if(grid[r][c] === ""){
-            grid[r][c] = letters[randInt(0, letters.length-1)];
-          }
-        }
-      }
-    }
-
-    let wsGoodSet = new Set();
-    let wsFoundSet = new Set();
-    let wsCompleted = false;
-
-    function buildWordsearch(){
-      const grid = makeEmptyGrid();
-      wsGoodSet = new Set();
-      wsFoundSet = new Set();
-      wsCompleted = false;
-
-      const sorted = [...hiddenWords].sort((a,b)=>b.length-a.length);
-      for(const w of sorted){
-        const coords = placeWord(grid, w);
-        coords.forEach(k => wsGoodSet.add(k));
-      }
-      fillRandom(grid);
-
-      wordsearchEl.innerHTML = "";
-      for(let r=0;r<SIZE;r++){
-        for(let c=0;c<SIZE;c++){
-          const cell = document.createElement("div");
-          cell.className = "ws-cell";
-          cell.textContent = grid[r][c];
-          cell.dataset.key = r + "," + c;
-          cell.tabIndex = 0; // keyboard focus
-          cell.setAttribute("role","button");
-          cell.setAttribute("aria-label", `Letter ${grid[r][c]} at row ${r+1} column ${c+1}. Activate to mark.`);
-
-          function toggleCell(){
-            if(cell.classList.contains("good") || cell.classList.contains("bad")){
-              if(cell.classList.contains("good")) wsFoundSet.delete(cell.dataset.key);
-              cell.classList.remove("good","bad");
-              checkWordsearchComplete();
-              return;
-            }
-            const isGood = wsGoodSet.has(cell.dataset.key);
-            if(isGood){
-              cell.classList.add("good");
-              wsFoundSet.add(cell.dataset.key);
-              checkWordsearchComplete();
-            }else{
-              cell.classList.add("bad");
-              setTimeout(() => {
-                if(cell.classList.contains("bad")) cell.style.opacity = ".82";
-              }, 450);
-            }
-          }
-
-          cell.addEventListener("click", toggleCell);
-          cell.addEventListener("keydown", (e) => {
-            if(e.key === "Enter" || e.key === " "){
-              e.preventDefault();
-              toggleCell();
-            }
-          });
-
-          wordsearchEl.appendChild(cell);
-        }
-      }
-    }
-
-    function checkWordsearchComplete(){
-      if(wsCompleted) return;
-      if(wsGoodSet.size === 0) return;
-      if(wsFoundSet.size === wsGoodSet.size){
-        wsCompleted = true;
-        openModal("WELL DONE!", "Wordsearch completed. You found everything.");
-      }
-    }
-
-    buildWordsearch();
-  </script>
+<footer>PATHWAYS</footer>
+</div>
 </body>
 </html>
