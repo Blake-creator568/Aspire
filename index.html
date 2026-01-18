@@ -1,107 +1,106 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PATHWAYS</title>
 
 <style>
+/* =====================
+   COLOURS (VIVID)
+===================== */
 :root{
-  /* PAGE */
-  --page:#e8f5ec;          /* light clear green background */
-  --paper:#ffffff;
+  --bg:#d9f7e8;
+  --ink:#3a2314;
 
-  /* TREE INK */
-  --ink:#3a2314;           /* dark brown text */
-  --muted:#5a4030;
+  --news:#5fb3ff;
+  --features:#ffb347;
+  --opinion:#b388ff;
+  --sports:#ff6f6f;
+  --culture:#ff85c2;
+  --puzzles:#6eea8b;
 
-  /* SECTION BLOCK COLOURS */
-  --news:#d9ecff;          /* blue */
-  --features:#ffe6c7;      /* orange */
-  --opinion:#f0e1ff;       /* purple */
-  --sports:#ffd6d6;        /* red/pink */
-  --culture:#ffe1f0;       /* pink */
-  --puzzles:#e2ffe1;       /* green */
+  --card:#ffffff;
+  --line:rgba(58,35,20,.25);
+  --shadow:0 18px 40px rgba(0,0,0,.18);
 
-  /* UI */
-  --line:rgba(58,35,20,.18);
-  --shadow:0 14px 35px rgba(0,0,0,.12);
-  --radius:22px;
-
-  --goodBg:rgba(70,180,120,.25);
-  --goodBd:rgba(40,140,90,.55);
-  --badBg:rgba(220,80,80,.22);
-  --badBd:rgba(180,60,60,.45);
-
-  --focus:rgba(58,35,20,.35);
+  --good:#61d98e;
+  --bad:#ff7b7b;
+  --focus:rgba(58,35,20,.4);
 }
 
 *{box-sizing:border-box}
 body{
   margin:0;
   font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-  background:linear-gradient(180deg,var(--page),#f4fbf7);
+  background:linear-gradient(180deg,var(--bg),#f1fff8);
   color:var(--ink);
 }
 
-/* SKIP LINK */
+:focus-visible{outline:4px solid var(--focus)}
+
 .skip-link{
   position:absolute;left:-999px;top:10px;
   background:#fff;padding:10px;border-radius:10px;
 }
 .skip-link:focus{left:16px}
 
-/* WRAP */
-.wrap{max-width:980px;margin:auto;padding:20px}
+.wrap{max-width:1000px;margin:auto;padding:20px}
 
-/* NAV */
+/* =====================
+   NAV
+===================== */
 .nav{
-  display:flex;gap:12px;align-items:center;justify-content:space-between;
-  padding:14px;border-radius:22px;
-  background:#fff;border:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;
+  padding:16px 20px;border-radius:24px;
+  background:#fff;border:2px solid var(--line);
   box-shadow:var(--shadow);
 }
 .nav h1{
-  margin:0;font-size:16px;letter-spacing:.2em;
+  margin:0;font-size:18px;letter-spacing:.3em;
 }
 .nav a{
   text-decoration:none;color:var(--ink);
-  padding:8px 12px;border-radius:999px;
+  padding:8px 14px;border-radius:999px;
+  font-weight:700;
 }
-.nav a:hover{background:#f0f0f0}
+.nav a:hover{background:#eee}
 
-/* HERO */
+/* =====================
+   HERO
+===================== */
 .hero{
-  margin-top:18px;padding:22px;
-  background:#fff;border-radius:22px;
-  border:1px solid var(--line);
-}
-.title{
-  font-size:46px;letter-spacing:.2em;
-  margin:0;color:var(--ink);
-  display:inline-block;padding-bottom:10px;
-  position:relative;
-}
-.title::after{
-  content:"";position:absolute;left:0;bottom:0;width:100%;height:10px;
-  background:rgba(58,35,20,.35);
-  border-radius:20px;
-}
-
-/* SECTIONS */
-.section{
-  margin-top:20px;border-radius:22px;
-  border:1px solid var(--line);
+  margin-top:20px;
+  background:#fff;border-radius:28px;
+  padding:28px;border:2px solid var(--line);
   box-shadow:var(--shadow);
 }
-.section-h{
-  padding:14px;font-weight:700;
-  letter-spacing:.14em;text-transform:uppercase;
-  color:var(--ink);
+.title{
+  font-size:48px;letter-spacing:.28em;
+  margin:0;position:relative;display:inline-block;
 }
-.section-b{padding:14px}
+.title::after{
+  content:"";position:absolute;left:0;bottom:-8px;
+  width:100%;height:12px;border-radius:999px;
+  background:linear-gradient(90deg,#5b3a1e,#8b5a2b);
+}
 
-/* SECTION COLOURS */
+/* =====================
+   SECTIONS
+===================== */
+.section{
+  margin-top:28px;border-radius:28px;
+  box-shadow:var(--shadow);
+  border:2px solid var(--line);
+}
+.section-h{
+  padding:18px 20px;
+  font-weight:900;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+.section-b{padding:20px}
+
 #news{background:var(--news)}
 #features{background:var(--features)}
 #opinion{background:var(--opinion)}
@@ -109,90 +108,129 @@ body{
 #culture{background:var(--culture)}
 #puzzles{background:var(--puzzles)}
 
-/* ARTICLE CARDS */
 .layout{
-  display:grid;grid-template-columns:1.3fr .7fr;gap:14px;
+  display:grid;grid-template-columns:1.3fr .7fr;gap:18px;
 }
 @media(max-width:800px){.layout{grid-template-columns:1fr}}
-.lead,.stack{display:grid;gap:14px}
+
+.lead,.stack{display:grid;gap:18px}
 
 .card{
-  background:#fff;
-  border-radius:22px;
-  border:1px solid var(--line);
-  padding:18px;min-height:120px;
+  background:var(--card);
+  border-radius:26px;
+  padding:22px;
+  border:2px solid var(--line);
+  box-shadow:0 12px 22px rgba(0,0,0,.15);
 }
 .card h3{
-  margin:0;text-transform:uppercase;
-  letter-spacing:.06em;color:var(--ink);
+  margin:0 0 12px 0;
+  text-transform:uppercase;
+  letter-spacing:.08em;
 }
 
-/* PUZZLES */
+.print-btn{
+  background:#fff;
+  border:2px dashed var(--line);
+  border-radius:14px;
+  padding:8px 14px;
+  font-weight:800;
+  cursor:pointer;
+}
+.print-btn:hover{background:#f4f4f4}
+
+/* =====================
+   PUZZLES
+===================== */
 .puzzles{
-  display:grid;grid-template-columns:1fr 1fr;gap:16px;
+  display:grid;grid-template-columns:1fr 1fr;gap:20px;
 }
 @media(max-width:900px){.puzzles{grid-template-columns:1fr}}
 
 .panel{
-  background:#fff;border-radius:22px;
-  border:1px solid var(--line);
+  background:#fff;border-radius:26px;
+  border:2px solid var(--line);
   box-shadow:var(--shadow);
 }
 .panel-h{
-  padding:14px;font-weight:700;
-  letter-spacing:.14em;text-transform:uppercase;
+  padding:18px;
+  font-weight:900;
+  letter-spacing:.16em;
+  text-transform:uppercase;
 }
-.panel-b{padding:14px}
+.panel-b{padding:18px}
 
-/* SUDOKU */
+/* Sudoku */
 .sudoku{
   display:grid;grid-template-columns:repeat(9,1fr);
-  border:2px solid var(--line);
+  border:3px solid var(--line);
 }
 .cell{
-  aspect-ratio:1/1;border:1px solid var(--line);
+  aspect-ratio:1/1;
+  border:1px solid var(--line);
 }
 .cell input{
-  width:100%;height:100%;border:0;text-align:center;
-  font-size:16px;font-weight:800;color:var(--ink);
+  width:100%;height:100%;
+  border:0;text-align:center;
+  font-size:18px;font-weight:900;
 }
-.correct{background:var(--goodBg)}
-.incorrect{background:var(--badBg)}
+.correct{background:var(--good)}
+.incorrect{background:var(--bad)}
 
-/* WORDSEARCH */
+/* Wordsearch */
+.wordlist{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.word{
+  padding:6px 12px;
+  background:#fff;border-radius:999px;
+  border:2px solid var(--line);
+  font-weight:900;
+}
 .wordsearch{
   display:grid;grid-template-columns:repeat(12,1fr);gap:4px;
 }
 .ws-cell{
-  aspect-ratio:1/1;border:1px solid var(--line);
+  aspect-ratio:1/1;
+  border:2px solid var(--line);
   display:flex;align-items:center;justify-content:center;
   font-weight:900;cursor:pointer;
 }
-.ws-cell.good{background:var(--goodBg)}
-.ws-cell.bad{background:var(--badBg)}
+.ws-cell.good{background:var(--good)}
+.ws-cell.bad{background:var(--bad)}
 
-.wordlist{
-  display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;
-}
-.word{
-  padding:6px 10px;border-radius:999px;
-  background:#f5f5f5;border:1px solid var(--line);
+/* =====================
+   PRINT MODE
+===================== */
+@media print{
+  body{background:#fff;color:#000}
+  .nav,.print-btn,.skip-link{display:none!important}
+  .section{
+    page-break-inside:avoid;
+    background:#fff!important;
+  }
+  .card{
+    box-shadow:none;
+    border:1px solid #000;
+    column-count:2;
+    column-gap:24px;
+  }
 }
 
-/* MODAL */
+/* =====================
+   WELL DONE MODAL
+===================== */
 .modal-backdrop{
   position:fixed;inset:0;
-  background:rgba(0,0,0,.25);
+  background:rgba(0,0,0,.4);
   display:none;align-items:center;justify-content:center;
 }
 .modal-backdrop.show{display:flex}
 .modal{
-  background:#fff;padding:24px;border-radius:26px;
-  text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.3);
+  background:#fff;
+  padding:36px;
+  border-radius:32px;
+  text-align:center;
+  box-shadow:0 40px 90px rgba(0,0,0,.45);
 }
-.modal h3{margin:0;font-size:32px;color:var(--ink)}
-
-footer{text-align:center;margin-top:20px;color:var(--muted)}
+.modal h3{font-size:36px;margin:0}
 </style>
 </head>
 
@@ -218,64 +256,585 @@ footer{text-align:center;margin-top:20px;color:var(--muted)}
 
 <main id="main">
 
+<!-- NEWS -->
 <section id="news" class="section">
   <div class="section-h">News</div>
   <div class="section-b">
     <div class="layout">
       <div class="lead">
-        <div class="card"><h3>Coming soon</h3></div>
-        <div class="card"><h3>Coming soon</h3></div>
+        <div class="card">
+          <h3>Coming soon</h3>
+          <button class="print-btn" onclick="window.print()">Print</button>
+        </div>
       </div>
       <div class="stack">
-        <div class="card"><h3>Coming soon</h3></div>
-        <div class="card"><h3>Coming soon</h3></div>
-        <div class="card"><h3>Coming soon</h3></div>
+        <div class="card"><h3>Coming soon</h3><button class="print-btn" onclick="window.print()">Print</button></div>
+        <div class="card"><h3>Coming soon</h3><button class="print-btn" onclick="window.print()">Print</button></div>
       </div>
     </div>
   </div>
 </section>
 
-<section id="features" class="section">
-  <div class="section-h">Features</div>
-  <div class="section-b">
-    <div class="card"><h3>Coming soon</h3></div>
-  </div>
-</section>
-
-<section id="opinion" class="section">
-  <div class="section-h">Opinion</div>
-  <div class="section-b">
-    <div class="card"><h3>Coming soon</h3></div>
-  </div>
-</section>
-
-<section id="sports" class="section">
-  <div class="section-h">Sports</div>
-  <div class="section-b">
-    <div class="card"><h3>Coming soon</h3></div>
-  </div>
-</section>
-
-<section id="culture" class="section">
-  <div class="section-h">Culture</div>
-  <div class="section-b">
-    <div class="card"><h3>Coming soon</h3></div>
-  </div>
-</section>
-
+<!-- PUZZLES -->
 <section id="puzzles" class="section">
   <div class="section-h">Puzzles</div>
   <div class="section-b">
     <div class="puzzles">
-      <div class="panel"><div class="panel-h">Sudoku</div><div class="panel-b">✔ interactive sudoku stays here</div></div>
-      <div class="panel"><div class="panel-h">Wordsearch</div><div class="panel-b">✔ interactive wordsearch stays here</div></div>
+      <div class="panel">
+        <div class="panel-h">Sudoku</div>
+        <div class="panel-b">
+          <div class="sudoku" id="sudoku"></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-h">Wordsearch</div>
+        <div class="panel-b">
+          <div class="wordlist" id="wordList"></div>
+          <div class="wordsearch" id="wordsearch"></div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
 </main>
 
-<footer>PATHWAYS</footer>
+<footer style="text-align:center;margin-top:30px;font-weight:800">
+  PATHWAYS
+</footer>
 </div>
+
+<div class="modal-backdrop" id="modal">
+  <div class="modal">
+    <h3>WELL DONE! 🌟</h3>
+    <p>You completed today’s puzzle.</p>
+  </div>
+</div>
+
+<script>
+/* =====================
+   DAILY SEED
+===================== */
+const seed = new Date().toISOString().slice(0,10);
+
+/* =====================
+   SUDOKU
+===================== */
+const puzzle=[
+[5,3,0,0,7,0,0,0,0],
+[6,0,0,1,9,5,0,0,0],
+[0,9,8,0,0,0,0,6,0],
+[8,0,0,0,6,0,0,0,3],
+[4,0,0,8,0,3,0,0,1],
+[7,0,0,0,2,0,0,0,6],
+[0,6,0,0,0,0,2,8,0],
+[0,0,0,4,1,9,0,0,5],
+[0,0,0,0,8,0,0,7,9]
+];
+const solution=[
+[5,3,4,6,7,8,9,1,2],
+[6,7,2,1,9,5,3,4,8],
+[1,9,8,3,4,2,5,6,7],
+[8,5,9,7,6,1,4,2,3],
+[4,2,6,8,5,3,7,9,1],
+[7,1,3,9,2,4,8,5,6],
+[9,6,1,5,3,7,2,8,4],
+[2,8,7,4,1,9,6,3,5],
+[3,4,5,2,8,6,1,7,9]
+];
+
+const sudoku=document.getElementById("sudoku");
+let done=false;
+puzzle.forEach((row,r)=>{
+row.forEach((v,c)=>{
+  const cell=document.createElement("div");
+  cell.className="cell";
+  const i=document.createElement("input");
+  if(v){
+    i.value=v;i.disabled=true;
+  }else{
+    i.oninput=()=>{
+      cell.classList.remove("correct","incorrect");
+      if(+i.value===solution[r][c])cell.classList.add("correct");
+      else cell.classList.add("incorrect");
+      checkSudoku();
+    }
+  }
+  cell.appendChild(i);
+  sudoku.appendChild(cell);
+});
+});
+function checkSudoku(){
+  if(done)return;
+  const inputs=[...sudoku.querySelectorAll("input")];
+  if(inputs.every((i,idx)=>{
+    const r=Math.floor(idx/9),c=idx%9;
+    return +i.value===solution[r][c];
+  })){
+    done=true;
+    showModal();
+  }
+}
+
+/* =====================
+   WORDSEARCH
+===================== */
+const words=["PATHWAYS","ROOT","LEAF","BARK","OAK","PINE","CAMPUS"];
+const size=12;
+const ws=document.getElementById("wordsearch");
+const wl=document.getElementById("wordList");
+words.forEach(w=>{
+  const s=document.createElement("span");
+  s.className="word";s.textContent=w;
+  wl.appendChild(s);
+});
+const grid=[...Array(size)].map(()=>Array(size).fill(""));
+const letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+for(let i=0;i<size;i++)for(let j=0;j<size;j++){
+  const d=document.createElement("div");
+  d.className="ws-cell";
+  d.textContent=letters[Math.floor(Math.random()*26)];
+  d.onclick=()=>{
+    d.classList.toggle("good");
+    checkWordsearch();
+  };
+  ws.appendChild(d);
+}
+function checkWordsearch(){
+  if([...ws.children].filter(c=>c.classList.contains("good")).length>20){
+    showModal();
+  }
+}
+
+/* =====================
+   MODAL
+===================== */
+const modal=document.getElementById("modal");
+function showModal(){
+  modal.classList.add("show");
+  setTimeout(()=>modal.classList.remove("show"),2200);
+}
+</script>
+</body>
+</html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PATHWAYS</title>
+
+<style>
+/* =====================
+   COLOURS (VIVID)
+===================== */
+:root{
+  --bg:#d9f7e8;
+  --ink:#3a2314;
+
+  --news:#5fb3ff;
+  --features:#ffb347;
+  --opinion:#b388ff;
+  --sports:#ff6f6f;
+  --culture:#ff85c2;
+  --puzzles:#6eea8b;
+
+  --card:#ffffff;
+  --line:rgba(58,35,20,.25);
+  --shadow:0 18px 40px rgba(0,0,0,.18);
+
+  --good:#61d98e;
+  --bad:#ff7b7b;
+  --focus:rgba(58,35,20,.4);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  background:linear-gradient(180deg,var(--bg),#f1fff8);
+  color:var(--ink);
+}
+
+:focus-visible{outline:4px solid var(--focus)}
+
+.skip-link{
+  position:absolute;left:-999px;top:10px;
+  background:#fff;padding:10px;border-radius:10px;
+}
+.skip-link:focus{left:16px}
+
+.wrap{max-width:1000px;margin:auto;padding:20px}
+
+/* =====================
+   NAV
+===================== */
+.nav{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:16px 20px;border-radius:24px;
+  background:#fff;border:2px solid var(--line);
+  box-shadow:var(--shadow);
+}
+.nav h1{
+  margin:0;font-size:18px;letter-spacing:.3em;
+}
+.nav a{
+  text-decoration:none;color:var(--ink);
+  padding:8px 14px;border-radius:999px;
+  font-weight:700;
+}
+.nav a:hover{background:#eee}
+
+/* =====================
+   HERO
+===================== */
+.hero{
+  margin-top:20px;
+  background:#fff;border-radius:28px;
+  padding:28px;border:2px solid var(--line);
+  box-shadow:var(--shadow);
+}
+.title{
+  font-size:48px;letter-spacing:.28em;
+  margin:0;position:relative;display:inline-block;
+}
+.title::after{
+  content:"";position:absolute;left:0;bottom:-8px;
+  width:100%;height:12px;border-radius:999px;
+  background:linear-gradient(90deg,#5b3a1e,#8b5a2b);
+}
+
+/* =====================
+   SECTIONS
+===================== */
+.section{
+  margin-top:28px;border-radius:28px;
+  box-shadow:var(--shadow);
+  border:2px solid var(--line);
+}
+.section-h{
+  padding:18px 20px;
+  font-weight:900;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+.section-b{padding:20px}
+
+#news{background:var(--news)}
+#features{background:var(--features)}
+#opinion{background:var(--opinion)}
+#sports{background:var(--sports)}
+#culture{background:var(--culture)}
+#puzzles{background:var(--puzzles)}
+
+.layout{
+  display:grid;grid-template-columns:1.3fr .7fr;gap:18px;
+}
+@media(max-width:800px){.layout{grid-template-columns:1fr}}
+
+.lead,.stack{display:grid;gap:18px}
+
+.card{
+  background:var(--card);
+  border-radius:26px;
+  padding:22px;
+  border:2px solid var(--line);
+  box-shadow:0 12px 22px rgba(0,0,0,.15);
+}
+.card h3{
+  margin:0 0 12px 0;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+.print-btn{
+  background:#fff;
+  border:2px dashed var(--line);
+  border-radius:14px;
+  padding:8px 14px;
+  font-weight:800;
+  cursor:pointer;
+}
+.print-btn:hover{background:#f4f4f4}
+
+/* =====================
+   PUZZLES
+===================== */
+.puzzles{
+  display:grid;grid-template-columns:1fr 1fr;gap:20px;
+}
+@media(max-width:900px){.puzzles{grid-template-columns:1fr}}
+
+.panel{
+  background:#fff;border-radius:26px;
+  border:2px solid var(--line);
+  box-shadow:var(--shadow);
+}
+.panel-h{
+  padding:18px;
+  font-weight:900;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+.panel-b{padding:18px}
+
+/* Sudoku */
+.sudoku{
+  display:grid;grid-template-columns:repeat(9,1fr);
+  border:3px solid var(--line);
+}
+.cell{
+  aspect-ratio:1/1;
+  border:1px solid var(--line);
+}
+.cell input{
+  width:100%;height:100%;
+  border:0;text-align:center;
+  font-size:18px;font-weight:900;
+}
+.correct{background:var(--good)}
+.incorrect{background:var(--bad)}
+
+/* Wordsearch */
+.wordlist{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.word{
+  padding:6px 12px;
+  background:#fff;border-radius:999px;
+  border:2px solid var(--line);
+  font-weight:900;
+}
+.wordsearch{
+  display:grid;grid-template-columns:repeat(12,1fr);gap:4px;
+}
+.ws-cell{
+  aspect-ratio:1/1;
+  border:2px solid var(--line);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;cursor:pointer;
+}
+.ws-cell.good{background:var(--good)}
+.ws-cell.bad{background:var(--bad)}
+
+/* =====================
+   PRINT MODE
+===================== */
+@media print{
+  body{background:#fff;color:#000}
+  .nav,.print-btn,.skip-link{display:none!important}
+  .section{
+    page-break-inside:avoid;
+    background:#fff!important;
+  }
+  .card{
+    box-shadow:none;
+    border:1px solid #000;
+    column-count:2;
+    column-gap:24px;
+  }
+}
+
+/* =====================
+   WELL DONE MODAL
+===================== */
+.modal-backdrop{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.4);
+  display:none;align-items:center;justify-content:center;
+}
+.modal-backdrop.show{display:flex}
+.modal{
+  background:#fff;
+  padding:36px;
+  border-radius:32px;
+  text-align:center;
+  box-shadow:0 40px 90px rgba(0,0,0,.45);
+}
+.modal h3{font-size:36px;margin:0}
+</style>
+</head>
+
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="wrap">
+<header class="nav">
+  <h1>PATHWAYS</h1>
+  <nav>
+    <a href="#news">News</a>
+    <a href="#features">Features</a>
+    <a href="#opinion">Opinion</a>
+    <a href="#sports">Sports</a>
+    <a href="#culture">Culture</a>
+    <a href="#puzzles">Puzzles</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h2 class="title">PATHWAYS</h2>
+</section>
+
+<main id="main">
+
+<!-- NEWS -->
+<section id="news" class="section">
+  <div class="section-h">News</div>
+  <div class="section-b">
+    <div class="layout">
+      <div class="lead">
+        <div class="card">
+          <h3>Coming soon</h3>
+          <button class="print-btn" onclick="window.print()">Print</button>
+        </div>
+      </div>
+      <div class="stack">
+        <div class="card"><h3>Coming soon</h3><button class="print-btn" onclick="window.print()">Print</button></div>
+        <div class="card"><h3>Coming soon</h3><button class="print-btn" onclick="window.print()">Print</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PUZZLES -->
+<section id="puzzles" class="section">
+  <div class="section-h">Puzzles</div>
+  <div class="section-b">
+    <div class="puzzles">
+      <div class="panel">
+        <div class="panel-h">Sudoku</div>
+        <div class="panel-b">
+          <div class="sudoku" id="sudoku"></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-h">Wordsearch</div>
+        <div class="panel-b">
+          <div class="wordlist" id="wordList"></div>
+          <div class="wordsearch" id="wordsearch"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer style="text-align:center;margin-top:30px;font-weight:800">
+  PATHWAYS
+</footer>
+</div>
+
+<div class="modal-backdrop" id="modal">
+  <div class="modal">
+    <h3>WELL DONE! 🌟</h3>
+    <p>You completed today’s puzzle.</p>
+  </div>
+</div>
+
+<script>
+/* =====================
+   DAILY SEED
+===================== */
+const seed = new Date().toISOString().slice(0,10);
+
+/* =====================
+   SUDOKU
+===================== */
+const puzzle=[
+[5,3,0,0,7,0,0,0,0],
+[6,0,0,1,9,5,0,0,0],
+[0,9,8,0,0,0,0,6,0],
+[8,0,0,0,6,0,0,0,3],
+[4,0,0,8,0,3,0,0,1],
+[7,0,0,0,2,0,0,0,6],
+[0,6,0,0,0,0,2,8,0],
+[0,0,0,4,1,9,0,0,5],
+[0,0,0,0,8,0,0,7,9]
+];
+const solution=[
+[5,3,4,6,7,8,9,1,2],
+[6,7,2,1,9,5,3,4,8],
+[1,9,8,3,4,2,5,6,7],
+[8,5,9,7,6,1,4,2,3],
+[4,2,6,8,5,3,7,9,1],
+[7,1,3,9,2,4,8,5,6],
+[9,6,1,5,3,7,2,8,4],
+[2,8,7,4,1,9,6,3,5],
+[3,4,5,2,8,6,1,7,9]
+];
+
+const sudoku=document.getElementById("sudoku");
+let done=false;
+puzzle.forEach((row,r)=>{
+row.forEach((v,c)=>{
+  const cell=document.createElement("div");
+  cell.className="cell";
+  const i=document.createElement("input");
+  if(v){
+    i.value=v;i.disabled=true;
+  }else{
+    i.oninput=()=>{
+      cell.classList.remove("correct","incorrect");
+      if(+i.value===solution[r][c])cell.classList.add("correct");
+      else cell.classList.add("incorrect");
+      checkSudoku();
+    }
+  }
+  cell.appendChild(i);
+  sudoku.appendChild(cell);
+});
+});
+function checkSudoku(){
+  if(done)return;
+  const inputs=[...sudoku.querySelectorAll("input")];
+  if(inputs.every((i,idx)=>{
+    const r=Math.floor(idx/9),c=idx%9;
+    return +i.value===solution[r][c];
+  })){
+    done=true;
+    showModal();
+  }
+}
+
+/* =====================
+   WORDSEARCH
+===================== */
+const words=["PATHWAYS","ROOT","LEAF","BARK","OAK","PINE","CAMPUS"];
+const size=12;
+const ws=document.getElementById("wordsearch");
+const wl=document.getElementById("wordList");
+words.forEach(w=>{
+  const s=document.createElement("span");
+  s.className="word";s.textContent=w;
+  wl.appendChild(s);
+});
+const grid=[...Array(size)].map(()=>Array(size).fill(""));
+const letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+for(let i=0;i<size;i++)for(let j=0;j<size;j++){
+  const d=document.createElement("div");
+  d.className="ws-cell";
+  d.textContent=letters[Math.floor(Math.random()*26)];
+  d.onclick=()=>{
+    d.classList.toggle("good");
+    checkWordsearch();
+  };
+  ws.appendChild(d);
+}
+function checkWordsearch(){
+  if([...ws.children].filter(c=>c.classList.contains("good")).length>20){
+    showModal();
+  }
+}
+
+/* =====================
+   MODAL
+===================== */
+const modal=document.getElementById("modal");
+function showModal(){
+  modal.classList.add("show");
+  setTimeout(()=>modal.classList.remove("show"),2200);
+}
+</script>
 </body>
 </html>
