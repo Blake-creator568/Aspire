@@ -1,295 +1,1036 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>THE EVERGREEN GAZETTE</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PATHWAYS — College Newspaper</title>
+  <style>
+    :root{
+      --bg0:#07120b;
+      --bg1:#0b1b10;
+      --bg2:#102614;
 
-<style>
-/* =======================
-   PAGE STYLE
-   ======================= */
-body {
-    font-family: "Georgia", serif;
-    background: #f3efe5;
-    margin: 0;
-    padding: 40px;
-    text-align: center;
-    position: relative;
-}
+      --leaf0:#0f2a18;
+      --leaf1:#173820;
+      --leaf2:#21512d;
 
-/* Animated branch border */
-body:before, body:after {
-    content: "";
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0; left: 0;
-    pointer-events: none;
-    background-image: url('https://i.imgur.com/q0Z2A8k.png'); /* semi-transparent branch frame */
-    background-size: cover;
-    opacity: 0.25;
-    animation: sway 6s ease-in-out infinite alternate;
-}
+      --bark0:#1a120a;
+      --bark1:#2a1c10;
+      --bark2:#3a2615;
 
-@keyframes sway {
-    from { transform: rotate(-1deg); }
-    to { transform: rotate(1deg); }
-}
+      --moss:#3b7a3a;
+      --fern:#2ea04b;
 
-/* Falling leaves */
-.leaf {
-    position: fixed;
-    top: -10px;
-    width: 25px;
-    height: 25px;
-    background-image: url('https://i.imgur.com/vwzY9Pe.png');
-    background-size: cover;
-    opacity: 0.9;
-    animation: fall linear infinite;
-}
-@keyframes fall {
-    0% { transform: translateY(0) rotate(0); }
-    100% { transform: translateY(110vh) rotate(360deg); }
-}
+      --text:#eaf6ea;
+      --muted:#b8d0ba;
+      --soft: rgba(255,255,255,.08);
+      --soft2: rgba(255,255,255,.12);
+      --shadow: 0 18px 45px rgba(0,0,0,.55);
 
-/* Header */
-h1 {
-    font-size: 80px;
-    color: #3a2f1a;
-    text-shadow: 2px 2px 8px #c7b391;
-    margin-bottom: 0;
-}
-.sub {
-    font-size: 25px;
-    color: #5c4a2c;
-    letter-spacing: 2px;
-}
+      --radius: 18px;
+      --radius2: 22px;
+      --focus: rgba(46,160,75,.35);
+    }
 
-/* Section banners */
-.banner {
-    margin: 40px auto 20px;
-    padding: 12px 20px;
-    background: #6d4f2a;
-    color: #fff;
-    font-size: 28px;
-    border-radius: 12px;
-    width: 400px;
-}
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(1200px 700px at 10% 10%, rgba(46,160,75,.18), transparent 55%),
+        radial-gradient(1000px 650px at 90% 20%, rgba(59,122,58,.14), transparent 58%),
+        radial-gradient(900px 700px at 50% 100%, rgba(42,28,16,.22), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1) 40%, var(--bg2));
+      overflow-x:hidden;
+    }
 
-/* Articles */
-.article {
-    width: 70%;
-    margin: 20px auto;
-    background: #fffef8;
-    border: 3px solid #d8c8ac;
-    padding: 18px;
-    border-radius: 15px;
-    box-shadow: 0 0 10px #c4b8a5;
-}
+    /* subtle forest “grain” */
+    body::before{
+      content:"";
+      position:fixed; inset:0;
+      pointer-events:none;
+      opacity:.22;
+      background-image:
+        repeating-linear-gradient(90deg, rgba(255,255,255,.03) 0 1px, transparent 1px 6px),
+        repeating-linear-gradient(0deg, rgba(0,0,0,.06) 0 1px, transparent 1px 7px);
+      mix-blend-mode: overlay;
+    }
 
-/* Collapsible puzzles */
-details {
-    width: 70%;
-    margin: 30px auto;
-    background: #faf4e3;
-    border: 3px solid #b8a078;
-    border-radius: 15px;
-    padding: 12px;
-}
-details summary {
-    font-size: 24px;
-    cursor: pointer;
-    padding: 10px;
-    color: #4b381f;
-}
+    .wrap{max-width:1180px; margin:0 auto; padding:22px 16px 50px}
 
-/* Puzzle areas */
-.puzzle-container {
-    margin-top: 20px;
-}
+    /* NAV */
+    .nav{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+      padding:14px 14px;
+      border:1px solid var(--soft);
+      background: linear-gradient(180deg, rgba(42,28,16,.55), rgba(16,38,20,.55));
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      position:sticky;
+      top:12px;
+      z-index:50;
+      backdrop-filter: blur(10px);
+    }
 
-/* Crossword styling */
-.crossword-grid {
-    display: grid;
-    grid-template-columns: repeat(12, 30px);
-    gap: 3px;
-    margin: auto;
-}
-.crossword-cell {
-    width: 30px;
-    height: 30px;
-    border: 1px solid #444;
-    text-align: center;
-    font-size: 18px;
-    background: #fff;
-}
-.block {
-    background: #3d2f1d;
-}
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      min-width: 210px;
+    }
 
-/* Sudoku */
-.sudoku-grid {
-    display: grid;
-    grid-template-columns: repeat(9, 35px);
-    gap: 2px;
-    margin: auto;
-}
-.sudoku-cell {
-    width: 35px;
-    height: 35px;
-    font-size: 20px;
-    text-align: center;
-    border: 1px solid #444;
-}
+    .brand-badge{
+      width:44px; height:44px;
+      border-radius: 14px;
+      background:
+        radial-gradient(circle at 35% 30%, rgba(46,160,75,.55), transparent 60%),
+        linear-gradient(135deg, var(--bark2), var(--leaf2));
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow: 0 12px 28px rgba(0,0,0,.45);
+      position:relative;
+      overflow:hidden;
+    }
+    .brand-badge::after{
+      content:"";
+      position:absolute; inset:-30% -30%;
+      background:
+        radial-gradient(circle at 20% 40%, rgba(255,255,255,.10), transparent 45%),
+        radial-gradient(circle at 70% 65%, rgba(255,255,255,.08), transparent 50%);
+      transform: rotate(18deg);
+    }
 
-/* Wordsearch */
-.wordsearch-grid {
-    display: grid;
-    grid-template-columns: repeat(12, 28px);
-    gap: 2px;
-    margin: auto;
-}
-.wordsearch-cell {
-    width: 28px;
-    height: 28px;
-    font-size: 18px;
-    text-align: center;
-    border: 1px solid #666;
-}
-.word-list {
-    margin-top: 15px;
-    font-size: 18px;
-}
-</style>
+    .brand h1{
+      margin:0;
+      font-size:16px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color: var(--text);
+      line-height:1.1;
+    }
+    .brand span{
+      display:block;
+      font-size:12px;
+      color: var(--muted);
+      letter-spacing:.06em;
+    }
+
+    .navlinks{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:center;
+    }
+    .navlinks a{
+      text-decoration:none;
+      color: var(--muted);
+      font-size:13px;
+      padding:9px 12px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.12);
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .navlinks a:hover{
+      transform: translateY(-1px);
+      background: rgba(46,160,75,.10);
+      border-color: rgba(46,160,75,.25);
+      color: var(--text);
+    }
+
+    .search{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      min-width: 260px;
+      justify-content:flex-end;
+    }
+    .search input{
+      width: 100%;
+      max-width: 320px;
+      padding:10px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      color: var(--text);
+      outline:none;
+      box-shadow: inset 0 0 0 0 var(--focus);
+      transition: box-shadow .15s ease, border-color .15s ease;
+    }
+    .search input:focus{
+      border-color: rgba(46,160,75,.35);
+      box-shadow: inset 0 0 0 4px var(--focus);
+    }
+    .pill{
+      padding:9px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(59,122,58,.18), rgba(42,28,16,.18));
+      color: var(--muted);
+      font-size:12px;
+      letter-spacing:.06em;
+      white-space:nowrap;
+      user-select:none;
+    }
+
+    /* HEADER “rooted” title box */
+    .hero{
+      margin-top:18px;
+      display:grid;
+      gap:16px;
+      grid-template-columns: 1.2fr .8fr;
+      align-items:stretch;
+    }
+
+    .rootbox{
+      border-radius: var(--radius2);
+      border:1px solid rgba(255,255,255,.12);
+      background:
+        radial-gradient(900px 240px at 0% 0%, rgba(46,160,75,.16), transparent 60%),
+        radial-gradient(700px 260px at 100% 0%, rgba(58,38,21,.22), transparent 60%),
+        linear-gradient(180deg, rgba(26,18,10,.55), rgba(23,56,32,.35));
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+      padding: 22px 20px 18px;
+    }
+    .rootbox::before{
+      /* bark grain */
+      content:"";
+      position:absolute; inset:0;
+      opacity:.25;
+      background:
+        repeating-linear-gradient(110deg,
+          rgba(0,0,0,.20) 0 2px,
+          rgba(255,255,255,.04) 2px 4px,
+          transparent 4px 10px);
+      mix-blend-mode: overlay;
+      pointer-events:none;
+    }
+    .rootbox::after{
+      /* little “roots” */
+      content:"";
+      position:absolute;
+      left:-60px; right:-60px; bottom:-40px;
+      height:110px;
+      background:
+        radial-gradient(closest-side at 20% 40%, rgba(58,38,21,.55), transparent 70%),
+        radial-gradient(closest-side at 40% 60%, rgba(58,38,21,.50), transparent 70%),
+        radial-gradient(closest-side at 60% 50%, rgba(58,38,21,.45), transparent 70%),
+        radial-gradient(closest-side at 80% 65%, rgba(58,38,21,.40), transparent 70%);
+      filter: blur(.2px);
+      pointer-events:none;
+      opacity:.9;
+    }
+
+    .root-title{
+      position:relative;
+      margin:0 0 6px 0;
+      font-size: 42px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      text-shadow: 0 12px 30px rgba(0,0,0,.55);
+    }
+    .root-sub{
+      position:relative;
+      margin:0;
+      color: var(--muted);
+      font-size: 14px;
+      letter-spacing:.06em;
+      line-height:1.55;
+      max-width: 66ch;
+    }
+
+    .sidecard{
+      border-radius: var(--radius2);
+      border:1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(16,38,20,.55), rgba(26,18,10,.45));
+      box-shadow: var(--shadow);
+      padding:18px 16px;
+      position:relative;
+      overflow:hidden;
+    }
+    .sidecard h3{
+      margin:0 0 8px 0;
+      font-size:14px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color: var(--text);
+    }
+    .sidecard p{
+      margin:0 0 10px 0;
+      color: var(--muted);
+      line-height:1.55;
+      font-size:13px;
+    }
+
+    .btnrow{display:flex; gap:10px; flex-wrap:wrap; margin-top:6px}
+    .btn{
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.16);
+      color: var(--text);
+      border-radius: 14px;
+      padding:10px 12px;
+      font-size:13px;
+      cursor:pointer;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+      user-select:none;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      background: rgba(46,160,75,.10);
+      border-color: rgba(46,160,75,.28);
+    }
+
+    /* SECTIONS */
+    .grid{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:16px;
+    }
+    @media (max-width: 980px){
+      .hero{grid-template-columns:1fr}
+      .search{min-width: 200px}
+      .grid{grid-template-columns:1fr}
+      .nav{gap:10px; flex-wrap:wrap}
+      .brand{min-width: 170px}
+      .search{width:100%; justify-content:stretch}
+    }
+
+    details.section{
+      border-radius: var(--radius2);
+      border:1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(23,56,32,.35), rgba(26,18,10,.35));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    details.section > summary{
+      list-style:none;
+      cursor:pointer;
+      padding: 14px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      user-select:none;
+      position:relative;
+      background:
+        radial-gradient(700px 150px at 0% 0%, rgba(46,160,75,.14), transparent 62%),
+        linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.06));
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    details.section > summary::-webkit-details-marker{display:none}
+    .sectitle{
+      display:flex; gap:10px; align-items:center;
+      font-weight:700;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-size:13px;
+    }
+    .twig{
+      width:26px; height:26px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, var(--bark2), var(--leaf2));
+      border:1px solid rgba(255,255,255,.12);
+      position:relative;
+      overflow:hidden;
+    }
+    .twig::after{
+      content:"";
+      position:absolute; inset:-40% -40%;
+      background: radial-gradient(circle at 40% 40%, rgba(255,255,255,.12), transparent 55%);
+      transform: rotate(18deg);
+      opacity:.7;
+    }
+    .chev{
+      color: var(--muted);
+      font-size:13px;
+      opacity:.9;
+      transition: transform .15s ease;
+    }
+    details[open] .chev{transform: rotate(90deg);}
+
+    .section-body{padding:14px}
+    .cards{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+    @media (max-width: 680px){
+      .cards{grid-template-columns:1fr}
+    }
+
+    /* Branch-edged article cards */
+    .card{
+      position:relative;
+      border-radius: 22px;
+      border:1px solid rgba(255,255,255,.12);
+      background:
+        radial-gradient(450px 160px at 20% 0%, rgba(46,160,75,.16), transparent 62%),
+        linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.10));
+      padding: 14px 14px 12px;
+      overflow:hidden;
+    }
+    .card::before,
+    .card::after{
+      /* “branchy” edges */
+      content:"";
+      position:absolute;
+      top:-18px;
+      width:120px; height:90px;
+      background:
+        radial-gradient(closest-side at 20% 60%, rgba(58,38,21,.55), transparent 70%),
+        radial-gradient(closest-side at 55% 40%, rgba(58,38,21,.45), transparent 70%),
+        radial-gradient(closest-side at 75% 65%, rgba(58,38,21,.40), transparent 70%);
+      filter: blur(.2px);
+      opacity:.8;
+      pointer-events:none;
+    }
+    .card::before{left:-40px; transform: rotate(-18deg);}
+    .card::after{right:-40px; transform: rotate(18deg) scaleX(-1);}
+
+    .card h4{
+      margin:0 0 8px 0;
+      font-size:14px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    .tagrow{display:flex; gap:8px; flex-wrap:wrap; margin:0 0 10px 0}
+    .tag{
+      font-size:11px;
+      color: var(--muted);
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.14);
+      padding:5px 8px;
+      border-radius:999px;
+      letter-spacing:.06em;
+    }
+    .soon{
+      margin:0;
+      color: var(--muted);
+      line-height:1.55;
+      font-size:13px;
+    }
+    .card .read{
+      margin-top:10px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .ghost{
+      font-size:12px;
+      color: rgba(234,246,234,.75);
+      letter-spacing:.06em;
+    }
+
+    /* PUZZLES */
+    .puzzles{
+      margin-top:16px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:16px;
+    }
+    @media (max-width: 980px){
+      .puzzles{grid-template-columns:1fr}
+    }
+
+    .panel{
+      border-radius: var(--radius2);
+      border:1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(26,18,10,.45), rgba(16,38,20,.45));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .panel-h{
+      padding: 14px 14px;
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      background:
+        radial-gradient(700px 160px at 0% 0%, rgba(46,160,75,.14), transparent 62%),
+        linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.06));
+    }
+    .panel-h h3{
+      margin:0;
+      font-size:13px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+    .panel-b{padding:14px}
+
+    /* Sudoku */
+    .sudoku{
+      display:grid;
+      grid-template-columns: repeat(9, 1fr);
+      gap:0;
+      border:2px solid rgba(255,255,255,.18);
+      border-radius: 14px;
+      overflow:hidden;
+      background: rgba(0,0,0,.12);
+    }
+    .cell{
+      width:100%;
+      aspect-ratio: 1 / 1;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border:1px solid rgba(255,255,255,.08);
+      position:relative;
+    }
+    .cell input{
+      width:100%;
+      height:100%;
+      text-align:center;
+      border:0;
+      outline:none;
+      background: transparent;
+      color: var(--text);
+      font-size:16px;
+      font-weight:700;
+      caret-color: var(--fern);
+    }
+    .cell input:focus{
+      background: rgba(46,160,75,.10);
+      box-shadow: inset 0 0 0 3px rgba(46,160,75,.25);
+    }
+    .given{
+      background: rgba(255,255,255,.06);
+    }
+    .given input{
+      font-weight:800;
+      color: rgba(234,246,234,.9);
+    }
+
+    /* Thicker 3x3 lines */
+    .cell[data-r="2"], .cell[data-r="5"]{ border-bottom: 2px solid rgba(255,255,255,.18); }
+    .cell[data-c="2"], .cell[data-c="5"]{ border-right: 2px solid rgba(255,255,255,.18); }
+
+    .hint{
+      margin:10px 0 0 0;
+      color: var(--muted);
+      font-size:12px;
+      line-height:1.5;
+    }
+
+    /* Wordsearch */
+    .ws-wrap{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:12px;
+    }
+    .wordsearch{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:4px;
+      padding:10px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.12);
+    }
+    .ws-cell{
+      aspect-ratio: 1 / 1;
+      border-radius: 10px;
+      border:1px solid rgba(255,255,255,.08);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:800;
+      letter-spacing:.08em;
+      font-size:12px;
+      user-select:none;
+      cursor:pointer;
+      transition: transform .08s ease, background .08s ease, border-color .08s ease;
+      background: rgba(255,255,255,.03);
+    }
+    .ws-cell:hover{transform: translateY(-1px)}
+    .ws-cell.sel{
+      background: rgba(46,160,75,.14);
+      border-color: rgba(46,160,75,.25);
+    }
+    .wordlist{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      align-items:center;
+    }
+    .word{
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.14);
+      font-size:12px;
+      color: var(--muted);
+      letter-spacing:.06em;
+    }
+
+    footer{
+      margin-top:18px;
+      color: rgba(184,208,186,.75);
+      font-size:12px;
+      text-align:center;
+      letter-spacing:.06em;
+    }
+
+    /* small helpers */
+    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+    .spacer{flex:1}
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:11px;
+      padding:2px 6px;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      color: rgba(234,246,234,.8);
+    }
+  </style>
 </head>
 
 <body>
+  <div class="wrap">
 
-<!-- falling leaves -->
-<script>
-for (let i = 0; i < 20; i++) {
-    let leaf = document.createElement("div");
-    leaf.className = "leaf";
-    leaf.style.left = Math.random() * 100 + "vw";
-    leaf.style.animationDuration = 5 + Math.random() * 5 + "s";
-    document.body.appendChild(leaf);
-}
-</script>
+    <header class="nav">
+      <div class="brand">
+        <div class="brand-badge" aria-hidden="true"></div>
+        <div>
+          <h1>PATHWAYS</h1>
+          <span>College Newspaper • Tree-coded edition</span>
+        </div>
+      </div>
 
+      <nav class="navlinks" aria-label="Primary">
+        <a href="#news">Soon</a>
+        <a href="#features">Soon</a>
+        <a href="#opinion">Soon</a>
+        <a href="#sports">Soon</a>
+        <a href="#culture">Soon</a>
+        <a href="#puzzles">Soon</a>
+      </nav>
 
-<h1>THE EVERGREEN GAZETTE</h1>
-<div class="sub">A Nature-Themed College Newspaper</div>
+      <div class="search">
+        <input id="searchInput" type="search" placeholder="Search articles… (try: soon)" aria-label="Search articles" />
+        <div class="pill" title="All puzzles reset when you refresh the tab">Resets on refresh</div>
+      </div>
+    </header>
 
-<div class="banner">NEWS</div>
-<div class="article">Coming soon...</div>
-<div class="article">Coming soon...</div>
+    <section class="hero" aria-label="Intro">
+      <div class="rootbox">
+        <h2 class="root-title">PATHWAYS</h2>
+        <p class="root-sub">
+          A new college newspaper site template with collapsible sections, branch-edged article boxes,
+          a search bar, and puzzles. Everything is placeholder “Coming soon” for now — ready for you to fill
+          with real stories.
+        </p>
+      </div>
 
-<div class="banner">CAMPUS LIFE</div>
-<div class="article">Coming soon...</div>
+      <aside class="sidecard">
+        <h3>Quick actions</h3>
+        <p>Use the search bar to filter the “Coming soon” article cards. Open sections to see placeholders.</p>
+        <div class="btnrow">
+          <button class="btn" type="button" onclick="openAllSections()">Open all sections</button>
+          <button class="btn" type="button" onclick="closeAllSections()">Close all sections</button>
+          <button class="btn" type="button" onclick="scrollToPuzzles()">Jump to puzzles</button>
+        </div>
+        <p style="margin-top:10px" class="hint">
+          Tip: Sudoku accepts <span class="kbd">1–9</span>. Wordsearch squares toggle highlight.
+        </p>
+      </aside>
+    </section>
 
-<div class="banner">OPINION</div>
-<div class="article">Coming soon...</div>
+    <main class="grid" aria-label="Content">
 
-<div class="banner">EVENTS</div>
-<div class="article">Coming soon...</div>
+      <!-- NEWS -->
+      <details class="section" id="news" open>
+        <summary>
+          <div class="sectitle"><span class="twig" aria-hidden="true"></span> News</div>
+          <div class="chev">›</div>
+        </summary>
+        <div class="section-body">
+          <div class="cards" data-section="News">
+            <article class="card article" data-title="News: Coming soon">
+              <h4>Coming soon</h4>
+              <div class="tagrow">
+                <span class="tag">Campus</span><span class="tag">Updates</span><span class="tag">Soon</span>
+              </div>
+              <p class="soon">This is a placeholder article box. Replace this with a real story when you’re ready.</p>
+              <div class="read"><span class="ghost">PATHWAYS • Soon</span><span class="ghost">—</span></div>
+            </article>
 
-<div class="banner">FUN PAGE</div>
+            <article class="card article" data-title="News: Coming soon 2">
+              <h4>Coming soon</h4>
+              <div class="tagrow">
+                <span class="tag">Local</span><span class="tag">Headlines</span><span class="tag">Soon</span>
+              </div>
+              <p class="soon">Branch-edged card, collapsible section, ready for content.</p>
+              <div class="read"><span class="ghost">PATHWAYS • Soon</span><span class="ghost">—</span></div>
+            </article>
 
-<!-- =======================
-     CROSSWORD
-     ======================= -->
-<details>
-<summary>🌳 Crossword Puzzle</summary>
-<div class="puzzle-container">
-    <div id="crossword" class="crossword-grid"></div>
-    <h3>Clues</h3>
-    <div id="clues"></div>
-</div>
-</details>
+            <article class="card article" data-title="News: Coming soon 3">
+              <h4>Coming soon</h4>
+              <div class="tagrow">
+                <span class="tag">Announcements</span><span class="tag">Soon</span>
+              </div>
+              <p class="soon">You can copy/paste these cards and change tags/titles later.</p>
+              <div class="read"><span class="ghost">PATHWAYS • Soon</span><span class="ghost">—</span></div>
+            </article>
 
-<!-- =======================
-     SUDOKU
-     ======================= -->
-<details>
-<summary>🍂 Sudoku</summary>
-<div class="puzzle-container">
-    <div id="sudoku" class="sudoku-grid"></div>
-</div>
-</details>
+            <article class="card article" data-title="News: Coming soon 4">
+              <h4>Coming soon</h4>
+              <div class="tagrow">
+                <span class="tag">Breaking</span><span class="tag">Soon</span>
+              </div>
+              <p class="soon">Everything here is styled “tree coded”: bark + leaf gradients.</p>
+              <div class="read"><span class="ghost">PATHWAYS • Soon</span><span class="ghost">—</span></div>
+            </article>
+          </div>
+        </div>
+      </details>
 
-<!-- =======================
-       WORDSEARCH
-     ======================= -->
-<details>
-<summary>🌿 Wordsearch</summary>
-<div class="puzzle-container">
-    <div id="wordsearch" class="wordsearch-grid"></div>
-    <div id="wordlist" class="word-list"></div>
-</div>
-</details>
+      <!-- FEATURES -->
+      <details class="section" id="features">
+        <summary>
+          <div class="sectitle"><span class="twig" aria-hidden="true"></span> Features</div>
+          <div class="chev">›</div>
+        </summary>
+        <div class="section-body">
+          <div class="cards" data-section="Features">
+            <article class="card article" data-title="Features: Coming soon">
+              <h4>Coming soon</h4>
+              <div class="tagrow">
+                <span class="tag">Long read</span><span class="tag">Student life</span><span class="tag">Soon</span>
+              </div>
+              <p class="soon">Put your biggest pieces here — interviews, investigations, profiles, etc.</p>
+              <div class="read"><span class="ghost">PATHWAYS • Soon</span><span class="ghost">—</span></div>
+            </article>
+            <article class="card article" data-title="Features: Coming soon 2">
+              <h4>Coming soon</h4>
+              <div class="tagrow">
+                <span class="tag">Spotlight</span><span class="tag">Soon</span>
+              </div>
+              <p class="soon">Placeholder text. Swap in your real headlines later.</p>
+              <div class="read"><span class="ghost">PATHWAYS • Soon</span><span class="ghost">—</span></div>
+            </article>
+          </div>
+        </div>
+      </details>
 
+      <!-- OPINION -->
+      <details class="section" id="opinion">
+        <summary>
+          <div class="sectitle"><span class="twig" aria-hidden="true"></span> Opinion</div>
+          <div class="chev">›</div>
+        </summary>
+        <div class="section-body">
+          <div class="cards" data-section="Opinion">
+            <article class="card article" data-title="Opinion: Coming soon">
+              <h4>Coming soon</h4>
+              <div class="tagrow">
+                <span class="tag">Hot take</span><span class="tag">Soon</span>
+              </div>
+              <p class="soon">Opinion column slot. Make it loud. Or make it gentle. Your call.</p>
+              <div class="read"><span class="ghost">PATHWAYS • Soon</span><span class="ghost">—</span></div>
+            </article>
+            <article class="card article" data-title="Opinion: Coming soon 2">
+              <h4>Coming soon</h4>
+              <div class="tagrow">
+                <span class="tag">Editorial</span><span class="tag">Soon</span>
+              </div>
+              <p class="soon">You can turn these into real collapsible articles later if you want.</p>
+              <div class="read"><span class="ghost">PATHWAYS • Soon</span><span class="ghost">—</span></div>
+            </article>
+          </div>
+        </div>
+      </details>
 
-<!-- =======================
-     PUZZLE GENERATION JS
-     ======================= -->
-<script>
-// ============= Random Crossword =============
-const crosswordWords = ["TREE","ROOT","BRANCH","LEAF","FOREST","BARK","MOSS","RIVER","WIND","STONE"];
-function generateCrossword() {
-    const grid = document.getElementById("crossword");
-    const cluesDiv = document.getElementById("clues");
-    grid.innerHTML = "";
-    cluesDiv.innerHTML = "";
+      <!-- SPORTS -->
+      <details class="section" id="sports">
+        <summary>
+          <div class="sectitle"><span class="twig" aria-hidden="true"></span> Sports</div>
+          <div class="chev">›</div>
+        </summary>
+        <div class="section-body">
+          <div class="cards" data-section="Sports">
+            <article class="card article" data-title="Sports: Coming soon">
+              <h4>Coming soon</h4>
+              <div class="tagrow">
+                <span class="tag">Fixtures</span><span class="tag">Soon</span>
+              </div>
+              <p class="soon">Match reports, try-outs, sports club updates… all ready to go.</p>
+              <div class="read"><span class="ghost">PATHWAYS • Soon</span><span class="ghost">—</span></div>
+            </article>
+            <article class="card article" data-title="Sports: Coming soon 2">
+              <h4>Coming soon</h4>
+              <div class="tagrow">
+                <span class="tag">Team</span><span class="tag">Soon</span>
+              </div>
+              <p class="soon">This is just a layout shell — you fill it with the good stuff.</p>
+              <div class="read"><span class="ghost">PATHWAYS • Soon</span><span class="ghost">—</span></div>
+            </article>
+          </div>
+        </div>
+      </details>
 
-    for (let i=0;i<144;i++) {
-        let cell = document.createElement("div");
-        cell.className = "crossword-cell";
-        if (Math.random() < 0.18) cell.classList.add("block");
-        grid.appendChild(cell);
+      <!-- CULTURE -->
+      <details class="section" id="culture">
+        <summary>
+          <div class="sectitle"><span class="twig" aria-hidden="true"></span> Culture</div>
+          <div class="chev">›</div>
+        </summary>
+        <div class="section-body">
+          <div class="cards" data-section="Culture">
+            <article class="card article" data-title="Culture: Coming soon">
+              <h4>Coming soon</h4>
+              <div class="tagrow">
+                <span class="tag">Music</span><span class="tag">Arts</span><span class="tag">Soon</span>
+              </div>
+              <p class="soon">Reviews, playlists, events, student art — this section’s built for it.</p>
+              <div class="read"><span class="ghost">PATHWAYS • Soon</span><span class="ghost">—</span></div>
+            </article>
+            <article class="card article" data-title="Culture: Coming soon 2">
+              <h4>Coming soon</h4>
+              <div class="tagrow">
+                <span class="tag">What’s on</span><span class="tag">Soon</span>
+              </div>
+              <p class="soon">Add posters, embeds, galleries later — structure is here already.</p>
+              <div class="read"><span class="ghost">PATHWAYS • Soon</span><span class="ghost">—</span></div>
+            </article>
+          </div>
+        </div>
+      </details>
+    </main>
+
+    <section class="puzzles" id="puzzles" aria-label="Puzzles">
+
+      <!-- SUDOKU -->
+      <div class="panel" aria-label="Sudoku panel">
+        <div class="panel-h">
+          <h3>Sudoku (interactive)</h3>
+          <div class="row">
+            <button class="btn" type="button" onclick="clearSudoku()">Clear inputs</button>
+          </div>
+        </div>
+        <div class="panel-b">
+          <div class="sudoku" id="sudoku" aria-label="Sudoku grid"></div>
+          <p class="hint">
+            Click a square and type <span class="kbd">1–9</span>. Given numbers are fixed. Refreshing the tab resets everything.
+          </p>
+        </div>
+      </div>
+
+      <!-- WORDSEARCH -->
+      <div class="panel" aria-label="Wordsearch panel">
+        <div class="panel-h">
+          <h3>Wordsearch (completed grid)</h3>
+          <div class="row">
+            <button class="btn" type="button" onclick="clearWordsearch()">Clear highlights</button>
+          </div>
+        </div>
+        <div class="panel-b">
+          <div class="ws-wrap">
+            <div class="wordsearch" id="wordsearch" aria-label="Wordsearch grid"></div>
+            <div class="wordlist" aria-label="Word list">
+              <span class="word">PATHWAYS</span>
+              <span class="word">OAK</span>
+              <span class="word">PINE</span>
+              <span class="word">ROOT</span>
+              <span class="word">LEAF</span>
+              <span class="word">BARK</span>
+              <span class="word">CAMPUS</span>
+              <span class="word">INK</span>
+            </div>
+            <p class="hint">
+              Click letters to highlight/unhighlight. (This is a full grid already filled in — just interactive highlighting.)
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <footer>
+      PATHWAYS • Template build — tree theme • Collapsible sections • Search filter • Sudoku + Wordsearch
+    </footer>
+
+  </div>
+
+  <script>
+    // ---------------------------
+    // NAV / SECTION CONTROLS
+    // ---------------------------
+    function openAllSections(){
+      document.querySelectorAll('details.section').forEach(d => d.open = true);
+    }
+    function closeAllSections(){
+      document.querySelectorAll('details.section').forEach(d => d.open = false);
+    }
+    function scrollToPuzzles(){
+      document.getElementById('puzzles').scrollIntoView({behavior:'smooth', block:'start'});
     }
 
-    crosswordWords.forEach((w,i)=>{
-        let clue = document.createElement("div");
-        clue.innerHTML = (i+1) + ". " + w.length + " letters — nature related.";
-        cluesDiv.appendChild(clue);
-    });
-}
-generateCrossword();
+    // ---------------------------
+    // SEARCH FILTER (articles)
+    // ---------------------------
+    const searchInput = document.getElementById('searchInput');
+    const articles = Array.from(document.querySelectorAll('.article'));
 
-
-// ============= Random Sudoku =============
-function generateSudoku() {
-    const grid = document.getElementById("sudoku");
-    grid.innerHTML = "";
-    for (let i=0;i<81;i++) {
-        let cell = document.createElement("input");
-        cell.className = "sudoku-cell";
-        cell.maxLength = 1;
-        if (Math.random() < 0.25) cell.value = Math.ceil(Math.random()*9);
-        grid.appendChild(cell);
+    function applySearch(){
+      const q = (searchInput.value || "").trim().toLowerCase();
+      articles.forEach(card => {
+        const title = (card.getAttribute('data-title') || card.querySelector('h4')?.textContent || "").toLowerCase();
+        const tags = Array.from(card.querySelectorAll('.tag')).map(t => t.textContent.toLowerCase()).join(" ");
+        const hay = title + " " + tags;
+        card.style.display = (q === "" || hay.includes(q)) ? "" : "none";
+      });
     }
-}
-generateSudoku();
+    searchInput.addEventListener('input', applySearch);
 
+    // ---------------------------
+    // SUDOKU (interactive, resets on refresh)
+    // ---------------------------
+    // 0 = blank; non-zero = given
+    const sudokuPuzzle = [
+      [5,3,0, 0,7,0, 0,0,0],
+      [6,0,0, 1,9,5, 0,0,0],
+      [0,9,8, 0,0,0, 0,6,0],
 
-// ============= Random Wordsearch =============
-const wsWords = ["TREE","ROOT","BRANCH","LEAF","ACORN","BREEZE","EARTH"];
-function generateWordsearch() {
-    const grid = document.getElementById("wordsearch");
-    const list = document.getElementById("wordlist");
-    grid.innerHTML = "";
-    list.innerHTML = "Find these words: <br>" + wsWords.join(", ");
+      [8,0,0, 0,6,0, 0,0,3],
+      [4,0,0, 8,0,3, 0,0,1],
+      [7,0,0, 0,2,0, 0,0,6],
 
-    for (let i=0;i<144;i++) {
-        let cell = document.createElement("div");
-        cell.className = "wordsearch-cell";
-        cell.innerText = String.fromCharCode(65 + Math.floor(Math.random()*26));
-        grid.appendChild(cell);
+      [0,6,0, 0,0,0, 2,8,0],
+      [0,0,0, 4,1,9, 0,0,5],
+      [0,0,0, 0,8,0, 0,7,9],
+    ];
+
+    const sudokuEl = document.getElementById('sudoku');
+
+    function buildSudoku(){
+      sudokuEl.innerHTML = "";
+      for(let r=0; r<9; r++){
+        for(let c=0; c<9; c++){
+          const cell = document.createElement('div');
+          cell.className = "cell";
+          cell.dataset.r = String(r);
+          cell.dataset.c = String(c);
+
+          const inp = document.createElement('input');
+          inp.setAttribute('inputmode','numeric');
+          inp.setAttribute('maxlength','1');
+          inp.setAttribute('aria-label', `Row ${r+1} Column ${c+1}`);
+
+          const val = sudokuPuzzle[r][c];
+
+          if(val !== 0){
+            cell.classList.add('given');
+            inp.value = String(val);
+            inp.readOnly = true;
+            inp.tabIndex = -1;
+          }else{
+            inp.value = "";
+            inp.addEventListener('keydown', (e) => {
+              // allow navigation keys
+              const allowed = ["Backspace","Delete","Tab","ArrowLeft","ArrowRight","ArrowUp","ArrowDown","Home","End"];
+              if(allowed.includes(e.key)) return;
+
+              // digits 1-9 only
+              if(!/^[1-9]$/.test(e.key)){
+                e.preventDefault();
+                return;
+              }
+              // replace value cleanly
+              inp.value = e.key;
+              e.preventDefault();
+
+              // quick move right
+              focusNextSudoku(r,c);
+            });
+
+            inp.addEventListener('paste', (e) => {
+              e.preventDefault();
+              const text = (e.clipboardData || window.clipboardData).getData('text');
+              const ch = (text || "").trim()[0];
+              if(/^[1-9]$/.test(ch)) inp.value = ch;
+            });
+          }
+
+          cell.appendChild(inp);
+          sudokuEl.appendChild(cell);
+        }
+      }
     }
-}
-generateWordsearch();
 
-</script>
+    function focusNextSudoku(r,c){
+      // find next editable cell to the right, else wrap
+      for(let k=1; k<=81; k++){
+        const idx = r*9 + c + k;
+        const rr = Math.floor(idx / 9) % 9;
+        const cc = idx % 9;
+        if(sudokuPuzzle[rr][cc] === 0){
+          const input = sudokuEl.querySelector(`.cell[data-r="${rr}"][data-c="${cc}"] input`);
+          input?.focus();
+          return;
+        }
+      }
+    }
 
+    function clearSudoku(){
+      sudokuEl.querySelectorAll('.cell:not(.given) input').forEach(inp => inp.value = "");
+    }
+
+    // ---------------------------
+    // WORDSEARCH (completed grid, interactive highlights)
+    // ---------------------------
+    // 12x12 filled grid (already completed)
+    const wsGrid = [
+      "P A T H W A Y S L E A F".split(" "),
+      "O A K X R O O T B A R K".split(" "),
+      "P I N E Q W E R T Y U I".split(" "),
+      "C A M P U S I N K Z Z Z".split(" "),
+      "L E A F B R A N C H E S".split(" "),
+      "B A R K S H A D O W S X".split(" "),
+      "R O O T S G R O W D E E".split(" "),
+      "T R E E C O D E D V I B".split(" "),
+      "M O S S F E R N S O I L".split(" "),
+      "G R E E N B R O W N D K".split(" "),
+      "S T O R I E S S O O N S".split(" "),
+      "P A T H S U P D A T E S".split(" "),
+    ];
+
+    const wordsearchEl = document.getElementById('wordsearch');
+
+    function buildWordsearch(){
+      wordsearchEl.innerHTML = "";
+      for(let r=0; r<12; r++){
+        for(let c=0; c<12; c++){
+          const b = document.createElement('div');
+          b.className = "ws-cell";
+          b.textContent = wsGrid[r][c] || "X";
+          b.setAttribute('role','button');
+          b.setAttribute('aria-label', `Letter ${b.textContent} at row ${r+1} column ${c+1}`);
+          b.addEventListener('click', () => b.classList.toggle('sel'));
+          wordsearchEl.appendChild(b);
+        }
+      }
+    }
+
+    function clearWordsearch(){
+      wordsearchEl.querySelectorAll('.ws-cell.sel').forEach(c => c.classList.remove('sel'));
+    }
+
+    // ---------------------------
+    // INIT
+    // ---------------------------
+    buildSudoku();
+    buildWordsearch();
+    applySearch();
+  </script>
 </body>
 </html>
