@@ -652,7 +652,7 @@
         <div class="stickbox" aria-label="Stickmen corner">
           <div class="sticktext">
             <h3>Stickmen Bulletin</h3>
-            <p>
+           <p class="stickman-line">
               “We are serious journalists.”<br/>
               “We are also 9cm tall.”<br/>
               “Please do the Sudoku.”
@@ -1675,8 +1675,87 @@
 
     initWordsearch();
   </script>
+  <script>
+/* STICKMEN LINES — rotate every 30 minutes */
+(function(){
+  const STICKMEN_BANK = [
+    ["“If the headline is boring, I’m quitting journalism and becoming a traffic cone.”","“I was made for impact.”","“Emotionally and legally.”"],
+    ["“Breaking news:”","“Someone said ‘quick question’.”","“It was not quick.”"],
+    ["“We are serious journalists.”","“We are also 9cm tall.”","“Do the Sudoku.”"],
+    ["“Top story pending.”","“So is my will to live.”","“Kidding. Mostly.”"],
+    ["“Opinion time.”","“I have thoughts.”","“None of them are calm.”"],
+    ["“Campus update:”","“The printer has beef with everyone.”","“It’s personal.”"],
+    ["“Culture & Features:”","“Yes, this counts as art.”","“No, I won’t explain.”"],
+    ["“What’s On:”","“Something’s happening.”","“Nobody knows where.”"],
+    ["“This is a newspaper.”","“Not a PowerPoint.”","“Thank you.”"],
+    ["“If you’re reading this…”","“You’re already part of the story.”","“Now solve the wordsearch.”"],
+    ["“The stickmen union demands:”","“better headlines.”","“and snacks.”"],
+    ["“Fact check complete.”","“Vibe check complete.”","“Proceed.”"],
+    ["“We don’t do filler.”","“We do drama.”","“Professionally.”"],
+    ["“If the Sudoku beats you…”","“come back swinging.”","“Respectfully.”"],
+    ["“I’m not saying I’m the editor…”","“but I am judging your commas.”","“Kindly.”"],
+    ["“Campus life is a documentary.”","“And we’re the camera crew.”","“With zero funding.”"],
+    ["“This section is ‘Coming Soon’.”","“So is my patience.”","“Still love you though.”"],
+    ["“Journalism is important.”","“So is hydration.”","“Go drink water.”"],
+    ["“PATHWAYS staff meeting:”","“1) Panic. 2) Publish. 3) Pretend it was planned.”"],
+    ["“If the headline hits…”","“we celebrate.”","“If it flops, we blame the printer.”"],
+    ["“Reminder:”","“You are legally required to admire this layout.”","“I don’t make the rules.”"],
+    ["“We report. You read.”","“The deal is simple.”","“Now stop scrolling and do puzzles.”"],
+    ["“This paper is student-run.”","“Emotionally, physically, spiritually.”","“Help.”"],
+    ["“Local news:”","“Someone’s AirPods have gone missing.”","“A nation mourns.”"],
+    ["“If you spot a typo…”","“no you didn’t.”","“Carry on.”"],
+    ["“Opinion piece incoming.”","“If you disagree, write your own.”","“We dare you.”"],
+    ["“This is your sign to submit an article.”","“Yes, you.”","“Don’t be shy.”"],
+    ["“We’re not messy.”","“We’re ‘dynamic’.”","“Big difference.”"],
+    ["“If you made it this far…”","“you’re loyal.”","“Or procrastinating. Same thing.”"],
+    ["“Top Stories:”","“Real headlines.”","“Real chaos.”"],
+    ["“I tried to be normal today.”","“It lasted 6 minutes.”","“Anyway, welcome.”"],
+    ["“If the vibes are off…”","“adjust the headline.”","“Works every time.”"],
+    ["“We print in two columns.”","“Because we’re classy.”","“And slightly dramatic.”"],
+    ["“The stickmen are unpaid.”","“But they work for glory.”","“And compliments.”"],
+    ["“Breaking:”","“someone said ‘we should make it more professional’.”","“We said no.”"],
+    ["“This site is clean.”","“The student life isn’t.”","“Balance.”"],
+    ["“I’m here for news.”","“And petty campus lore.”","“Don’t judge me.”"],
+    ["“Culture section:”","“Where we pretend we’re sophisticated.”","“It’s working.”"],
+    ["“What’s On:”","“Some event you’ll forget.”","“Put it in your calendar. Be brave.”"],
+    ["“If you’re stressed…”","“same.”","“Do the wordsearch anyway.”"],
+    ["“PATHWAYS motto:”","“Make it readable.”","“Make it real.”","“Make it funny.”"],
+    ["“I support student journalism.”","“And I also support naps.”","“Choose wisely.”"],
+    ["“This is not just a draft.”","“It’s a warning.”","“We’re coming.”"],
+    ["“The newsroom energy is:”","“caffeine.”","“and spite.”"],
+    ["“If the printer works…”","“we celebrate.”","“If it doesn’t, we write an exposé.”"],
+    ["“We don’t chase clout.”","“We chase deadlines.”","“Unfortunately.”"],
+    ["“You can’t spell PATHWAYS…”","“without ‘PA’.”","“That means nothing. But it’s true.”"],
+    ["“Editor’s note:”","“I’m a stickman.”","“I have no authority.”","“Yet.”"]
+  ];
+
+  function slotIndex30Min(){
+    // Number of 30-minute blocks since epoch
+    return Math.floor(Date.now() / (30 * 60 * 1000));
+  }
+
+  function applyLines(){
+    const idx = slotIndex30Min() % STICKMEN_BANK.length;
+    const chosen = STICKMEN_BANK[idx];
+
+    document.querySelectorAll(".stickman-line").forEach(el => {
+      el.innerHTML = chosen.join("<br>");
+    });
+  }
+
+  applyLines();
+
+  // Update at the next exact half-hour, then every 30 mins
+  const msToNextHalfHour = (30 * 60 * 1000) - (Date.now() % (30 * 60 * 1000));
+  setTimeout(() => {
+    applyLines();
+    setInterval(applyLines, 30 * 60 * 1000);
+  }, msToNextHalfHour);
+})();
+</script>
 </body>
 </html>
+
 
 
 
