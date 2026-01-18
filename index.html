@@ -3,33 +3,42 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>PATHWAYS — College Newspaper</title>
+  <title>PATHWAYS</title>
+
   <style>
     :root{
-      --bg0:#07120b;
-      --bg1:#0b1b10;
-      --bg2:#102614;
+      /* Less full-on green, still tree-coded */
+      --bg0:#070c08;
+      --bg1:#0b120d;
+      --bg2:#0f1811;
 
-      --leaf0:#0f2a18;
-      --leaf1:#173820;
-      --leaf2:#21512d;
+      --bark0:#120b06;
+      --bark1:#1e120a;
+      --bark2:#2c1a0f;
+      --bark3:#3a2314;
 
-      --bark0:#1a120a;
-      --bark1:#2a1c10;
-      --bark2:#3a2615;
+      --leaf0:#0e1f14;
+      --leaf1:#132a1b;
+      --leaf2:#1b3823;
+      --leaf3:#275334;
 
-      --moss:#3b7a3a;
-      --fern:#2ea04b;
+      --moss:#2a7a3f;     /* used mostly for accents */
+      --fern:#34b35a;
 
-      --text:#eaf6ea;
-      --muted:#b8d0ba;
+      --text:#eef7ee;
+      --muted:#bcd0be;
+
       --soft: rgba(255,255,255,.08);
       --soft2: rgba(255,255,255,.12);
       --shadow: 0 18px 45px rgba(0,0,0,.55);
 
       --radius: 18px;
       --radius2: 22px;
-      --focus: rgba(46,160,75,.35);
+
+      --good: rgba(52,179,90,.22);
+      --goodB: rgba(52,179,90,.45);
+      --bad: rgba(220,70,70,.18);
+      --badB: rgba(220,70,70,.35);
     }
 
     *{box-sizing:border-box}
@@ -39,69 +48,116 @@
       color:var(--text);
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       background:
-        radial-gradient(1200px 700px at 10% 10%, rgba(46,160,75,.18), transparent 55%),
-        radial-gradient(1000px 650px at 90% 20%, rgba(59,122,58,.14), transparent 58%),
-        radial-gradient(900px 700px at 50% 100%, rgba(42,28,16,.22), transparent 60%),
+        radial-gradient(1100px 700px at 15% 10%, rgba(52,179,90,.10), transparent 60%),
+        radial-gradient(900px 650px at 85% 15%, rgba(42,122,63,.08), transparent 60%),
+        radial-gradient(900px 700px at 50% 110%, rgba(44,26,15,.28), transparent 60%),
         linear-gradient(180deg, var(--bg0), var(--bg1) 40%, var(--bg2));
       overflow-x:hidden;
     }
 
-    /* subtle forest “grain” */
+    /* subtle grain */
     body::before{
       content:"";
       position:fixed; inset:0;
       pointer-events:none;
-      opacity:.22;
+      opacity:.18;
       background-image:
-        repeating-linear-gradient(90deg, rgba(255,255,255,.03) 0 1px, transparent 1px 6px),
-        repeating-linear-gradient(0deg, rgba(0,0,0,.06) 0 1px, transparent 1px 7px);
+        repeating-linear-gradient(90deg, rgba(255,255,255,.03) 0 1px, transparent 1px 7px),
+        repeating-linear-gradient(0deg, rgba(0,0,0,.06) 0 1px, transparent 1px 8px);
       mix-blend-mode: overlay;
     }
 
     .wrap{max-width:1180px; margin:0 auto; padding:22px 16px 50px}
 
+    /* FLOATING LEAVES (animated “actual stuff”) */
+    .leaf-layer{
+      position:fixed; inset:-10vh -10vw;
+      pointer-events:none;
+      z-index:0;
+      overflow:hidden;
+    }
+    .leaf{
+      position:absolute;
+      width:14px; height:10px;
+      border-radius: 12px 12px 12px 2px;
+      background: linear-gradient(135deg, rgba(52,179,90,.20), rgba(39,83,52,.10));
+      border:1px solid rgba(255,255,255,.06);
+      filter: blur(.1px);
+      opacity:.65;
+      transform: rotate(12deg);
+      animation: drift var(--t) linear infinite;
+    }
+    .leaf::after{
+      content:"";
+      position:absolute;
+      left:50%; top:20%;
+      width:1px; height:60%;
+      background: rgba(255,255,255,.10);
+      transform: translateX(-50%) rotate(12deg);
+    }
+    @keyframes drift{
+      0%{ transform: translate3d(var(--x0), var(--y0), 0) rotate(0deg); }
+      100%{ transform: translate3d(var(--x1), var(--y1), 0) rotate(720deg); }
+    }
+
     /* NAV */
     .nav{
+      position:sticky;
+      top:12px;
+      z-index:50;
       display:flex;
       gap:12px;
       align-items:center;
       justify-content:space-between;
       padding:14px 14px;
       border:1px solid var(--soft);
-      background: linear-gradient(180deg, rgba(42,28,16,.55), rgba(16,38,20,.55));
+      background: linear-gradient(180deg, rgba(44,26,15,.62), rgba(19,42,27,.32));
       border-radius: 20px;
       box-shadow: var(--shadow);
-      position:sticky;
-      top:12px;
-      z-index:50;
       backdrop-filter: blur(10px);
+      overflow:hidden;
+    }
+
+    /* animated branch “sway” behind the nav */
+    .nav::before{
+      content:"";
+      position:absolute; inset:-40px -60px;
+      background:
+        radial-gradient(closest-side at 15% 55%, rgba(58,35,20,.55), transparent 70%),
+        radial-gradient(closest-side at 35% 35%, rgba(58,35,20,.45), transparent 72%),
+        radial-gradient(closest-side at 55% 55%, rgba(58,35,20,.40), transparent 74%),
+        radial-gradient(closest-side at 75% 35%, rgba(58,35,20,.35), transparent 76%),
+        radial-gradient(closest-side at 90% 55%, rgba(58,35,20,.30), transparent 78%);
+      opacity:.55;
+      filter: blur(.2px);
+      transform-origin: 20% 50%;
+      animation: sway 6.5s ease-in-out infinite;
+      pointer-events:none;
+    }
+    @keyframes sway{
+      0%,100%{ transform: rotate(-1.2deg) translateY(0px); }
+      50%{ transform: rotate(1.2deg) translateY(1px); }
     }
 
     .brand{
+      position:relative;
       display:flex;
       gap:12px;
       align-items:center;
       min-width: 210px;
+      z-index:1;
     }
 
     .brand-badge{
       width:44px; height:44px;
       border-radius: 14px;
       background:
-        radial-gradient(circle at 35% 30%, rgba(46,160,75,.55), transparent 60%),
-        linear-gradient(135deg, var(--bark2), var(--leaf2));
+        radial-gradient(circle at 35% 30%, rgba(52,179,90,.22), transparent 62%),
+        linear-gradient(135deg, var(--bark3), var(--leaf2));
       border:1px solid rgba(255,255,255,.14);
       box-shadow: 0 12px 28px rgba(0,0,0,.45);
       position:relative;
       overflow:hidden;
-    }
-    .brand-badge::after{
-      content:"";
-      position:absolute; inset:-30% -30%;
-      background:
-        radial-gradient(circle at 20% 40%, rgba(255,255,255,.10), transparent 45%),
-        radial-gradient(circle at 70% 65%, rgba(255,255,255,.08), transparent 50%);
-      transform: rotate(18deg);
     }
 
     .brand h1{
@@ -112,14 +168,10 @@
       color: var(--text);
       line-height:1.1;
     }
-    .brand span{
-      display:block;
-      font-size:12px;
-      color: var(--muted);
-      letter-spacing:.06em;
-    }
 
     .navlinks{
+      position:relative;
+      z-index:1;
       display:flex;
       gap:10px;
       flex-wrap:wrap;
@@ -140,12 +192,14 @@
     }
     .navlinks a:hover{
       transform: translateY(-1px);
-      background: rgba(46,160,75,.10);
-      border-color: rgba(46,160,75,.25);
+      background: rgba(52,179,90,.08);
+      border-color: rgba(52,179,90,.18);
       color: var(--text);
     }
 
     .search{
+      position:relative;
+      z-index:1;
       display:flex;
       gap:10px;
       align-items:center;
@@ -161,18 +215,18 @@
       background: rgba(0,0,0,.18);
       color: var(--text);
       outline:none;
-      box-shadow: inset 0 0 0 0 var(--focus);
       transition: box-shadow .15s ease, border-color .15s ease;
     }
     .search input:focus{
-      border-color: rgba(46,160,75,.35);
-      box-shadow: inset 0 0 0 4px var(--focus);
+      border-color: rgba(52,179,90,.24);
+      box-shadow: inset 0 0 0 4px rgba(52,179,90,.18);
     }
+
     .pill{
       padding:9px 12px;
       border-radius:999px;
       border:1px solid rgba(255,255,255,.12);
-      background: linear-gradient(180deg, rgba(59,122,58,.18), rgba(42,28,16,.18));
+      background: linear-gradient(180deg, rgba(44,26,15,.18), rgba(19,42,27,.14));
       color: var(--muted);
       font-size:12px;
       letter-spacing:.06em;
@@ -180,12 +234,14 @@
       user-select:none;
     }
 
-    /* HEADER “rooted” title box */
+    /* HERO “rooted” title */
     .hero{
+      position:relative;
+      z-index:1;
       margin-top:18px;
       display:grid;
       gap:16px;
-      grid-template-columns: 1.2fr .8fr;
+      grid-template-columns: 1fr;
       align-items:stretch;
     }
 
@@ -193,112 +249,57 @@
       border-radius: var(--radius2);
       border:1px solid rgba(255,255,255,.12);
       background:
-        radial-gradient(900px 240px at 0% 0%, rgba(46,160,75,.16), transparent 60%),
-        radial-gradient(700px 260px at 100% 0%, rgba(58,38,21,.22), transparent 60%),
-        linear-gradient(180deg, rgba(26,18,10,.55), rgba(23,56,32,.35));
+        radial-gradient(900px 240px at 0% 0%, rgba(52,179,90,.08), transparent 62%),
+        radial-gradient(700px 260px at 100% 0%, rgba(58,35,20,.22), transparent 60%),
+        linear-gradient(180deg, rgba(30,18,10,.58), rgba(19,42,27,.22));
       box-shadow: var(--shadow);
       position:relative;
       overflow:hidden;
       padding: 22px 20px 18px;
     }
-    .rootbox::before{
-      /* bark grain */
-      content:"";
-      position:absolute; inset:0;
-      opacity:.25;
-      background:
-        repeating-linear-gradient(110deg,
-          rgba(0,0,0,.20) 0 2px,
-          rgba(255,255,255,.04) 2px 4px,
-          transparent 4px 10px);
-      mix-blend-mode: overlay;
-      pointer-events:none;
-    }
+
+    /* roots (more “actual stuff”) */
     .rootbox::after{
-      /* little “roots” */
       content:"";
       position:absolute;
-      left:-60px; right:-60px; bottom:-40px;
-      height:110px;
+      left:-80px; right:-80px; bottom:-48px;
+      height:130px;
       background:
-        radial-gradient(closest-side at 20% 40%, rgba(58,38,21,.55), transparent 70%),
-        radial-gradient(closest-side at 40% 60%, rgba(58,38,21,.50), transparent 70%),
-        radial-gradient(closest-side at 60% 50%, rgba(58,38,21,.45), transparent 70%),
-        radial-gradient(closest-side at 80% 65%, rgba(58,38,21,.40), transparent 70%);
-      filter: blur(.2px);
+        radial-gradient(closest-side at 18% 45%, rgba(58,35,20,.60), transparent 72%),
+        radial-gradient(closest-side at 34% 62%, rgba(58,35,20,.55), transparent 72%),
+        radial-gradient(closest-side at 50% 48%, rgba(58,35,20,.52), transparent 72%),
+        radial-gradient(closest-side at 66% 64%, rgba(58,35,20,.48), transparent 72%),
+        radial-gradient(closest-side at 82% 50%, rgba(58,35,20,.44), transparent 72%);
+      opacity:.95;
       pointer-events:none;
-      opacity:.9;
+      filter: blur(.2px);
+      animation: roots 7.5s ease-in-out infinite;
+      transform-origin: 50% 100%;
+    }
+    @keyframes roots{
+      0%,100%{ transform: translateY(0px) scaleX(1); }
+      50%{ transform: translateY(2px) scaleX(1.01); }
     }
 
     .root-title{
       position:relative;
-      margin:0 0 6px 0;
-      font-size: 42px;
+      margin:0;
+      font-size: 44px;
       letter-spacing: .18em;
       text-transform: uppercase;
       text-shadow: 0 12px 30px rgba(0,0,0,.55);
     }
-    .root-sub{
-      position:relative;
-      margin:0;
-      color: var(--muted);
-      font-size: 14px;
-      letter-spacing:.06em;
-      line-height:1.55;
-      max-width: 66ch;
-    }
 
-    .sidecard{
-      border-radius: var(--radius2);
-      border:1px solid rgba(255,255,255,.12);
-      background: linear-gradient(180deg, rgba(16,38,20,.55), rgba(26,18,10,.45));
-      box-shadow: var(--shadow);
-      padding:18px 16px;
-      position:relative;
-      overflow:hidden;
-    }
-    .sidecard h3{
-      margin:0 0 8px 0;
-      font-size:14px;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      color: var(--text);
-    }
-    .sidecard p{
-      margin:0 0 10px 0;
-      color: var(--muted);
-      line-height:1.55;
-      font-size:13px;
-    }
-
-    .btnrow{display:flex; gap:10px; flex-wrap:wrap; margin-top:6px}
-    .btn{
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.16);
-      color: var(--text);
-      border-radius: 14px;
-      padding:10px 12px;
-      font-size:13px;
-      cursor:pointer;
-      transition: transform .12s ease, background .12s ease, border-color .12s ease;
-      user-select:none;
-    }
-    .btn:hover{
-      transform: translateY(-1px);
-      background: rgba(46,160,75,.10);
-      border-color: rgba(46,160,75,.28);
-    }
-
-    /* SECTIONS */
+    /* CONTENT */
     .grid{
+      position:relative;
+      z-index:1;
       margin-top:18px;
       display:grid;
       grid-template-columns: 1fr 1fr;
       gap:16px;
     }
     @media (max-width: 980px){
-      .hero{grid-template-columns:1fr}
-      .search{min-width: 200px}
       .grid{grid-template-columns:1fr}
       .nav{gap:10px; flex-wrap:wrap}
       .brand{min-width: 170px}
@@ -308,10 +309,29 @@
     details.section{
       border-radius: var(--radius2);
       border:1px solid rgba(255,255,255,.12);
-      background: linear-gradient(180deg, rgba(23,56,32,.35), rgba(26,18,10,.35));
+      background: linear-gradient(180deg, rgba(19,42,27,.20), rgba(30,18,10,.34));
       box-shadow: var(--shadow);
       overflow:hidden;
+      position:relative;
     }
+
+    /* branch overlay on each section */
+    details.section::before{
+      content:"";
+      position:absolute; inset:-40px -80px;
+      background:
+        radial-gradient(closest-side at 12% 38%, rgba(58,35,20,.44), transparent 72%),
+        radial-gradient(closest-side at 30% 62%, rgba(58,35,20,.38), transparent 74%),
+        radial-gradient(closest-side at 50% 42%, rgba(58,35,20,.34), transparent 76%),
+        radial-gradient(closest-side at 70% 64%, rgba(58,35,20,.30), transparent 78%),
+        radial-gradient(closest-side at 88% 46%, rgba(58,35,20,.26), transparent 80%);
+      opacity:.40;
+      pointer-events:none;
+      transform-origin: 30% 40%;
+      animation: sway 8.5s ease-in-out infinite;
+      filter: blur(.25px);
+    }
+
     details.section > summary{
       list-style:none;
       cursor:pointer;
@@ -322,15 +342,17 @@
       gap:12px;
       user-select:none;
       position:relative;
+      z-index:1;
       background:
-        radial-gradient(700px 150px at 0% 0%, rgba(46,160,75,.14), transparent 62%),
+        radial-gradient(700px 150px at 0% 0%, rgba(52,179,90,.06), transparent 64%),
         linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.06));
       border-bottom:1px solid rgba(255,255,255,.08);
     }
     details.section > summary::-webkit-details-marker{display:none}
+
     .sectitle{
       display:flex; gap:10px; align-items:center;
-      font-weight:700;
+      font-weight:800;
       letter-spacing:.12em;
       text-transform:uppercase;
       font-size:13px;
@@ -338,7 +360,7 @@
     .twig{
       width:26px; height:26px;
       border-radius: 9px;
-      background: linear-gradient(135deg, var(--bark2), var(--leaf2));
+      background: linear-gradient(135deg, var(--bark3), var(--leaf2));
       border:1px solid rgba(255,255,255,.12);
       position:relative;
       overflow:hidden;
@@ -346,7 +368,7 @@
     .twig::after{
       content:"";
       position:absolute; inset:-40% -40%;
-      background: radial-gradient(circle at 40% 40%, rgba(255,255,255,.12), transparent 55%);
+      background: radial-gradient(circle at 40% 40%, rgba(255,255,255,.10), transparent 60%);
       transform: rotate(18deg);
       opacity:.7;
     }
@@ -358,7 +380,7 @@
     }
     details[open] .chev{transform: rotate(90deg);}
 
-    .section-body{padding:14px}
+    .section-body{padding:14px; position:relative; z-index:1;}
     .cards{
       display:grid;
       grid-template-columns: 1fr 1fr;
@@ -374,66 +396,45 @@
       border-radius: 22px;
       border:1px solid rgba(255,255,255,.12);
       background:
-        radial-gradient(450px 160px at 20% 0%, rgba(46,160,75,.16), transparent 62%),
+        radial-gradient(450px 160px at 20% 0%, rgba(52,179,90,.06), transparent 64%),
         linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.10));
       padding: 14px 14px 12px;
       overflow:hidden;
     }
     .card::before,
     .card::after{
-      /* “branchy” edges */
       content:"";
       position:absolute;
       top:-18px;
-      width:120px; height:90px;
+      width:140px; height:110px;
       background:
-        radial-gradient(closest-side at 20% 60%, rgba(58,38,21,.55), transparent 70%),
-        radial-gradient(closest-side at 55% 40%, rgba(58,38,21,.45), transparent 70%),
-        radial-gradient(closest-side at 75% 65%, rgba(58,38,21,.40), transparent 70%);
+        radial-gradient(closest-side at 20% 60%, rgba(58,35,20,.60), transparent 70%),
+        radial-gradient(closest-side at 55% 40%, rgba(58,35,20,.50), transparent 70%),
+        radial-gradient(closest-side at 75% 65%, rgba(58,35,20,.45), transparent 70%);
       filter: blur(.2px);
-      opacity:.8;
+      opacity:.86;
       pointer-events:none;
+      transform-origin: 40% 50%;
+      animation: branchWiggle 9s ease-in-out infinite;
     }
-    .card::before{left:-40px; transform: rotate(-18deg);}
-    .card::after{right:-40px; transform: rotate(18deg) scaleX(-1);}
+    .card::before{left:-50px; transform: rotate(-18deg);}
+    .card::after{right:-50px; transform: rotate(18deg) scaleX(-1); animation-delay: -3s;}
+    @keyframes branchWiggle{
+      0%,100%{ transform: rotate(-18deg) translateY(0px); }
+      50%{ transform: rotate(-16deg) translateY(2px); }
+    }
 
     .card h4{
-      margin:0 0 8px 0;
+      margin:0;
       font-size:14px;
       letter-spacing:.08em;
       text-transform:uppercase;
     }
-    .tagrow{display:flex; gap:8px; flex-wrap:wrap; margin:0 0 10px 0}
-    .tag{
-      font-size:11px;
-      color: var(--muted);
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.14);
-      padding:5px 8px;
-      border-radius:999px;
-      letter-spacing:.06em;
-    }
-    .soon{
-      margin:0;
-      color: var(--muted);
-      line-height:1.55;
-      font-size:13px;
-    }
-    .card .read{
-      margin-top:10px;
-      display:flex;
-      gap:10px;
-      align-items:center;
-      justify-content:space-between;
-    }
-    .ghost{
-      font-size:12px;
-      color: rgba(234,246,234,.75);
-      letter-spacing:.06em;
-    }
 
-    /* PUZZLES */
+    /* Puzzles */
     .puzzles{
+      position:relative;
+      z-index:1;
       margin-top:16px;
       display:grid;
       grid-template-columns: 1fr 1fr;
@@ -446,16 +447,33 @@
     .panel{
       border-radius: var(--radius2);
       border:1px solid rgba(255,255,255,.12);
-      background: linear-gradient(180deg, rgba(26,18,10,.45), rgba(16,38,20,.45));
+      background: linear-gradient(180deg, rgba(30,18,10,.46), rgba(19,42,27,.22));
       box-shadow: var(--shadow);
       overflow:hidden;
+      position:relative;
     }
+    .panel::before{
+      content:"";
+      position:absolute; inset:-60px -80px;
+      background:
+        radial-gradient(closest-side at 20% 55%, rgba(58,35,20,.42), transparent 72%),
+        radial-gradient(closest-side at 55% 35%, rgba(58,35,20,.34), transparent 76%),
+        radial-gradient(closest-side at 82% 62%, rgba(58,35,20,.28), transparent 80%);
+      opacity:.35;
+      pointer-events:none;
+      transform-origin: 30% 40%;
+      animation: sway 10.5s ease-in-out infinite;
+      filter: blur(.25px);
+    }
+
     .panel-h{
+      position:relative;
+      z-index:1;
       padding: 14px 14px;
       display:flex; align-items:center; justify-content:space-between; gap:10px;
       border-bottom:1px solid rgba(255,255,255,.08);
       background:
-        radial-gradient(700px 160px at 0% 0%, rgba(46,160,75,.14), transparent 62%),
+        radial-gradient(700px 160px at 0% 0%, rgba(52,179,90,.06), transparent 64%),
         linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.06));
     }
     .panel-h h3{
@@ -464,7 +482,7 @@
       letter-spacing:.12em;
       text-transform:uppercase;
     }
-    .panel-b{padding:14px}
+    .panel-b{position:relative; z-index:1; padding:14px}
 
     /* Sudoku */
     .sudoku{
@@ -484,6 +502,7 @@
       justify-content:center;
       border:1px solid rgba(255,255,255,.08);
       position:relative;
+      transition: background .12s ease, box-shadow .12s ease;
     }
     .cell input{
       width:100%;
@@ -494,38 +513,26 @@
       background: transparent;
       color: var(--text);
       font-size:16px;
-      font-weight:700;
+      font-weight:800;
       caret-color: var(--fern);
     }
-    .cell input:focus{
-      background: rgba(46,160,75,.10);
-      box-shadow: inset 0 0 0 3px rgba(46,160,75,.25);
-    }
     .given{
-      background: rgba(255,255,255,.06);
+      background: rgba(255,255,255,.05);
     }
-    .given input{
-      font-weight:800;
-      color: rgba(234,246,234,.9);
+    .cell.correct{
+      background: var(--good);
+      box-shadow: inset 0 0 0 3px var(--goodB);
+    }
+    .cell.incorrect{
+      background: var(--bad);
+      box-shadow: inset 0 0 0 3px var(--badB);
     }
 
     /* Thicker 3x3 lines */
     .cell[data-r="2"], .cell[data-r="5"]{ border-bottom: 2px solid rgba(255,255,255,.18); }
     .cell[data-c="2"], .cell[data-c="5"]{ border-right: 2px solid rgba(255,255,255,.18); }
 
-    .hint{
-      margin:10px 0 0 0;
-      color: var(--muted);
-      font-size:12px;
-      line-height:1.5;
-    }
-
     /* Wordsearch */
-    .ws-wrap{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:12px;
-    }
     .wordsearch{
       display:grid;
       grid-template-columns: repeat(12, 1fr);
@@ -542,67 +549,58 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      font-weight:800;
+      font-weight:900;
       letter-spacing:.08em;
       font-size:12px;
       user-select:none;
       cursor:pointer;
-      transition: transform .08s ease, background .08s ease, border-color .08s ease;
+      transition: transform .08s ease, background .10s ease, border-color .10s ease, box-shadow .10s ease;
       background: rgba(255,255,255,.03);
+      position:relative;
     }
     .ws-cell:hover{transform: translateY(-1px)}
-    .ws-cell.sel{
-      background: rgba(46,160,75,.14);
-      border-color: rgba(46,160,75,.25);
+    .ws-cell.good{
+      background: var(--good);
+      border-color: rgba(52,179,90,.22);
+      box-shadow: inset 0 0 0 3px var(--goodB);
     }
-    .wordlist{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      align-items:center;
-    }
-    .word{
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.14);
-      font-size:12px;
-      color: var(--muted);
-      letter-spacing:.06em;
+    .ws-cell.bad{
+      background: var(--bad);
+      border-color: rgba(220,70,70,.18);
+      box-shadow: inset 0 0 0 3px var(--badB);
     }
 
     footer{
+      position:relative;
+      z-index:1;
       margin-top:18px;
-      color: rgba(184,208,186,.75);
+      color: rgba(188,208,190,.72);
       font-size:12px;
       text-align:center;
       letter-spacing:.06em;
-    }
-
-    /* small helpers */
-    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
-    .spacer{flex:1}
-    .kbd{
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size:11px;
-      padding:2px 6px;
-      border-radius:8px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.18);
-      color: rgba(234,246,234,.8);
     }
   </style>
 </head>
 
 <body>
-  <div class="wrap">
+  <!-- Animated leaves layer -->
+  <div class="leaf-layer" aria-hidden="true">
+    <div class="leaf" style="--t:26s;--x0:-10vw;--y0:10vh;--x1:120vw;--y1:30vh;left:2vw;top:8vh;"></div>
+    <div class="leaf" style="--t:34s;--x0:-20vw;--y0:60vh;--x1:120vw;--y1:40vh;left:10vw;top:55vh;opacity:.55;"></div>
+    <div class="leaf" style="--t:29s;--x0:-15vw;--y0:30vh;--x1:120vw;--y1:75vh;left:18vw;top:26vh;opacity:.62;"></div>
+    <div class="leaf" style="--t:38s;--x0:-25vw;--y0:15vh;--x1:120vw;--y1:85vh;left:35vw;top:12vh;opacity:.50;"></div>
+    <div class="leaf" style="--t:31s;--x0:-18vw;--y0:80vh;--x1:120vw;--y1:55vh;left:52vw;top:78vh;opacity:.58;"></div>
+    <div class="leaf" style="--t:27s;--x0:-12vw;--y0:22vh;--x1:120vw;--y1:10vh;left:70vw;top:20vh;opacity:.60;"></div>
+    <div class="leaf" style="--t:41s;--x0:-30vw;--y0:50vh;--x1:120vw;--y1:20vh;left:84vw;top:46vh;opacity:.48;"></div>
+    <div class="leaf" style="--t:33s;--x0:-16vw;--y0:72vh;--x1:120vw;--y1:92vh;left:92vw;top:70vh;opacity:.52;"></div>
+  </div>
 
+  <div class="wrap">
     <header class="nav">
       <div class="brand">
         <div class="brand-badge" aria-hidden="true"></div>
         <div>
           <h1>PATHWAYS</h1>
-          <span>College Newspaper • Tree-coded edition</span>
         </div>
       </div>
 
@@ -616,33 +614,15 @@
       </nav>
 
       <div class="search">
-        <input id="searchInput" type="search" placeholder="Search articles… (try: soon)" aria-label="Search articles" />
-        <div class="pill" title="All puzzles reset when you refresh the tab">Resets on refresh</div>
+        <input id="searchInput" type="search" placeholder="Search…" aria-label="Search" />
+        <div class="pill">Soon</div>
       </div>
     </header>
 
     <section class="hero" aria-label="Intro">
       <div class="rootbox">
         <h2 class="root-title">PATHWAYS</h2>
-        <p class="root-sub">
-          A new college newspaper site template with collapsible sections, branch-edged article boxes,
-          a search bar, and puzzles. Everything is placeholder “Coming soon” for now — ready for you to fill
-          with real stories.
-        </p>
       </div>
-
-      <aside class="sidecard">
-        <h3>Quick actions</h3>
-        <p>Use the search bar to filter the “Coming soon” article cards. Open sections to see placeholders.</p>
-        <div class="btnrow">
-          <button class="btn" type="button" onclick="openAllSections()">Open all sections</button>
-          <button class="btn" type="button" onclick="closeAllSections()">Close all sections</button>
-          <button class="btn" type="button" onclick="scrollToPuzzles()">Jump to puzzles</button>
-        </div>
-        <p style="margin-top:10px" class="hint">
-          Tip: Sudoku accepts <span class="kbd">1–9</span>. Wordsearch squares toggle highlight.
-        </p>
-      </aside>
     </section>
 
     <main class="grid" aria-label="Content">
@@ -650,45 +630,22 @@
       <!-- NEWS -->
       <details class="section" id="news" open>
         <summary>
-          <div class="sectitle"><span class="twig" aria-hidden="true"></span> News</div>
+          <div class="sectitle"><span class="twig" aria-hidden="true"></span> Soon</div>
           <div class="chev">›</div>
         </summary>
         <div class="section-body">
-          <div class="cards" data-section="News">
-            <article class="card article" data-title="News: Coming soon">
+          <div class="cards">
+            <article class="card article" data-title="coming soon">
               <h4>Coming soon</h4>
-              <div class="tagrow">
-                <span class="tag">Campus</span><span class="tag">Updates</span><span class="tag">Soon</span>
-              </div>
-              <p class="soon">This is a placeholder article box. Replace this with a real story when you’re ready.</p>
-              <div class="read"><span class="ghost">PATHWAYS • Soon</span><span class="ghost">—</span></div>
             </article>
-
-            <article class="card article" data-title="News: Coming soon 2">
+            <article class="card article" data-title="coming soon">
               <h4>Coming soon</h4>
-              <div class="tagrow">
-                <span class="tag">Local</span><span class="tag">Headlines</span><span class="tag">Soon</span>
-              </div>
-              <p class="soon">Branch-edged card, collapsible section, ready for content.</p>
-              <div class="read"><span class="ghost">PATHWAYS • Soon</span><span class="ghost">—</span></div>
             </article>
-
-            <article class="card article" data-title="News: Coming soon 3">
+            <article class="card article" data-title="coming soon">
               <h4>Coming soon</h4>
-              <div class="tagrow">
-                <span class="tag">Announcements</span><span class="tag">Soon</span>
-              </div>
-              <p class="soon">You can copy/paste these cards and change tags/titles later.</p>
-              <div class="read"><span class="ghost">PATHWAYS • Soon</span><span class="ghost">—</span></div>
             </article>
-
-            <article class="card article" data-title="News: Coming soon 4">
+            <article class="card article" data-title="coming soon">
               <h4>Coming soon</h4>
-              <div class="tagrow">
-                <span class="tag">Breaking</span><span class="tag">Soon</span>
-              </div>
-              <p class="soon">Everything here is styled “tree coded”: bark + leaf gradients.</p>
-              <div class="read"><span class="ghost">PATHWAYS • Soon</span><span class="ghost">—</span></div>
             </article>
           </div>
         </div>
@@ -697,27 +654,15 @@
       <!-- FEATURES -->
       <details class="section" id="features">
         <summary>
-          <div class="sectitle"><span class="twig" aria-hidden="true"></span> Features</div>
+          <div class="sectitle"><span class="twig" aria-hidden="true"></span> Soon</div>
           <div class="chev">›</div>
         </summary>
         <div class="section-body">
-          <div class="cards" data-section="Features">
-            <article class="card article" data-title="Features: Coming soon">
-              <h4>Coming soon</h4>
-              <div class="tagrow">
-                <span class="tag">Long read</span><span class="tag">Student life</span><span class="tag">Soon</span>
-              </div>
-              <p class="soon">Put your biggest pieces here — interviews, investigations, profiles, etc.</p>
-              <div class="read"><span class="ghost">PATHWAYS • Soon</span><span class="ghost">—</span></div>
-            </article>
-            <article class="card article" data-title="Features: Coming soon 2">
-              <h4>Coming soon</h4>
-              <div class="tagrow">
-                <span class="tag">Spotlight</span><span class="tag">Soon</span>
-              </div>
-              <p class="soon">Placeholder text. Swap in your real headlines later.</p>
-              <div class="read"><span class="ghost">PATHWAYS • Soon</span><span class="ghost">—</span></div>
-            </article>
+          <div class="cards">
+            <article class="card article" data-title="coming soon"><h4>Coming soon</h4></article>
+            <article class="card article" data-title="coming soon"><h4>Coming soon</h4></article>
+            <article class="card article" data-title="coming soon"><h4>Coming soon</h4></article>
+            <article class="card article" data-title="coming soon"><h4>Coming soon</h4></article>
           </div>
         </div>
       </details>
@@ -725,27 +670,15 @@
       <!-- OPINION -->
       <details class="section" id="opinion">
         <summary>
-          <div class="sectitle"><span class="twig" aria-hidden="true"></span> Opinion</div>
+          <div class="sectitle"><span class="twig" aria-hidden="true"></span> Soon</div>
           <div class="chev">›</div>
         </summary>
         <div class="section-body">
-          <div class="cards" data-section="Opinion">
-            <article class="card article" data-title="Opinion: Coming soon">
-              <h4>Coming soon</h4>
-              <div class="tagrow">
-                <span class="tag">Hot take</span><span class="tag">Soon</span>
-              </div>
-              <p class="soon">Opinion column slot. Make it loud. Or make it gentle. Your call.</p>
-              <div class="read"><span class="ghost">PATHWAYS • Soon</span><span class="ghost">—</span></div>
-            </article>
-            <article class="card article" data-title="Opinion: Coming soon 2">
-              <h4>Coming soon</h4>
-              <div class="tagrow">
-                <span class="tag">Editorial</span><span class="tag">Soon</span>
-              </div>
-              <p class="soon">You can turn these into real collapsible articles later if you want.</p>
-              <div class="read"><span class="ghost">PATHWAYS • Soon</span><span class="ghost">—</span></div>
-            </article>
+          <div class="cards">
+            <article class="card article" data-title="coming soon"><h4>Coming soon</h4></article>
+            <article class="card article" data-title="coming soon"><h4>Coming soon</h4></article>
+            <article class="card article" data-title="coming soon"><h4>Coming soon</h4></article>
+            <article class="card article" data-title="coming soon"><h4>Coming soon</h4></article>
           </div>
         </div>
       </details>
@@ -753,27 +686,15 @@
       <!-- SPORTS -->
       <details class="section" id="sports">
         <summary>
-          <div class="sectitle"><span class="twig" aria-hidden="true"></span> Sports</div>
+          <div class="sectitle"><span class="twig" aria-hidden="true"></span> Soon</div>
           <div class="chev">›</div>
         </summary>
         <div class="section-body">
-          <div class="cards" data-section="Sports">
-            <article class="card article" data-title="Sports: Coming soon">
-              <h4>Coming soon</h4>
-              <div class="tagrow">
-                <span class="tag">Fixtures</span><span class="tag">Soon</span>
-              </div>
-              <p class="soon">Match reports, try-outs, sports club updates… all ready to go.</p>
-              <div class="read"><span class="ghost">PATHWAYS • Soon</span><span class="ghost">—</span></div>
-            </article>
-            <article class="card article" data-title="Sports: Coming soon 2">
-              <h4>Coming soon</h4>
-              <div class="tagrow">
-                <span class="tag">Team</span><span class="tag">Soon</span>
-              </div>
-              <p class="soon">This is just a layout shell — you fill it with the good stuff.</p>
-              <div class="read"><span class="ghost">PATHWAYS • Soon</span><span class="ghost">—</span></div>
-            </article>
+          <div class="cards">
+            <article class="card article" data-title="coming soon"><h4>Coming soon</h4></article>
+            <article class="card article" data-title="coming soon"><h4>Coming soon</h4></article>
+            <article class="card article" data-title="coming soon"><h4>Coming soon</h4></article>
+            <article class="card article" data-title="coming soon"><h4>Coming soon</h4></article>
           </div>
         </div>
       </details>
@@ -781,27 +702,15 @@
       <!-- CULTURE -->
       <details class="section" id="culture">
         <summary>
-          <div class="sectitle"><span class="twig" aria-hidden="true"></span> Culture</div>
+          <div class="sectitle"><span class="twig" aria-hidden="true"></span> Soon</div>
           <div class="chev">›</div>
         </summary>
         <div class="section-body">
-          <div class="cards" data-section="Culture">
-            <article class="card article" data-title="Culture: Coming soon">
-              <h4>Coming soon</h4>
-              <div class="tagrow">
-                <span class="tag">Music</span><span class="tag">Arts</span><span class="tag">Soon</span>
-              </div>
-              <p class="soon">Reviews, playlists, events, student art — this section’s built for it.</p>
-              <div class="read"><span class="ghost">PATHWAYS • Soon</span><span class="ghost">—</span></div>
-            </article>
-            <article class="card article" data-title="Culture: Coming soon 2">
-              <h4>Coming soon</h4>
-              <div class="tagrow">
-                <span class="tag">What’s on</span><span class="tag">Soon</span>
-              </div>
-              <p class="soon">Add posters, embeds, galleries later — structure is here already.</p>
-              <div class="read"><span class="ghost">PATHWAYS • Soon</span><span class="ghost">—</span></div>
-            </article>
+          <div class="cards">
+            <article class="card article" data-title="coming soon"><h4>Coming soon</h4></article>
+            <article class="card article" data-title="coming soon"><h4>Coming soon</h4></article>
+            <article class="card article" data-title="coming soon"><h4>Coming soon</h4></article>
+            <article class="card article" data-title="coming soon"><h4>Coming soon</h4></article>
           </div>
         </div>
       </details>
@@ -810,73 +719,35 @@
     <section class="puzzles" id="puzzles" aria-label="Puzzles">
 
       <!-- SUDOKU -->
-      <div class="panel" aria-label="Sudoku panel">
+      <div class="panel" aria-label="Sudoku">
         <div class="panel-h">
-          <h3>Sudoku (interactive)</h3>
-          <div class="row">
-            <button class="btn" type="button" onclick="clearSudoku()">Clear inputs</button>
-          </div>
+          <h3>Soon</h3>
+          <div class="pill" style="padding:8px 10px;">Soon</div>
         </div>
         <div class="panel-b">
           <div class="sudoku" id="sudoku" aria-label="Sudoku grid"></div>
-          <p class="hint">
-            Click a square and type <span class="kbd">1–9</span>. Given numbers are fixed. Refreshing the tab resets everything.
-          </p>
         </div>
       </div>
 
       <!-- WORDSEARCH -->
-      <div class="panel" aria-label="Wordsearch panel">
+      <div class="panel" aria-label="Wordsearch">
         <div class="panel-h">
-          <h3>Wordsearch (completed grid)</h3>
-          <div class="row">
-            <button class="btn" type="button" onclick="clearWordsearch()">Clear highlights</button>
-          </div>
+          <h3>Soon</h3>
+          <div class="pill" style="padding:8px 10px;">Soon</div>
         </div>
         <div class="panel-b">
-          <div class="ws-wrap">
-            <div class="wordsearch" id="wordsearch" aria-label="Wordsearch grid"></div>
-            <div class="wordlist" aria-label="Word list">
-              <span class="word">PATHWAYS</span>
-              <span class="word">OAK</span>
-              <span class="word">PINE</span>
-              <span class="word">ROOT</span>
-              <span class="word">LEAF</span>
-              <span class="word">BARK</span>
-              <span class="word">CAMPUS</span>
-              <span class="word">INK</span>
-            </div>
-            <p class="hint">
-              Click letters to highlight/unhighlight. (This is a full grid already filled in — just interactive highlighting.)
-            </p>
-          </div>
+          <div class="wordsearch" id="wordsearch" aria-label="Wordsearch grid"></div>
         </div>
       </div>
 
     </section>
 
-    <footer>
-      PATHWAYS • Template build — tree theme • Collapsible sections • Search filter • Sudoku + Wordsearch
-    </footer>
-
+    <footer>PATHWAYS</footer>
   </div>
 
   <script>
     // ---------------------------
-    // NAV / SECTION CONTROLS
-    // ---------------------------
-    function openAllSections(){
-      document.querySelectorAll('details.section').forEach(d => d.open = true);
-    }
-    function closeAllSections(){
-      document.querySelectorAll('details.section').forEach(d => d.open = false);
-    }
-    function scrollToPuzzles(){
-      document.getElementById('puzzles').scrollIntoView({behavior:'smooth', block:'start'});
-    }
-
-    // ---------------------------
-    // SEARCH FILTER (articles)
+    // SEARCH FILTER (articles) - still works, but no visible extra words
     // ---------------------------
     const searchInput = document.getElementById('searchInput');
     const articles = Array.from(document.querySelectorAll('.article'));
@@ -884,16 +755,16 @@
     function applySearch(){
       const q = (searchInput.value || "").trim().toLowerCase();
       articles.forEach(card => {
-        const title = (card.getAttribute('data-title') || card.querySelector('h4')?.textContent || "").toLowerCase();
-        const tags = Array.from(card.querySelectorAll('.tag')).map(t => t.textContent.toLowerCase()).join(" ");
-        const hay = title + " " + tags;
-        card.style.display = (q === "" || hay.includes(q)) ? "" : "none";
+        const title = (card.getAttribute('data-title') || "").toLowerCase();
+        card.style.display = (q === "" || title.includes(q)) ? "" : "none";
       });
     }
     searchInput.addEventListener('input', applySearch);
+    applySearch();
 
     // ---------------------------
-    // SUDOKU (interactive, resets on refresh)
+    // SUDOKU (green if correct, red if wrong)
+    // Resets on refresh (no localStorage)
     // ---------------------------
     // 0 = blank; non-zero = given
     const sudokuPuzzle = [
@@ -910,6 +781,21 @@
       [0,0,0, 0,8,0, 0,7,9],
     ];
 
+    // matching solution for correctness-check
+    const sudokuSolution = [
+      [5,3,4, 6,7,8, 9,1,2],
+      [6,7,2, 1,9,5, 3,4,8],
+      [1,9,8, 3,4,2, 5,6,7],
+
+      [8,5,9, 7,6,1, 4,2,3],
+      [4,2,6, 8,5,3, 7,9,1],
+      [7,1,3, 9,2,4, 8,5,6],
+
+      [9,6,1, 5,3,7, 2,8,4],
+      [2,8,7, 4,1,9, 6,3,5],
+      [3,4,5, 2,8,6, 1,7,9],
+    ];
+
     const sudokuEl = document.getElementById('sudoku');
 
     function buildSudoku(){
@@ -924,7 +810,7 @@
           const inp = document.createElement('input');
           inp.setAttribute('inputmode','numeric');
           inp.setAttribute('maxlength','1');
-          inp.setAttribute('aria-label', `Row ${r+1} Column ${c+1}`);
+          inp.setAttribute('aria-label', `r${r+1}c${c+1}`);
 
           const val = sudokuPuzzle[r][c];
 
@@ -935,29 +821,39 @@
             inp.tabIndex = -1;
           }else{
             inp.value = "";
+            inp.addEventListener('input', () => {
+              // keep only 1-9
+              const ch = (inp.value || "").slice(-1);
+              if(!/^[1-9]$/.test(ch)){
+                inp.value = "";
+                setSudokuState(cell, null);
+                return;
+              }
+              inp.value = ch;
+
+              const n = Number(ch);
+              const correct = (n === sudokuSolution[r][c]);
+              setSudokuState(cell, correct);
+            });
+
             inp.addEventListener('keydown', (e) => {
-              // allow navigation keys
               const allowed = ["Backspace","Delete","Tab","ArrowLeft","ArrowRight","ArrowUp","ArrowDown","Home","End"];
               if(allowed.includes(e.key)) return;
-
-              // digits 1-9 only
               if(!/^[1-9]$/.test(e.key)){
                 e.preventDefault();
                 return;
               }
-              // replace value cleanly
-              inp.value = e.key;
-              e.preventDefault();
-
-              // quick move right
-              focusNextSudoku(r,c);
             });
 
             inp.addEventListener('paste', (e) => {
               e.preventDefault();
               const text = (e.clipboardData || window.clipboardData).getData('text');
               const ch = (text || "").trim()[0];
-              if(/^[1-9]$/.test(ch)) inp.value = ch;
+              if(/^[1-9]$/.test(ch)){
+                inp.value = ch;
+                const n = Number(ch);
+                setSudokuState(cell, n === sudokuSolution[r][c]);
+              }
             });
           }
 
@@ -967,70 +863,126 @@
       }
     }
 
-    function focusNextSudoku(r,c){
-      // find next editable cell to the right, else wrap
-      for(let k=1; k<=81; k++){
-        const idx = r*9 + c + k;
-        const rr = Math.floor(idx / 9) % 9;
-        const cc = idx % 9;
-        if(sudokuPuzzle[rr][cc] === 0){
-          const input = sudokuEl.querySelector(`.cell[data-r="${rr}"][data-c="${cc}"] input`);
-          input?.focus();
-          return;
-        }
-      }
+    function setSudokuState(cell, correct){
+      cell.classList.remove('correct','incorrect');
+      if(correct === true) cell.classList.add('correct');
+      if(correct === false) cell.classList.add('incorrect');
     }
 
-    function clearSudoku(){
-      sudokuEl.querySelectorAll('.cell:not(.given) input').forEach(inp => inp.value = "");
-    }
+    buildSudoku();
 
     // ---------------------------
-    // WORDSEARCH (completed grid, interactive highlights)
+    // WORDSEARCH (more mixed)
+    // Click a letter:
+    // - green if that letter belongs to ANY hidden word placement
+    // - red if it doesn't
+    // Resets on refresh
     // ---------------------------
-    // 12x12 filled grid (already completed)
-    const wsGrid = [
-      "P A T H W A Y S L E A F".split(" "),
-      "O A K X R O O T B A R K".split(" "),
-      "P I N E Q W E R T Y U I".split(" "),
-      "C A M P U S I N K Z Z Z".split(" "),
-      "L E A F B R A N C H E S".split(" "),
-      "B A R K S H A D O W S X".split(" "),
-      "R O O T S G R O W D E E".split(" "),
-      "T R E E C O D E D V I B".split(" "),
-      "M O S S F E R N S O I L".split(" "),
-      "G R E E N B R O W N D K".split(" "),
-      "S T O R I E S S O O N S".split(" "),
-      "P A T H S U P D A T E S".split(" "),
-    ];
-
+    const SIZE = 12;
     const wordsearchEl = document.getElementById('wordsearch');
 
-    function buildWordsearch(){
-      wordsearchEl.innerHTML = "";
-      for(let r=0; r<12; r++){
-        for(let c=0; c<12; c++){
-          const b = document.createElement('div');
-          b.className = "ws-cell";
-          b.textContent = wsGrid[r][c] || "X";
-          b.setAttribute('role','button');
-          b.setAttribute('aria-label', `Letter ${b.textContent} at row ${r+1} column ${c+1}`);
-          b.addEventListener('click', () => b.classList.toggle('sel'));
-          wordsearchEl.appendChild(b);
+    // keep the hidden words internal (no extra UI words)
+    const hiddenWords = ["PATHWAYS","ROOT","LEAF","BARK","OAK","PINE","CAMPUS","INK"];
+
+    // directions: (dr, dc)
+    const dirs = [
+      [0,1], [1,0], [0,-1], [-1,0],
+      [1,1], [1,-1], [-1,1], [-1,-1]
+    ];
+
+    function randInt(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
+
+    function makeEmptyGrid(){
+      return Array.from({length: SIZE}, () => Array.from({length: SIZE}, () => ""));
+    }
+
+    function canPlace(grid, word, r, c, dr, dc){
+      for(let i=0;i<word.length;i++){
+        const rr = r + dr*i, cc = c + dc*i;
+        if(rr<0 || rr>=SIZE || cc<0 || cc>=SIZE) return false;
+        const cur = grid[rr][cc];
+        if(cur !== "" && cur !== word[i]) return false;
+      }
+      return true;
+    }
+
+    function placeWord(grid, word){
+      // try a bunch of times, place it somewhere mixed
+      for(let tries=0; tries<800; tries++){
+        const [dr, dc] = dirs[randInt(0, dirs.length-1)];
+        const r = randInt(0, SIZE-1);
+        const c = randInt(0, SIZE-1);
+        if(!canPlace(grid, word, r, c, dr, dc)) continue;
+
+        const coords = [];
+        for(let i=0;i<word.length;i++){
+          const rr = r + dr*i, cc = c + dc*i;
+          grid[rr][cc] = word[i];
+          coords.push(rr + "," + cc);
+        }
+        return coords;
+      }
+      return [];
+    }
+
+    function fillRandom(grid){
+      const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      for(let r=0;r<SIZE;r++){
+        for(let c=0;c<SIZE;c++){
+          if(grid[r][c] === ""){
+            grid[r][c] = letters[randInt(0, letters.length-1)];
+          }
         }
       }
     }
 
-    function clearWordsearch(){
-      wordsearchEl.querySelectorAll('.ws-cell.sel').forEach(c => c.classList.remove('sel'));
+    function buildWordsearch(){
+      const grid = makeEmptyGrid();
+      const goodSet = new Set();
+
+      // place longer words first for better success
+      const sorted = [...hiddenWords].sort((a,b)=>b.length-a.length);
+      for(const w of sorted){
+        const coords = placeWord(grid, w);
+        coords.forEach(k => goodSet.add(k));
+      }
+
+      fillRandom(grid);
+
+      // render
+      wordsearchEl.innerHTML = "";
+      for(let r=0;r<SIZE;r++){
+        for(let c=0;c<SIZE;c++){
+          const cell = document.createElement("div");
+          cell.className = "ws-cell";
+          cell.textContent = grid[r][c];
+          cell.dataset.key = r + "," + c;
+
+          cell.addEventListener("click", () => {
+            // toggle: if already marked, clear
+            if(cell.classList.contains("good") || cell.classList.contains("bad")){
+              cell.classList.remove("good","bad");
+              return;
+            }
+
+            const isGood = goodSet.has(cell.dataset.key);
+            if(isGood){
+              cell.classList.add("good");
+            }else{
+              cell.classList.add("bad");
+              // soften the sting: fade the red a bit after a moment (still shows it was wrong)
+              setTimeout(() => {
+                if(cell.classList.contains("bad")) cell.style.opacity = ".75";
+              }, 450);
+            }
+          });
+
+          wordsearchEl.appendChild(cell);
+        }
+      }
     }
 
-    // ---------------------------
-    // INIT
-    // ---------------------------
-    buildSudoku();
     buildWordsearch();
-    applySearch();
   </script>
 </body>
 </html>
