@@ -1,352 +1,1513 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PATHWAYS</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PATHWAYS — College Newspaper</title>
+  <meta name="description" content="PATHWAYS — a fun-but-serious college newspaper site with articles + daily puzzles." />
 
-<style>
-/* =========================
-   COLOURS & BASICS
-========================= */
-:root{
-  --bg:#dff4e6;          /* light green background */
-  --oak:#4b2e1a;         /* oak brown text */
-  --card:#ffffff;
+  <style>
+    :root{
+      --bg: #dff7df;              /* light green, clear background */
+      --oak: #5a3a22;             /* oak brown text */
+      --ink: var(--oak);
 
-  --news:#ffb3ba;
-  --features:#bae1ff;
-  --opinion:#cdb4db;
-  --sports:#ffd6a5;
-  --culture:#baffc9;
-  --puzzles:#ffffba;
+      /* vivid block colours */
+      --block-1: #ffea70;
+      --block-2: #7ee7ff;
+      --block-3: #ff9ad5;
+      --block-4: #b5ff7a;
+      --block-5: #c6a6ff;
 
-  --good:#5fd38d;
-  --bad:#ff7b7b;
+      --white: #ffffff;
+      --shadow: 0 10px 25px rgba(0,0,0,.12);
+      --soft: 18px;
+      --soft2: 26px;
 
-  --shadow:0 10px 25px rgba(0,0,0,.15);
-  --radius:18px;
-}
+      --good: #1b8f3a;
+      --bad:  #b01b1b;
+      --muted: rgba(90,58,34,.65);
+      --line: rgba(90,58,34,.20);
 
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;
-  background:var(--bg);
-  color:var(--oak);
-}
+      --nav: rgba(255,255,255,.65);
+      --nav2: rgba(255,255,255,.82);
+    }
 
-h1,h2,h3{margin:0;color:var(--oak)}
-a{text-decoration:none;color:var(--oak)}
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--ink);
+      background:
+        radial-gradient(1000px 700px at 10% 10%, rgba(255,255,255,.55), transparent 55%),
+        radial-gradient(900px 650px at 90% 20%, rgba(255,255,255,.35), transparent 60%),
+        radial-gradient(900px 700px at 50% 100%, rgba(255,255,255,.25), transparent 60%),
+        var(--bg);
+      min-height:100vh;
+    }
 
-/* =========================
-   NAV
-========================= */
-.nav{
-  position:sticky;top:0;z-index:10;
-  background:#fff;
-  display:flex;
-  gap:12px;
-  align-items:center;
-  justify-content:space-between;
-  padding:14px 18px;
-  box-shadow:var(--shadow);
-}
-.nav h1{letter-spacing:.25em}
-.nav a{
-  padding:8px 12px;
-  border-radius:999px;
-  font-weight:700;
-}
-.nav a:hover{background:#eee}
-.search input{
-  padding:8px 12px;
-  border-radius:12px;
-  border:2px solid var(--oak);
-}
+    a{ color:inherit; }
+    .wrap{ max-width:1100px; margin:0 auto; padding:20px; }
 
-/* =========================
-   LAYOUT
-========================= */
-.wrap{max-width:900px;margin:auto;padding:20px}
-.section{
-  margin-top:28px;
-  border-radius:var(--radius);
-  padding:18px;
-}
-.section h2{
-  letter-spacing:.18em;
-  margin-bottom:12px;
-}
+    /* NAV */
+    .nav{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(to bottom, var(--nav2), var(--nav));
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner{
+      max-width:1100px; margin:0 auto;
+      display:flex; gap:12px; align-items:center;
+      padding:10px 16px;
+      flex-wrap:wrap;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      padding:8px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.7);
+      box-shadow: 0 6px 16px rgba(0,0,0,.08);
+      border:1px solid var(--line);
+      user-select:none;
+    }
+    .brand h1{
+      font-size:16px; margin:0;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .brand small{ display:block; margin-top:2px; color:var(--muted); font-size:11px; letter-spacing:.08em; }
+    .nav-btns{
+      display:flex; gap:8px; flex-wrap:wrap;
+      margin-left:auto;
+    }
+    .btn{
+      appearance:none;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.74);
+      color:var(--ink);
+      padding:10px 12px;
+      border-radius:999px;
+      font-weight:700;
+      letter-spacing:.04em;
+      cursor:pointer;
+      transition: transform .08s ease, background .15s ease;
+      box-shadow: 0 8px 18px rgba(0,0,0,.08);
+      display:inline-flex; align-items:center; gap:8px;
+      white-space:nowrap;
+    }
+    .btn:hover{ background: rgba(255,255,255,.9); transform: translateY(-1px); }
+    .btn:active{ transform: translateY(1px); }
+    .btn:focus{ outline: 3px solid rgba(90,58,34,.25); outline-offset: 2px; }
 
-/* =========================
-   ARTICLES
-========================= */
-.article{
-  background:var(--card);
-  border-radius:16px;
-  padding:16px;
-  margin-bottom:14px;
-  box-shadow:var(--shadow);
-  position:relative;
-}
-.article h3{margin-bottom:8px}
+    .search{
+      display:flex; align-items:center; gap:10px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:8px 12px;
+      background: rgba(255,255,255,.75);
+      box-shadow: 0 8px 18px rgba(0,0,0,.08);
+      min-width: min(420px, 100%);
+      flex: 1 1 260px;
+    }
+    .search input{
+      width:100%;
+      border:0;
+      background:transparent;
+      color:var(--ink);
+      font-weight:700;
+      letter-spacing:.03em;
+      font-size:14px;
+      outline:none;
+    }
+    .search .hint{ color:var(--muted); font-weight:700; font-size:12px; white-space:nowrap; }
+    .pill{
+      border:1px dashed var(--line);
+      border-radius:999px;
+      padding:4px 10px;
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.08em;
+      background: rgba(255,255,255,.55);
+    }
 
-.print-btn{
-  margin-top:8px;
-  padding:6px 12px;
-  border-radius:12px;
-  border:2px dashed var(--oak);
-  background:#fff;
-  font-weight:700;
-  cursor:pointer;
-}
+    /* HERO */
+    .hero{
+      margin-top:18px;
+      border-radius: var(--soft2);
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
+      background: linear-gradient(135deg, rgba(255,255,255,.80), rgba(255,255,255,.45));
+      position:relative;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:16px;
+      padding:24px;
+      align-items:stretch;
+    }
+    @media (max-width: 880px){
+      .hero-grid{ grid-template-columns:1fr; }
+    }
+    .big-title{
+      margin:0;
+      font-size: clamp(28px, 4vw, 46px);
+      letter-spacing:.10em;
+      text-transform: uppercase;
+      line-height:1.05;
+    }
+    .tagline{
+      margin:10px 0 0;
+      font-size: 16px;
+      font-weight:800;
+      color: rgba(90,58,34,.86);
+      max-width: 52ch;
+    }
+    .sub{
+      margin:12px 0 0;
+      color:var(--muted);
+      font-weight:800;
+      line-height:1.55;
+      max-width: 70ch;
+    }
 
-/* Stickman */
-.stickman{
-  position:absolute;
-  right:12px;
-  bottom:10px;
-  font-size:22px;
-}
+    /* STICKMEN */
+    .stickbox{
+      border-radius: var(--soft);
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.66);
+      padding:14px;
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+      min-height: 160px;
+    }
+    .sticktext{
+      flex:1;
+    }
+    .sticktext h3{
+      margin:0;
+      font-size:14px;
+      text-transform: uppercase;
+      letter-spacing:.12em;
+    }
+    .sticktext p{
+      margin:8px 0 0;
+      font-weight:800;
+      color: rgba(90,58,34,.78);
+      line-height:1.4;
+      font-size:13px;
+    }
+    svg.stickman{ width:140px; height:140px; flex: 0 0 auto; }
+    .scribble{
+      position:absolute; inset:-40px -60px auto auto;
+      transform: rotate(8deg);
+      opacity:.12;
+      pointer-events:none;
+    }
 
-/* =========================
-   PUZZLES
-========================= */
-.puzzles{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:18px;
-}
-@media(max-width:800px){.puzzles{grid-template-columns:1fr}}
+    /* SECTIONS */
+    section{
+      margin-top:18px;
+      border-radius: var(--soft2);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
+      overflow:hidden;
+    }
+    .sec-head{
+      padding:18px 22px;
+      display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
+      border-bottom:1px solid var(--line);
+    }
+    .sec-head h2{
+      margin:0;
+      font-size: 18px;
+      letter-spacing:.18em;
+      text-transform: uppercase;
+    }
+    .sec-head p{
+      margin:8px 0 0;
+      font-weight:800;
+      color: rgba(90,58,34,.78);
+      max-width: 72ch;
+      line-height:1.4;
+      font-size: 13px;
+    }
+    .sec-body{ padding:18px 22px 22px; }
 
-.panel{
-  background:#fff;
-  border-radius:18px;
-  padding:14px;
-  box-shadow:var(--shadow);
-}
+    .block-1{ background: linear-gradient(135deg, rgba(255,255,255,.45), rgba(255,255,255,.12)), var(--block-1); }
+    .block-2{ background: linear-gradient(135deg, rgba(255,255,255,.45), rgba(255,255,255,.12)), var(--block-2); }
+    .block-3{ background: linear-gradient(135deg, rgba(255,255,255,.45), rgba(255,255,255,.12)), var(--block-3); }
+    .block-4{ background: linear-gradient(135deg, rgba(255,255,255,.45), rgba(255,255,255,.12)), var(--block-4); }
+    .block-5{ background: linear-gradient(135deg, rgba(255,255,255,.45), rgba(255,255,255,.12)), var(--block-5); }
 
-.sudoku{
-  display:grid;
-  grid-template-columns:repeat(9,1fr);
-}
-.cell{
-  aspect-ratio:1/1;
-  border:1px solid #ccc;
-}
-.cell input{
-  width:100%;height:100%;
-  border:0;
-  text-align:center;
-  font-size:18px;
-  font-weight:800;
-  color:var(--oak);
-}
-.correct{background:var(--good)}
-.incorrect{background:var(--bad)}
+    /* ARTICLE LIST (Orbis Vox-ish vertical list) */
+    .articles{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:14px;
+    }
+    .article{
+      background: rgba(255,255,255,.72);
+      border:1px solid var(--line);
+      border-radius: var(--soft);
+      padding:14px 14px 12px;
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+    }
+    .badge{
+      font-weight:1000;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-size:11px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.60);
+      border-radius:999px;
+      padding:6px 10px;
+      white-space:nowrap;
+    }
+    .article h3{
+      margin:0;
+      font-size:16px;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      line-height:1.2;
+    }
+    .article p{
+      margin:8px 0 0;
+      font-weight:800;
+      color: rgba(90,58,34,.78);
+      line-height:1.45;
+      font-size:13px;
+      max-width: 82ch;
+    }
+    .article .meta{
+      margin-top:10px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .tiny{
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.06em;
+      color: rgba(90,58,34,.72);
+      border:1px dashed var(--line);
+      padding:6px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.55);
+    }
 
-.wordlist{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-  margin-bottom:8px;
-}
-.word{padding:4px 8px;border:1px solid var(--oak);border-radius:999px}
+    .article .print{
+      margin-left:auto;
+      align-self:stretch;
+      display:flex;
+      align-items:center;
+    }
 
-.wordsearch{
-  display:grid;
-  grid-template-columns:repeat(10,1fr);
-  gap:4px;
-}
-.ws-cell{
-  aspect-ratio:1/1;
-  border:1px solid #aaa;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:800;
-  cursor:pointer;
-}
-.ws-cell.good{background:var(--good)}
-.ws-cell.bad{background:var(--bad)}
+    /* PUZZLES LAYOUT */
+    .puzzles-grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:16px;
+    }
+    @media (max-width: 960px){
+      .puzzles-grid{ grid-template-columns:1fr; }
+    }
+    .card{
+      background: rgba(255,255,255,.72);
+      border:1px solid var(--line);
+      border-radius: var(--soft);
+      padding:14px;
+      overflow:hidden;
+      position:relative;
+    }
+    .card h3{
+      margin:0;
+      font-size:14px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+    }
+    .card p{
+      margin:8px 0 12px;
+      font-weight:800;
+      color: rgba(90,58,34,.78);
+      line-height:1.45;
+      font-size:13px;
+    }
+    .status{
+      display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .status .lamp{
+      width:12px; height:12px; border-radius:999px;
+      border: 2px solid rgba(90,58,34,.45);
+      background: rgba(255,255,255,.7);
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,.55);
+    }
+    .status .lamp.good{ background: rgba(27,143,58,.85); border-color: rgba(27,143,58,.9); }
+    .status .lamp.bad{ background: rgba(176,27,27,.85); border-color: rgba(176,27,27,.9); }
+    .status .label{
+      font-weight:1000;
+      letter-spacing:.08em;
+      font-size:12px;
+      text-transform:uppercase;
+    }
 
-/* =========================
-   POPUP
-========================= */
-.popup{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.4);
-  display:none;
-  align-items:center;
-  justify-content:center;
-}
-.popup.show{display:flex}
-.popup-box{
-  background:#fff;
-  padding:30px;
-  border-radius:22px;
-  text-align:center;
-  box-shadow:0 30px 80px rgba(0,0,0,.4);
-}
-.popup-box h2{font-size:36px}
+    /* SUDOKU */
+    .sudoku{
+      width:100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      background: rgba(255,255,255,.75);
+      border:1px solid var(--line);
+      border-radius: 14px;
+      overflow:hidden;
+    }
+    .sudoku td{
+      border: 1px solid rgba(90,58,34,.22);
+      text-align:center;
+      padding:0;
+      height:40px;
+      position:relative;
+    }
+    .sudoku tr:nth-child(3) td, .sudoku tr:nth-child(6) td{ border-bottom-width: 3px; border-bottom-color: rgba(90,58,34,.38); }
+    .sudoku td:nth-child(3), .sudoku td:nth-child(6){ border-right-width: 3px; border-right-color: rgba(90,58,34,.38); }
+    .sudoku input{
+      width:100%;
+      height:40px;
+      border:0;
+      background: transparent;
+      text-align:center;
+      font-weight:1000;
+      font-size:16px;
+      color: var(--ink);
+      outline:none;
+      caret-color: var(--ink);
+    }
+    .sudoku input.given{
+      background: rgba(255,255,255,.85);
+      font-weight:1100;
+      color: rgba(90,58,34,.92);
+    }
+    .cell-good{ background: rgba(27,143,58,.18); }
+    .cell-bad{ background: rgba(176,27,27,.18); }
 
-/* =========================
-   PRINT
-========================= */
-@media print{
-  body{background:#fff;color:#000}
-  .nav,.print-btn,.popup{display:none!important}
-  .article{
-    box-shadow:none;
-    border:1px solid #000;
-    column-count:2;
-    column-gap:24px;
-  }
-}
-</style>
+    /* WORDSEARCH */
+    .ws-grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:4px;
+      user-select:none;
+    }
+    .ws-cell{
+      aspect-ratio: 1 / 1;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius: 10px;
+      border:1px solid rgba(90,58,34,.20);
+      background: rgba(255,255,255,.75);
+      font-weight:1000;
+      letter-spacing:.08em;
+      cursor:pointer;
+      transition: transform .05s ease;
+      position:relative;
+    }
+    .ws-cell:hover{ transform: translateY(-1px); }
+    .ws-cell.sel{ outline: 3px solid rgba(90,58,34,.25); }
+    .ws-cell.found{ background: rgba(27,143,58,.22); border-color: rgba(27,143,58,.55); }
+    .ws-cell.badflash{
+      animation: badflash .25s ease 0s 2;
+    }
+    @keyframes badflash{
+      0%{ background: rgba(176,27,27,.24); }
+      100%{ background: rgba(255,255,255,.75); }
+    }
+
+    .ws-words{
+      margin-top:12px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+    .ws-word{
+      font-weight:1000;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.6);
+    }
+    .ws-word.done{
+      background: rgba(27,143,58,.18);
+      border-color: rgba(27,143,58,.55);
+      text-decoration: line-through;
+      opacity:.9;
+    }
+
+    /* FOOTER */
+    footer{
+      margin:22px 0 8px;
+      color: rgba(90,58,34,.70);
+      font-weight:900;
+      letter-spacing:.08em;
+      text-transform: uppercase;
+      font-size: 12px;
+      text-align:center;
+    }
+
+    /* POPUP (dramatic well done) */
+    .modal{
+      position:fixed; inset:0;
+      display:none;
+      place-items:center;
+      background: rgba(0,0,0,.45);
+      z-index: 999;
+      padding:18px;
+    }
+    .modal.show{ display:grid; }
+    .modal-box{
+      width:min(720px, 100%);
+      border-radius: 30px;
+      background: linear-gradient(135deg, rgba(255,255,255,.92), rgba(255,255,255,.72));
+      border: 1px solid rgba(255,255,255,.55);
+      box-shadow: 0 25px 70px rgba(0,0,0,.35);
+      overflow:hidden;
+      position:relative;
+    }
+    .modal-top{
+      padding:18px 20px;
+      border-bottom: 1px solid rgba(90,58,34,.18);
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+    }
+    .modal-top strong{
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      font-size: 13px;
+    }
+    .modal-body{
+      padding:22px 20px 18px;
+      display:grid;
+      grid-template-columns: 1fr 220px;
+      gap:14px;
+      align-items:center;
+    }
+    @media (max-width: 760px){
+      .modal-body{ grid-template-columns:1fr; }
+    }
+    .boom{
+      margin:0;
+      font-size: clamp(30px, 4vw, 54px);
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      line-height:1.05;
+    }
+    .boom-sub{
+      margin:12px 0 0;
+      font-weight:900;
+      color: rgba(90,58,34,.78);
+      line-height:1.45;
+    }
+    .modal-actions{
+      padding: 0 20px 20px;
+      display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;
+    }
+    .spark{
+      position:absolute;
+      inset:-40px auto auto -30px;
+      opacity:.18;
+      pointer-events:none;
+      transform: rotate(-10deg);
+    }
+    .modal .btn{ background: rgba(255,255,255,.85); }
+
+    /* PRINT: two-column newspaper look */
+    @media print{
+      body{ background:#fff !important; }
+      .nav, .hero, section, footer{ display:none !important; }
+      #printArea{
+        display:block !important;
+      }
+      #printArea{
+        color:#000;
+        padding:0;
+      }
+      #printArea .print-page{
+        font-family: Georgia, "Times New Roman", Times, serif;
+        padding: 22mm 16mm;
+      }
+      #printArea h1{
+        letter-spacing:.2em;
+        text-transform:uppercase;
+        margin:0 0 8mm;
+        font-size: 18pt;
+      }
+      #printArea .meta{
+        font-size: 10pt;
+        margin-bottom: 6mm;
+      }
+      #printArea .columns{
+        column-count:2;
+        column-gap: 10mm;
+        font-size: 11pt;
+        line-height:1.4;
+      }
+      #printArea .columns p{ margin:0 0 10pt; }
+    }
+
+    /* hidden print area */
+    #printArea{ display:none; }
+  </style>
 </head>
 
 <body>
+  <header class="nav" role="banner">
+    <div class="nav-inner">
+      <div class="brand" aria-label="PATHWAYS site brand">
+        <div aria-hidden="true" class="pill">📰</div>
+        <div>
+          <h1>PATHWAYS</h1>
+          <small>College Newspaper • Fun. Serious. Slightly stupid.</small>
+        </div>
+      </div>
 
-<header class="nav">
-  <h1>PATHWAYS</h1>
-  <nav>
-    <a href="#news">News</a>
-    <a href="#features">Features</a>
-    <a href="#opinion">Opinion</a>
-    <a href="#sports">Sports</a>
-    <a href="#culture">Culture</a>
-    <a href="#puzzles">Puzzles</a>
-  </nav>
-  <div class="search">
-    <input id="searchInput" placeholder="Search…">
+      <div class="search" role="search" aria-label="Search articles">
+        <span aria-hidden="true">🔎</span>
+        <input id="searchInput" type="search" placeholder="Search articles… (try: coming soon)" autocomplete="off" />
+        <span class="hint" id="searchHint">0 shown</span>
+      </div>
+
+      <div class="nav-btns" aria-label="Navigation">
+        <button class="btn" data-go="#articles" title="Go to Articles">🧾 Articles</button>
+        <button class="btn" data-go="#puzzles" title="Go to Puzzles">🧩 Puzzles</button>
+        <button class="btn" data-go="#about" title="Go to About">🧍 About</button>
+        <button class="btn" id="resetBtn" title="Reset today's puzzles">♻ Reset Today</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap" role="main">
+    <div class="hero" id="top">
+      <svg class="scribble" width="420" height="240" viewBox="0 0 420 240" fill="none" aria-hidden="true">
+        <path d="M20 200 C 80 40, 170 260, 250 80 C 320 -60, 390 220, 410 40" stroke="currentColor" stroke-width="14" stroke-linecap="round"/>
+      </svg>
+
+      <div class="hero-grid">
+        <div>
+          <h2 class="big-title">PATHWAYS</h2>
+          <p class="tagline">The college newspaper site that looks clean… but still has chaotic little stickmen running around.</p>
+          <p class="sub">
+            Articles drop here. Puzzles reset daily. Buttons actually work. Everything stays in <b>oak-brown</b>
+            because we’re classy like that. And if you get it right… you get a dramatic <b>WELL DONE</b> that makes you feel proud.
+          </p>
+        </div>
+
+        <div class="stickbox" aria-label="Stickmen corner">
+          <div class="sticktext">
+            <h3>Stickmen Bulletin</h3>
+            <p>
+              “We are serious journalists.”<br/>
+              “We are also tiny. And dramatic.”<br/>
+              “Please do the Sudoku.”
+            </p>
+          </div>
+
+          <!-- Stickman SVG -->
+          <svg class="stickman" viewBox="0 0 200 200" role="img" aria-label="Cheerful stickman">
+            <circle cx="70" cy="55" r="22" fill="none" stroke="currentColor" stroke-width="6"/>
+            <path d="M70 78 L70 132" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+            <path d="M70 95 L40 112" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+            <path d="M70 95 L102 108" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+            <path d="M70 132 L45 170" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+            <path d="M70 132 L98 170" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+            <path d="M140 55 q18 18 0 36 q-18 -18 0 -36z" fill="none" stroke="currentColor" stroke-width="6"/>
+            <path d="M138 74 h4" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+            <path d="M124 125 q40 -30 64 0" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- ARTICLES -->
+    <section id="articles" class="block-2" aria-label="Articles section">
+      <div class="sec-head">
+        <div>
+          <h2>Articles</h2>
+          <p>Orbis Vox-style vertical list. Three for now. All “coming soon” (but the layout is ready).</p>
+        </div>
+        <div class="pill" aria-label="Articles count pill"><span id="articleCount">3</span> total</div>
+      </div>
+
+      <div class="sec-body">
+        <div class="articles" id="articleList">
+
+          <article class="article" data-title="Campus Life: Coming Soon" data-tags="campus life">
+            <span class="badge">CAMPUS</span>
+            <div class="content">
+              <h3>Campus Life — Coming Soon</h3>
+              <p>
+                The kind of story where the canteen queue is a warzone, the printers are cursed, and everyone’s pretending it’s fine.
+              </p>
+              <div class="meta">
+                <span class="tiny">By PATHWAYS Staff</span>
+                <span class="tiny">Status: Coming soon</span>
+                <span class="tiny">Category: Campus</span>
+              </div>
+            </div>
+            <div class="print">
+              <button class="btn" data-print="0" title="Print this article">🖨 Print</button>
+            </div>
+          </article>
+
+          <article class="article" data-title="Opinion: Coming Soon" data-tags="opinion voice">
+            <span class="badge">OPINION</span>
+            <div class="content">
+              <h3>Opinion — Coming Soon</h3>
+              <p>
+                A serious point, delivered with a grin: if everyone wants a voice, why is nobody listening?
+              </p>
+              <div class="meta">
+                <span class="tiny">By PATHWAYS Staff</span>
+                <span class="tiny">Status: Coming soon</span>
+                <span class="tiny">Category: Opinion</span>
+              </div>
+            </div>
+            <div class="print">
+              <button class="btn" data-print="1" title="Print this article">🖨 Print</button>
+            </div>
+          </article>
+
+          <article class="article" data-title="Events & What's On: Coming Soon" data-tags="events whats on">
+            <span class="badge">EVENTS</span>
+            <div class="content">
+              <h3>Events & What’s On — Coming Soon</h3>
+              <p>
+                Clubs, deadlines, random chaos, and the one event everyone claims they’ll go to (but nobody will).
+              </p>
+              <div class="meta">
+                <span class="tiny">By PATHWAYS Staff</span>
+                <span class="tiny">Status: Coming soon</span>
+                <span class="tiny">Category: Events</span>
+              </div>
+            </div>
+            <div class="print">
+              <button class="btn" data-print="2" title="Print this article">🖨 Print</button>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- PUZZLES -->
+    <section id="puzzles" class="block-4" aria-label="Puzzles section">
+      <div class="sec-head">
+        <div>
+          <h2>Puzzles</h2>
+          <p>
+            Sudoku + Wordsearch. Resets daily (local date). Correct = green. Wrong = red. Solve it and get a dramatic WELL DONE.
+          </p>
+        </div>
+        <div class="pill" id="dailyPill" aria-label="Daily reset indicator">Daily: <span id="dailyDate"></span></div>
+      </div>
+
+      <div class="sec-body">
+        <div class="puzzles-grid">
+
+          <!-- SUDOKU -->
+          <div class="card" aria-label="Sudoku puzzle">
+            <h3>Sudoku (Daily)</h3>
+            <p>Fill the blanks (1–9). Hit <b>Check</b>. If you’re right… you get the pride popup. If not… red. Brutal. Fair.</p>
+
+            <div id="sudokuWrap" aria-label="Sudoku grid"></div>
+
+            <div class="status" aria-live="polite">
+              <span class="lamp" id="sudokuLamp" aria-hidden="true"></span>
+              <span class="label" id="sudokuStatus">Not checked yet.</span>
+              <button class="btn" id="checkSudoku">✅ Check</button>
+              <button class="btn" id="clearSudoku">🧽 Clear</button>
+            </div>
+
+            <div style="margin-top:12px; display:flex; gap:10px; align-items:center;">
+              <svg class="stickman" viewBox="0 0 200 200" aria-hidden="true" style="width:90px; height:90px;">
+                <circle cx="70" cy="55" r="20" fill="none" stroke="currentColor" stroke-width="6"/>
+                <path d="M70 75 L70 125" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+                <path d="M70 92 L40 80" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+                <path d="M70 92 L104 76" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+                <path d="M70 125 L45 165" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+                <path d="M70 125 L98 165" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+                <path d="M130 120 q20 -18 40 0" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+              </svg>
+              <div style="font-weight:900; color: rgba(90,58,34,.78); line-height:1.3; font-size:13px;">
+                Stickman says: “If you solve this, I will legally have to salute you.”<br/>
+                He also says: “I am not a lawyer.”
+              </div>
+            </div>
+          </div>
+
+          <!-- WORDSEARCH -->
+          <div class="card" aria-label="Wordsearch puzzle">
+            <h3>Wordsearch (Daily)</h3>
+            <p>Click a start letter, then click an end letter in a straight line. If it matches a word: green. If not: red flash.</p>
+
+            <div id="wsGrid" class="ws-grid" aria-label="Wordsearch grid"></div>
+            <div class="ws-words" id="wsWords" aria-label="Word list"></div>
+
+            <div class="status" aria-live="polite">
+              <span class="lamp" id="wsLamp" aria-hidden="true"></span>
+              <span class="label" id="wsStatus">Find the words.</span>
+              <button class="btn" id="wsHintBtn">🧠 Hint</button>
+              <button class="btn" id="wsClearBtn">🧽 Clear</button>
+            </div>
+
+            <div style="margin-top:12px; display:flex; gap:10px; align-items:center;">
+              <svg class="stickman" viewBox="0 0 200 200" aria-hidden="true" style="width:90px; height:90px;">
+                <circle cx="120" cy="55" r="20" fill="none" stroke="currentColor" stroke-width="6"/>
+                <path d="M120 75 L120 128" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+                <path d="M120 92 L95 110" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+                <path d="M120 92 L150 110" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+                <path d="M120 128 L98 165" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+                <path d="M120 128 L142 165" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+                <path d="M30 140 q40 -40 80 0" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+              </svg>
+              <div style="font-weight:900; color: rgba(90,58,34,.78); line-height:1.3; font-size:13px;">
+                Stickman says: “I found ‘PATHWAYS’ and now I’m emotionally attached.”
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="block-1" aria-label="About section">
+      <div class="sec-head">
+        <div>
+          <h2>About PATHWAYS</h2>
+          <p>A college newspaper site that’s clean, readable, and still has personality. Serious tone — with fun energy.</p>
+        </div>
+        <div class="pill">Version: 1.0</div>
+      </div>
+      <div class="sec-body" style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+        <div class="card" style="margin:0;">
+          <h3>The vibe</h3>
+          <p>
+            We can do important stories without being boring about it. If you’ve ever read a headline and thought
+            “why is this written like a toaster manual?” — PATHWAYS is the opposite.
+          </p>
+        </div>
+        <div class="card" style="margin:0;">
+          <h3>What’s next</h3>
+          <p>
+            Swap the “coming soon” articles for real ones, add a proper archive page, and if your college allows it:
+            a simple submissions form.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <footer aria-label="Footer">
+      PATHWAYS • Oak-brown words • Light green background • Built to work (and be a bit daft)
+    </footer>
+  </main>
+
+  <!-- Dramatic WELL DONE modal -->
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc">
+    <div class="modal-box">
+      <svg class="spark" width="520" height="260" viewBox="0 0 520 260" fill="none" aria-hidden="true">
+        <path d="M20 200 C 110 30, 200 280, 310 70 C 380 -60, 480 240, 500 30" stroke="currentColor" stroke-width="18" stroke-linecap="round"/>
+      </svg>
+
+      <div class="modal-top">
+        <strong id="modalTitle">PATHWAYS PROUD MOMENT</strong>
+        <button class="btn" id="closeModal" aria-label="Close">✖</button>
+      </div>
+
+      <div class="modal-body">
+        <div>
+          <p class="boom">WELL DONE.</p>
+          <p class="boom-sub" id="modalDesc">
+            That wasn’t luck. That was you being actually good at this. Enjoy the win — you earned it.
+          </p>
+        </div>
+
+        <svg viewBox="0 0 200 200" role="img" aria-label="Stickmen cheering">
+          <circle cx="65" cy="58" r="18" fill="none" stroke="currentColor" stroke-width="6"/>
+          <path d="M65 76 L65 125" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+          <path d="M65 92 L36 74" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+          <path d="M65 92 L94 74" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+          <path d="M65 125 L44 165" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+          <path d="M65 125 L86 165" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+
+          <circle cx="140" cy="58" r="18" fill="none" stroke="currentColor" stroke-width="6"/>
+          <path d="M140 76 L140 125" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+          <path d="M140 92 L112 110" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+          <path d="M140 92 L168 110" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+          <path d="M140 125 L120 165" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+          <path d="M140 125 L160 165" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+
+          <path d="M95 35 q10 -12 20 0" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+          <path d="M90 25 q20 -18 40 0" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+          <path d="M85 15 q30 -25 50 0" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn" id="modalOk">🏆 Take the W</button>
+      </div>
+    </div>
   </div>
-</header>
 
-<div class="wrap">
+  <!-- PRINT AREA (hidden on screen, shown in print) -->
+  <div id="printArea" aria-hidden="true"></div>
 
-<section id="news" class="section" style="background:var(--news)">
-<h2>NEWS</h2>
-<div class="article"><h3>Coming soon</h3><button class="print-btn" onclick="printArticle(this)">Print</button><div class="stickman">🧍</div></div>
-<div class="article"><h3>Coming soon</h3><button class="print-btn" onclick="printArticle(this)">Print</button><div class="stickman">🧍‍♂️</div></div>
-<div class="article"><h3>Coming soon</h3><button class="print-btn" onclick="printArticle(this)">Print</button><div class="stickman">🧍‍♀️</div></div>
-</section>
-
-<section id="features" class="section" style="background:var(--features)">
-<h2>FEATURES</h2>
-<div class="article"><h3>Coming soon</h3><button class="print-btn" onclick="printArticle(this)">Print</button><div class="stickman">🤸</div></div>
-<div class="article"><h3>Coming soon</h3><button class="print-btn" onclick="printArticle(this)">Print</button><div class="stickman">🧑‍💻</div></div>
-<div class="article"><h3>Coming soon</h3><button class="print-btn" onclick="printArticle(this)">Print</button><div class="stickman">🕺</div></div>
-</section>
-
-<section id="puzzles" class="section" style="background:var(--puzzles)">
-<h2>PUZZLES</h2>
-
-<div class="puzzles">
-<div class="panel">
-<h3>Sudoku</h3>
-<div class="sudoku" id="sudoku"></div>
-</div>
-
-<div class="panel">
-<h3>Wordsearch</h3>
-<div class="wordlist" id="wordList"></div>
-<div class="wordsearch" id="wordsearch"></div>
-</div>
-</div>
-</section>
-
-</div>
-
-<div class="popup" id="popup">
-  <div class="popup-box">
-    <h2>WELL DONE! 🎉</h2>
-    <p>You smashed it.</p>
-  </div>
-</div>
-
-<script>
-/* =========================
-   PRINT ONE ARTICLE
-========================= */
-function printArticle(btn){
-  const article = btn.closest('.article');
-  const win = window.open('', '', 'width=800,height=600');
-  win.document.write('<html><head><title>Print</title></head><body>'+article.innerHTML+'</body></html>');
-  win.document.close();
-  win.focus();
-  win.print();
-  win.close();
-}
-
-/* =========================
-   DAILY SEED
-========================= */
-const seed = new Date().toISOString().slice(0,10);
-
-/* =========================
-   SUDOKU
-========================= */
-const puzzle=[[5,3,0,0,7,0,0,0,0],[6,0,0,1,9,5,0,0,0],[0,9,8,0,0,0,0,6,0],[8,0,0,0,6,0,0,0,3],[4,0,0,8,0,3,0,0,1],[7,0,0,0,2,0,0,0,6],[0,6,0,0,0,0,2,8,0],[0,0,0,4,1,9,0,0,5],[0,0,0,0,8,0,0,7,9]];
-const solution=[[5,3,4,6,7,8,9,1,2],[6,7,2,1,9,5,3,4,8],[1,9,8,3,4,2,5,6,7],[8,5,9,7,6,1,4,2,3],[4,2,6,8,5,3,7,9,1],[7,1,3,9,2,4,8,5,6],[9,6,1,5,3,7,2,8,4],[2,8,7,4,1,9,6,3,5],[3,4,5,2,8,6,1,7,9]];
-
-const sudokuEl=document.getElementById("sudoku");
-let solved=false;
-puzzle.forEach((r,i)=>r.forEach((v,j)=>{
-  const c=document.createElement("div");c.className="cell";
-  const inp=document.createElement("input");
-  if(v){inp.value=v;inp.disabled=true}
-  else{
-    inp.oninput=()=>{
-      c.classList.remove("correct","incorrect");
-      if(+inp.value===solution[i][j])c.classList.add("correct");
-      else c.classList.add("incorrect");
-      checkSudoku();
+  <script>
+    /***********************
+     * DAILY RESET (local date)
+     ***********************/
+    function localISODate(){
+      const d = new Date();
+      const y = d.getFullYear();
+      const m = String(d.getMonth()+1).padStart(2,'0');
+      const day = String(d.getDate()).padStart(2,'0');
+      return `${y}-${m}-${day}`;
     }
-  }
-  c.appendChild(inp);sudokuEl.appendChild(c);
-}));
-function checkSudoku(){
-  if(solved)return;
-  const inputs=[...sudokuEl.querySelectorAll("input")];
-  if(inputs.every((i,k)=>+i.value===solution[Math.floor(k/9)][k%9])){
-    solved=true;
-    showPopup();
-  }
-}
 
-/* =========================
-   WORDSEARCH
-========================= */
-const words=["PATH","OAK","TREE","ROOT"];
-const wl=document.getElementById("wordList");
-const ws=document.getElementById("wordsearch");
-words.forEach(w=>{const s=document.createElement("span");s.className="word";s.textContent=w;wl.appendChild(s)});
-const letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-let goodCount=0;
-for(let i=0;i<100;i++){
-  const d=document.createElement("div");
-  d.className="ws-cell";
-  d.textContent=letters[Math.floor(Math.random()*26)];
-  d.onclick=()=>{
-    d.classList.toggle("good");
-    goodCount++;
-    if(goodCount>15)showPopup();
-  };
-  ws.appendChild(d);
-}
+    const DAY_KEY = "pathways_day";
+    const today = localISODate();
+    document.getElementById("dailyDate").textContent = today;
 
-/* =========================
-   POPUP
-========================= */
-function showPopup(){
-  const p=document.getElementById("popup");
-  p.classList.add("show");
-  setTimeout(()=>p.classList.remove("show"),2000);
-}
-</script>
+    function dailyResetIfNeeded(force=false){
+      const last = localStorage.getItem(DAY_KEY);
+      if(force || last !== today){
+        // Reset puzzle progress for the day
+        localStorage.setItem(DAY_KEY, today);
+        localStorage.removeItem("pathways_sudoku_state");
+        localStorage.removeItem("pathways_ws_state");
+      }
+    }
+    dailyResetIfNeeded(false);
 
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      dailyResetIfNeeded(true);
+      initSudoku();
+      initWordsearch();
+      showModal("RESET DONE.", "Fresh day. Fresh grid. Stickmen salute you for taking control.");
+    });
+
+    /***********************
+     * NAV SCROLL
+     ***********************/
+    document.querySelectorAll("[data-go]").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const sel = btn.getAttribute("data-go");
+        const el = document.querySelector(sel);
+        if(el) el.scrollIntoView({behavior:"smooth", block:"start"});
+      });
+    });
+
+    /***********************
+     * SEARCH FILTER (articles)
+     ***********************/
+    const searchInput = document.getElementById("searchInput");
+    const searchHint  = document.getElementById("searchHint");
+    const articlesEl  = document.getElementById("articleList");
+
+    function updateArticleCount(){
+      const cards = [...articlesEl.querySelectorAll(".article")];
+      const shown = cards.filter(c => c.style.display !== "none").length;
+      searchHint.textContent = `${shown} shown`;
+      document.getElementById("articleCount").textContent = String(cards.length);
+    }
+
+    function filterArticles(q){
+      const query = (q || "").trim().toLowerCase();
+      const cards = [...articlesEl.querySelectorAll(".article")];
+      cards.forEach(card=>{
+        const title = (card.dataset.title || "").toLowerCase();
+        const tags  = (card.dataset.tags || "").toLowerCase();
+        const body  = (card.innerText || "").toLowerCase();
+        const match = !query || title.includes(query) || tags.includes(query) || body.includes(query);
+        card.style.display = match ? "" : "none";
+      });
+      updateArticleCount();
+    }
+
+    searchInput.addEventListener("input", (e)=> filterArticles(e.target.value));
+    filterArticles("");
+
+    /***********************
+     * MODAL
+     ***********************/
+    const modal = document.getElementById("modal");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalDesc  = document.getElementById("modalDesc");
+    const closeModalBtn = document.getElementById("closeModal");
+    const modalOk = document.getElementById("modalOk");
+
+    function showModal(title, desc){
+      modalTitle.textContent = title;
+      modalDesc.textContent  = desc;
+      modal.classList.add("show");
+      // focus
+      setTimeout(()=> modalOk.focus(), 10);
+    }
+    function hideModal(){
+      modal.classList.remove("show");
+    }
+    closeModalBtn.addEventListener("click", hideModal);
+    modalOk.addEventListener("click", hideModal);
+    modal.addEventListener("click", (e)=>{
+      if(e.target === modal) hideModal();
+    });
+    document.addEventListener("keydown", (e)=>{
+      if(e.key === "Escape" && modal.classList.contains("show")) hideModal();
+    });
+
+    /***********************
+     * PRINT (two-column newspaper)
+     ***********************/
+    const ARTICLE_DATA = [
+      {
+        title: "Campus Life — Coming Soon",
+        meta:  "PATHWAYS • Campus • Coming soon",
+        paragraphs: [
+          "This is a placeholder article so the layout works right now.",
+          "Swap these paragraphs for your real writing when you’re ready.",
+          "Print view is set to a two-column newspaper layout so it looks proper on paper."
+        ]
+      },
+      {
+        title: "Opinion — Coming Soon",
+        meta:  "PATHWAYS • Opinion • Coming soon",
+        paragraphs: [
+          "Opinions will live here — sharp, fair, and readable.",
+          "You can keep it serious without killing the vibe.",
+          "Also yes, the stickmen will judge you silently."
+        ]
+      },
+      {
+        title: "Events & What’s On — Coming Soon",
+        meta:  "PATHWAYS • Events • Coming soon",
+        paragraphs: [
+          "Events go here. Clubs, deadlines, trips, whatever’s actually happening.",
+          "If it matters to students, it goes on PATHWAYS.",
+          "The site is ready — now you just drop your content in."
+        ]
+      }
+    ];
+
+    function buildPrintHTML(article){
+      const paras = article.paragraphs.map(p => `<p>${escapeHTML(p)}</p>`).join("");
+      return `
+        <div class="print-page">
+          <h1>${escapeHTML(article.title)}</h1>
+          <div class="meta">${escapeHTML(article.meta)} • Printed: ${escapeHTML(new Date().toLocaleString())}</div>
+          <div class="columns">${paras}</div>
+        </div>
+      `;
+    }
+
+    function escapeHTML(s){
+      return String(s)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    document.querySelectorAll("[data-print]").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const idx = Number(btn.getAttribute("data-print"));
+        const article = ARTICLE_DATA[idx];
+        if(!article) return;
+
+        // Create a new window for printing (keeps this page clean)
+        const w = window.open("", "_blank", "width=900,height=700");
+        const html = `
+          <!doctype html>
+          <html>
+          <head>
+            <meta charset="utf-8"/>
+            <title>Print — ${escapeHTML(article.title)}</title>
+            <style>
+              body{ margin:0; }
+              .print-page{
+                font-family: Georgia, "Times New Roman", Times, serif;
+                padding: 22mm 16mm;
+                color:#000;
+              }
+              h1{
+                margin:0 0 8mm;
+                letter-spacing:.2em;
+                text-transform:uppercase;
+                font-size: 18pt;
+              }
+              .meta{
+                font-size: 10pt;
+                margin-bottom: 6mm;
+              }
+              .columns{
+                column-count:2;
+                column-gap: 10mm;
+                font-size: 11pt;
+                line-height:1.4;
+              }
+              .columns p{ margin:0 0 10pt; }
+              @media print{
+                @page{ margin: 10mm; }
+              }
+            </style>
+          </head>
+          <body>
+            ${buildPrintHTML(article)}
+            <script>window.onload = ()=> setTimeout(()=> window.print(), 250);<\/script>
+          </body>
+          </html>
+        `;
+        w.document.open();
+        w.document.write(html);
+        w.document.close();
+      });
+    });
+
+    /***********************
+     * SUDOKU (pre-made puzzle + solution)
+     * - Inputs save to localStorage daily
+     * - Check highlights green/red
+     * - Solved => WELL DONE popup
+     ***********************/
+    // 0 = blank
+    const SUDOKU_PUZZLE = [
+      [0,0,0, 2,6,0, 7,0,1],
+      [6,8,0, 0,7,0, 0,9,0],
+      [1,9,0, 0,0,4, 5,0,0],
+
+      [8,2,0, 1,0,0, 0,4,0],
+      [0,0,4, 6,0,2, 9,0,0],
+      [0,5,0, 0,0,3, 0,2,8],
+
+      [0,0,9, 3,0,0, 0,7,4],
+      [0,4,0, 0,5,0, 0,3,6],
+      [7,0,3, 0,1,8, 0,0,0]
+    ];
+
+    const SUDOKU_SOLUTION = [
+      [4,3,5, 2,6,9, 7,8,1],
+      [6,8,2, 5,7,1, 4,9,3],
+      [1,9,7, 8,3,4, 5,6,2],
+
+      [8,2,6, 1,9,5, 3,4,7],
+      [3,7,4, 6,8,2, 9,1,5],
+      [9,5,1, 7,4,3, 6,2,8],
+
+      [5,1,9, 3,2,6, 8,7,4],
+      [2,4,8, 9,5,7, 1,3,6],
+      [7,6,3, 4,1,8, 2,5,9]
+    ];
+
+    const sudokuWrap = document.getElementById("sudokuWrap");
+    const sudokuLamp = document.getElementById("sudokuLamp");
+    const sudokuStatus = document.getElementById("sudokuStatus");
+
+    function loadSudokuState(){
+      try{
+        return JSON.parse(localStorage.getItem("pathways_sudoku_state") || "null");
+      }catch{ return null; }
+    }
+    function saveSudokuState(grid){
+      localStorage.setItem("pathways_sudoku_state", JSON.stringify(grid));
+    }
+
+    function initSudoku(){
+      sudokuWrap.innerHTML = "";
+      sudokuLamp.classList.remove("good","bad");
+      sudokuStatus.textContent = "Not checked yet.";
+
+      const saved = loadSudokuState();
+      const current = Array.from({length:9}, (_,r)=> Array.from({length:9}, (_,c)=>{
+        const base = SUDOKU_PUZZLE[r][c];
+        if(base !== 0) return base;
+        const sv = saved?.[r]?.[c];
+        return (sv && Number.isInteger(sv) && sv>=1 && sv<=9) ? sv : 0;
+      }));
+
+      const table = document.createElement("table");
+      table.className = "sudoku";
+      table.setAttribute("aria-label","Sudoku table");
+
+      for(let r=0;r<9;r++){
+        const tr = document.createElement("tr");
+        for(let c=0;c<9;c++){
+          const td = document.createElement("td");
+          td.dataset.r = String(r);
+          td.dataset.c = String(c);
+
+          const val = current[r][c];
+          const given = SUDOKU_PUZZLE[r][c] !== 0;
+
+          const input = document.createElement("input");
+          input.inputMode = "numeric";
+          input.maxLength = 1;
+
+          if(given){
+            input.value = String(SUDOKU_PUZZLE[r][c]);
+            input.disabled = true;
+            input.classList.add("given");
+            input.setAttribute("aria-label", `Row ${r+1} Col ${c+1} given ${input.value}`);
+          }else{
+            input.value = val ? String(val) : "";
+            input.setAttribute("aria-label", `Row ${r+1} Col ${c+1}`);
+            input.addEventListener("input", ()=>{
+              // allow only 1-9
+              let v = input.value.replace(/[^1-9]/g,"");
+              input.value = v.slice(0,1);
+              const n = input.value ? Number(input.value) : 0;
+              current[r][c] = n;
+              saveSudokuState(current);
+              td.classList.remove("cell-good","cell-bad");
+              sudokuLamp.classList.remove("good","bad");
+              sudokuStatus.textContent = "Typing… (not checked)";
+            });
+
+            // nice arrow navigation
+            input.addEventListener("keydown", (e)=>{
+              const key = e.key;
+              const move = (dr,dc)=>{
+                e.preventDefault();
+                const nr = r+dr, nc = c+dc;
+                const next = table.querySelector(`td[data-r="${nr}"][data-c="${nc}"] input:not([disabled])`);
+                if(next) next.focus();
+              };
+              if(key==="ArrowUp") move(-1,0);
+              if(key==="ArrowDown") move(1,0);
+              if(key==="ArrowLeft") move(0,-1);
+              if(key==="ArrowRight") move(0,1);
+            });
+          }
+
+          td.appendChild(input);
+          tr.appendChild(td);
+        }
+        table.appendChild(tr);
+      }
+
+      sudokuWrap.appendChild(table);
+
+      // store current state to ensure consistent
+      saveSudokuState(current);
+    }
+
+    function checkSudoku(){
+      const table = sudokuWrap.querySelector("table.sudoku");
+      if(!table) return;
+
+      const saved = loadSudokuState() || Array.from({length:9}, ()=> Array(9).fill(0));
+      let allFilled = true;
+      let allCorrect = true;
+
+      table.querySelectorAll("td").forEach(td=>{
+        const r = Number(td.dataset.r);
+        const c = Number(td.dataset.c);
+        td.classList.remove("cell-good","cell-bad");
+
+        const given = SUDOKU_PUZZLE[r][c] !== 0;
+        if(given) return;
+
+        const v = saved?.[r]?.[c] || 0;
+        if(v === 0) allFilled = false;
+
+        if(v !== 0 && v === SUDOKU_SOLUTION[r][c]){
+          td.classList.add("cell-good");
+        }else{
+          allCorrect = false;
+          if(v !== 0) td.classList.add("cell-bad");
+        }
+      });
+
+      if(allFilled && allCorrect){
+        sudokuLamp.classList.remove("bad");
+        sudokuLamp.classList.add("good");
+        sudokuStatus.textContent = "Correct. You smashed it.";
+        showModal("WELL DONE.", "Sudoku solved. That’s pure brainpower — take the win. 🏆");
+      }else{
+        sudokuLamp.classList.remove("good");
+        sudokuLamp.classList.add("bad");
+        sudokuStatus.textContent = allFilled
+          ? "Not quite — red bits are wrong."
+          : "Fill all blanks first (then check).";
+      }
+    }
+
+    function clearSudoku(){
+      // clear only user cells
+      const blank = Array.from({length:9}, (_,r)=> Array.from({length:9}, (_,c)=> SUDOKU_PUZZLE[r][c] || 0));
+      saveSudokuState(blank);
+      initSudoku();
+    }
+
+    document.getElementById("checkSudoku").addEventListener("click", checkSudoku);
+    document.getElementById("clearSudoku").addEventListener("click", clearSudoku);
+
+    initSudoku();
+
+    /***********************
+     * WORDSEARCH (pre-made grid + words)
+     * Interaction:
+     *  - click start cell
+     *  - click end cell in straight line
+     *  - reads letters along line
+     *  - matches word (forward/back)
+     *  - found => cells + word list green
+     *  - all found => WELL DONE popup
+     ***********************/
+    // 12x12 grid (pre-made)
+    const WS_GRID = [
+      "P A T H W A Y S X Q L M",
+      "N O T I C E B O A R D Z",
+      "E V E N T S R K T S U D",
+      "W O R D S E A R C H O K",
+      "R E A D E R S T O R Y S",
+      "S T U D E N T S N E W S",
+      "A R T I C L E S P R I N",
+      "B Y L I N E S J O U R N",
+      "C A M P U S L I F E X Y",
+      "O P I N I O N W R I T E",
+      "P U Z Z L E S D A I L Y",
+      "F U N B U T S E R I O U"
+    ].map(row => row.split(" "));
+
+    const WS_WORDS = [
+      "PATHWAYS",
+      "SUDOKU",
+      "WORDSEARCH",
+      "ARTICLES",
+      "STUDENTS",
+      "PUZZLES",
+      "OPINION",
+      "CAMPUS",
+      "PRINT",
+      "DAILY"
+    ];
+
+    const wsGridEl = document.getElementById("wsGrid");
+    const wsWordsEl = document.getElementById("wsWords");
+    const wsLamp = document.getElementById("wsLamp");
+    const wsStatus = document.getElementById("wsStatus");
+
+    function loadWSState(){
+      try{
+        return JSON.parse(localStorage.getItem("pathways_ws_state") || "null");
+      }catch{ return null; }
+    }
+    function saveWSState(state){
+      localStorage.setItem("pathways_ws_state", JSON.stringify(state));
+    }
+
+    let wsState = null; // will include foundWords + foundCells
+    let wsStart = null; // {r,c}
+
+    function initWordsearch(){
+      wsGridEl.innerHTML = "";
+      wsWordsEl.innerHTML = "";
+      wsLamp.classList.remove("good","bad");
+      wsStatus.textContent = "Find the words.";
+
+      const saved = loadWSState();
+      wsState = saved || { foundWords: {}, foundCells: {} };
+
+      // word chips
+      WS_WORDS.forEach(w=>{
+        const chip = document.createElement("div");
+        chip.className = "ws-word" + (wsState.foundWords[w] ? " done" : "");
+        chip.textContent = w;
+        chip.dataset.word = w;
+        wsWordsEl.appendChild(chip);
+      });
+
+      // grid
+      for(let r=0;r<12;r++){
+        for(let c=0;c<12;c++){
+          const cell = document.createElement("div");
+          cell.className = "ws-cell";
+          cell.textContent = WS_GRID[r][c];
+          cell.dataset.r = String(r);
+          cell.dataset.c = String(c);
+
+          const key = `${r},${c}`;
+          if(wsState.foundCells[key]) cell.classList.add("found");
+
+          cell.addEventListener("click", ()=> handleWSClick(r,c,cell));
+          wsGridEl.appendChild(cell);
+        }
+      }
+
+      wsStart = null;
+      saveWSState(wsState);
+      updateWSProgress();
+    }
+
+    function handleWSClick(r,c,cellEl){
+      // clear any selection styling
+      wsGridEl.querySelectorAll(".ws-cell.sel").forEach(el=> el.classList.remove("sel"));
+
+      if(!wsStart){
+        wsStart = {r,c};
+        cellEl.classList.add("sel");
+        wsStatus.textContent = "Pick an end letter in a straight line.";
+        wsLamp.classList.remove("good","bad");
+        return;
+      }
+
+      const start = wsStart;
+      const end = {r,c};
+      wsStart = null;
+
+      const line = getLineCells(start, end);
+      if(!line){
+        flashBad([cellEl]);
+        wsLamp.classList.remove("good");
+        wsLamp.classList.add("bad");
+        wsStatus.textContent = "That wasn’t a straight line. Try again.";
+        return;
+      }
+
+      const letters = line.map(({r,c})=> WS_GRID[r][c]).join("");
+      const rev = letters.split("").reverse().join("");
+
+      const match = WS_WORDS.find(w => w === letters || w === rev);
+
+      if(match && !wsState.foundWords[match]){
+        // mark found
+        wsState.foundWords[match] = true;
+        line.forEach(({r,c})=>{
+          wsState.foundCells[`${r},${c}`] = true;
+          const el = wsGridEl.querySelector(`.ws-cell[data-r="${r}"][data-c="${c}"]`);
+          if(el) el.classList.add("found");
+        });
+
+        // update word chip
+        const chip = wsWordsEl.querySelector(`.ws-word[data-word="${match}"]`);
+        if(chip) chip.classList.add("done");
+
+        wsLamp.classList.remove("bad");
+        wsLamp.classList.add("good");
+        wsStatus.textContent = `Correct: ${match} ✅`;
+
+        saveWSState(wsState);
+        updateWSProgress(true);
+      }else{
+        // wrong selection
+        const els = line.map(({r,c}) => wsGridEl.querySelector(`.ws-cell[data-r="${r}"][data-c="${c}"]`)).filter(Boolean);
+        flashBad(els);
+        wsLamp.classList.remove("good");
+        wsLamp.classList.add("bad");
+        wsStatus.textContent = "Nope. That’s not one of the words.";
+      }
+    }
+
+    function flashBad(els){
+      els.forEach(el=>{
+        el.classList.add("badflash");
+        setTimeout(()=> el.classList.remove("badflash"), 600);
+      });
+    }
+
+    function getLineCells(a,b){
+      const dr = b.r - a.r;
+      const dc = b.c - a.c;
+
+      // must be straight: horizontal, vertical, or diagonal (45 degrees)
+      const absDr = Math.abs(dr);
+      const absDc = Math.abs(dc);
+
+      if(dr === 0 && dc === 0) return null;
+
+      let stepR = 0, stepC = 0;
+      if(dr === 0){
+        stepC = dc > 0 ? 1 : -1;
+      }else if(dc === 0){
+        stepR = dr > 0 ? 1 : -1;
+      }else if(absDr === absDc){
+        stepR = dr > 0 ? 1 : -1;
+        stepC = dc > 0 ? 1 : -1;
+      }else{
+        return null;
+      }
+
+      const cells = [];
+      let r = a.r, c = a.c;
+      while(true){
+        cells.push({r,c});
+        if(r === b.r && c === b.c) break;
+        r += stepR;
+        c += stepC;
+        if(r < 0 || r >= 12 || c < 0 || c >= 12) return null;
+      }
+      return cells;
+    }
+
+    function updateWSProgress(maybeSolved=false){
+      const foundCount = WS_WORDS.filter(w => wsState.foundWords[w]).length;
+      const total = WS_WORDS.length;
+      if(foundCount === total){
+        wsLamp.classList.remove("bad");
+        wsLamp.classList.add("good");
+        wsStatus.textContent = "All found. You’re cracked.";
+        if(maybeSolved){
+          showModal("WELL DONE.", "Wordsearch cleared. That’s sharp eyes and pure stubbornness. 🏆");
+        }
+      }else{
+        // keep status as-is; just subtle update if needed
+      }
+    }
+
+    document.getElementById("wsClearBtn").addEventListener("click", ()=>{
+      localStorage.removeItem("pathways_ws_state");
+      initWordsearch();
+      wsLamp.classList.remove("good","bad");
+      wsStatus.textContent = "Cleared. Find the words again.";
+    });
+
+    document.getElementById("wsHintBtn").addEventListener("click", ()=>{
+      // Give a gentle hint: highlight first letter of a random not-found word
+      const remaining = WS_WORDS.filter(w => !wsState.foundWords[w]);
+      if(!remaining.length){
+        showModal("ALREADY DONE.", "You’ve already found everything. Superstar.");
+        return;
+      }
+      const pick = remaining[Math.floor(Math.random()*remaining.length)];
+      // find any cell matching first letter
+      const first = pick[0];
+      const all = [...wsGridEl.querySelectorAll(".ws-cell")].filter(el => el.textContent === first && !el.classList.contains("found"));
+      if(!all.length){
+        wsStatus.textContent = `Hint: Start with “${pick}” (somewhere).`;
+        return;
+      }
+      const el = all[Math.floor(Math.random()*all.length)];
+      el.classList.add("sel");
+      setTimeout(()=> el.classList.remove("sel"), 900);
+      wsStatus.textContent = `Hint: Look for “${pick}” starting near that highlighted letter.`;
+      wsLamp.classList.remove("good","bad");
+    });
+
+    initWordsearch();
+
+    /***********************
+     * Friendly polish: click anywhere in hero scrolls to articles (optional)
+     ***********************/
+    // (keep it simple; not forcing)
+  </script>
 </body>
 </html>
