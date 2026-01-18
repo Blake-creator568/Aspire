@@ -7,29 +7,21 @@
 
   <style>
     :root{
-      /* Less full-on green, still tree-coded */
+      /* Base (less full-on green, more airy) */
       --bg0:#070c08;
       --bg1:#0b120d;
-      --bg2:#0f1811;
+      --bg2:#101812;
 
       --bark0:#120b06;
       --bark1:#1e120a;
       --bark2:#2c1a0f;
       --bark3:#3a2314;
 
-      --leaf0:#0e1f14;
-      --leaf1:#132a1b;
-      --leaf2:#1b3823;
-      --leaf3:#275334;
-
-      --moss:#2a7a3f;     /* used mostly for accents */
-      --fern:#34b35a;
-
       --text:#eef7ee;
       --muted:#bcd0be;
 
-      --soft: rgba(255,255,255,.08);
-      --soft2: rgba(255,255,255,.12);
+      --soft: rgba(255,255,255,.10);
+      --soft2: rgba(255,255,255,.16);
       --shadow: 0 18px 45px rgba(0,0,0,.55);
 
       --radius: 18px;
@@ -39,6 +31,14 @@
       --goodB: rgba(52,179,90,.45);
       --bad: rgba(220,70,70,.18);
       --badB: rgba(220,70,70,.35);
+
+      /* Section accents (each section gets a different “ink” colour) */
+      --acc-news:   #8bd3dd; /* misty blue */
+      --acc-feat:   #f6c177; /* amber */
+      --acc-op:     #c4a7e7; /* lilac */
+      --acc-sport:  #9ccfd8; /* pale teal */
+      --acc-cult:   #ebbcba; /* soft rose */
+      --acc-puzz:   #a6da95; /* gentle green */
     }
 
     *{box-sizing:border-box}
@@ -48,8 +48,8 @@
       color:var(--text);
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       background:
-        radial-gradient(1100px 700px at 15% 10%, rgba(52,179,90,.10), transparent 60%),
-        radial-gradient(900px 650px at 85% 15%, rgba(42,122,63,.08), transparent 60%),
+        radial-gradient(1100px 700px at 15% 10%, rgba(255,255,255,.06), transparent 60%),
+        radial-gradient(900px 650px at 85% 15%, rgba(255,255,255,.04), transparent 60%),
         radial-gradient(900px 700px at 50% 110%, rgba(44,26,15,.28), transparent 60%),
         linear-gradient(180deg, var(--bg0), var(--bg1) 40%, var(--bg2));
       overflow-x:hidden;
@@ -67,9 +67,7 @@
       mix-blend-mode: overlay;
     }
 
-    .wrap{max-width:1180px; margin:0 auto; padding:22px 16px 50px}
-
-    /* FLOATING LEAVES (animated “actual stuff”) */
+    /* FLOATING LEAVES (animated) */
     .leaf-layer{
       position:fixed; inset:-10vh -10vw;
       pointer-events:none;
@@ -80,10 +78,10 @@
       position:absolute;
       width:14px; height:10px;
       border-radius: 12px 12px 12px 2px;
-      background: linear-gradient(135deg, rgba(52,179,90,.20), rgba(39,83,52,.10));
+      background: linear-gradient(135deg, rgba(255,255,255,.10), rgba(39,83,52,.10));
       border:1px solid rgba(255,255,255,.06);
       filter: blur(.1px);
-      opacity:.65;
+      opacity:.55;
       transform: rotate(12deg);
       animation: drift var(--t) linear infinite;
     }
@@ -92,12 +90,21 @@
       position:absolute;
       left:50%; top:20%;
       width:1px; height:60%;
-      background: rgba(255,255,255,.10);
+      background: rgba(255,255,255,.12);
       transform: translateX(-50%) rotate(12deg);
     }
     @keyframes drift{
       0%{ transform: translate3d(var(--x0), var(--y0), 0) rotate(0deg); }
       100%{ transform: translate3d(var(--x1), var(--y1), 0) rotate(720deg); }
+    }
+
+    /* Layout is vertical / stacked like a newspaper */
+    .wrap{
+      max-width: 980px;
+      margin:0 auto;
+      padding:22px 16px 50px;
+      position:relative;
+      z-index:1;
     }
 
     /* NAV */
@@ -111,7 +118,7 @@
       justify-content:space-between;
       padding:14px 14px;
       border:1px solid var(--soft);
-      background: linear-gradient(180deg, rgba(44,26,15,.62), rgba(19,42,27,.32));
+      background: linear-gradient(180deg, rgba(44,26,15,.62), rgba(19,42,27,.26));
       border-radius: 20px;
       box-shadow: var(--shadow);
       backdrop-filter: blur(10px);
@@ -128,7 +135,7 @@
         radial-gradient(closest-side at 55% 55%, rgba(58,35,20,.40), transparent 74%),
         radial-gradient(closest-side at 75% 35%, rgba(58,35,20,.35), transparent 76%),
         radial-gradient(closest-side at 90% 55%, rgba(58,35,20,.30), transparent 78%);
-      opacity:.55;
+      opacity:.50;
       filter: blur(.2px);
       transform-origin: 20% 50%;
       animation: sway 6.5s ease-in-out infinite;
@@ -144,7 +151,7 @@
       display:flex;
       gap:12px;
       align-items:center;
-      min-width: 210px;
+      min-width: 200px;
       z-index:1;
     }
 
@@ -152,8 +159,8 @@
       width:44px; height:44px;
       border-radius: 14px;
       background:
-        radial-gradient(circle at 35% 30%, rgba(52,179,90,.22), transparent 62%),
-        linear-gradient(135deg, var(--bark3), var(--leaf2));
+        radial-gradient(circle at 35% 30%, rgba(255,255,255,.12), transparent 62%),
+        linear-gradient(135deg, var(--bark3), rgba(255,255,255,.06));
       border:1px solid rgba(255,255,255,.14);
       box-shadow: 0 12px 28px rgba(0,0,0,.45);
       position:relative;
@@ -192,8 +199,8 @@
     }
     .navlinks a:hover{
       transform: translateY(-1px);
-      background: rgba(52,179,90,.08);
-      border-color: rgba(52,179,90,.18);
+      background: rgba(255,255,255,.06);
+      border-color: rgba(255,255,255,.16);
       color: var(--text);
     }
 
@@ -203,7 +210,7 @@
       display:flex;
       gap:10px;
       align-items:center;
-      min-width: 260px;
+      min-width: 220px;
       justify-content:flex-end;
     }
     .search input{
@@ -218,48 +225,33 @@
       transition: box-shadow .15s ease, border-color .15s ease;
     }
     .search input:focus{
-      border-color: rgba(52,179,90,.24);
-      box-shadow: inset 0 0 0 4px rgba(52,179,90,.18);
+      border-color: rgba(255,255,255,.20);
+      box-shadow: inset 0 0 0 4px rgba(255,255,255,.10);
     }
 
-    .pill{
-      padding:9px 12px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.12);
-      background: linear-gradient(180deg, rgba(44,26,15,.18), rgba(19,42,27,.14));
-      color: var(--muted);
-      font-size:12px;
-      letter-spacing:.06em;
-      white-space:nowrap;
-      user-select:none;
+    @media (max-width: 980px){
+      .nav{gap:10px; flex-wrap:wrap}
+      .brand{min-width: 170px}
+      .search{width:100%; justify-content:stretch}
     }
 
-    /* HERO “rooted” title */
+    /* HERO with branch underline */
     .hero{
-      position:relative;
-      z-index:1;
       margin-top:18px;
-      display:grid;
-      gap:16px;
-      grid-template-columns: 1fr;
-      align-items:stretch;
-    }
-
-    .rootbox{
       border-radius: var(--radius2);
       border:1px solid rgba(255,255,255,.12);
       background:
-        radial-gradient(900px 240px at 0% 0%, rgba(52,179,90,.08), transparent 62%),
+        radial-gradient(900px 240px at 0% 0%, rgba(255,255,255,.06), transparent 62%),
         radial-gradient(700px 260px at 100% 0%, rgba(58,35,20,.22), transparent 60%),
-        linear-gradient(180deg, rgba(30,18,10,.58), rgba(19,42,27,.22));
+        linear-gradient(180deg, rgba(30,18,10,.58), rgba(19,42,27,.16));
       box-shadow: var(--shadow);
       position:relative;
       overflow:hidden;
-      padding: 22px 20px 18px;
+      padding: 22px 20px 16px;
     }
 
-    /* roots (more “actual stuff”) */
-    .rootbox::after{
+    /* roots */
+    .hero::after{
       content:"";
       position:absolute;
       left:-80px; right:-80px; bottom:-48px;
@@ -281,161 +273,176 @@
       50%{ transform: translateY(2px) scaleX(1.01); }
     }
 
-    .root-title{
-      position:relative;
+    .title{
       margin:0;
-      font-size: 44px;
+      font-size: 46px;
       letter-spacing: .18em;
       text-transform: uppercase;
       text-shadow: 0 12px 30px rgba(0,0,0,.55);
-    }
-
-    /* CONTENT */
-    .grid{
       position:relative;
-      z-index:1;
-      margin-top:18px;
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:16px;
-    }
-    @media (max-width: 980px){
-      .grid{grid-template-columns:1fr}
-      .nav{gap:10px; flex-wrap:wrap}
-      .brand{min-width: 170px}
-      .search{width:100%; justify-content:stretch}
+      display:inline-block;
+      padding-bottom: 12px;
     }
 
-    details.section{
+    /* “actual branch” underline */
+    .title::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:0;
+      width: 100%;
+      height: 14px;
+      background:
+        radial-gradient(closest-side at 4% 50%, rgba(58,35,20,.80), transparent 70%),
+        radial-gradient(closest-side at 16% 40%, rgba(58,35,20,.72), transparent 72%),
+        radial-gradient(closest-side at 28% 60%, rgba(58,35,20,.70), transparent 72%),
+        radial-gradient(closest-side at 40% 45%, rgba(58,35,20,.66), transparent 74%),
+        radial-gradient(closest-side at 52% 62%, rgba(58,35,20,.62), transparent 74%),
+        radial-gradient(closest-side at 64% 40%, rgba(58,35,20,.60), transparent 76%),
+        radial-gradient(closest-side at 76% 58%, rgba(58,35,20,.56), transparent 76%),
+        radial-gradient(closest-side at 88% 42%, rgba(58,35,20,.52), transparent 78%),
+        radial-gradient(closest-side at 98% 55%, rgba(58,35,20,.48), transparent 80%);
+      opacity:.95;
+      filter: blur(.2px);
+      animation: branchUnderline 6.8s ease-in-out infinite;
+      transform-origin: 20% 50%;
+      pointer-events:none;
+    }
+    @keyframes branchUnderline{
+      0%,100%{ transform: rotate(-.6deg) translateY(0px); }
+      50%{ transform: rotate(.6deg) translateY(1px); }
+    }
+
+    /* Section blocks (Orbis Vox-ish vertical layout) */
+    .section{
+      margin-top:18px;
       border-radius: var(--radius2);
       border:1px solid rgba(255,255,255,.12);
-      background: linear-gradient(180deg, rgba(19,42,27,.20), rgba(30,18,10,.34));
       box-shadow: var(--shadow);
       overflow:hidden;
+      background: rgba(0,0,0,.12);
       position:relative;
     }
 
-    /* branch overlay on each section */
-    details.section::before{
-      content:"";
-      position:absolute; inset:-40px -80px;
-      background:
-        radial-gradient(closest-side at 12% 38%, rgba(58,35,20,.44), transparent 72%),
-        radial-gradient(closest-side at 30% 62%, rgba(58,35,20,.38), transparent 74%),
-        radial-gradient(closest-side at 50% 42%, rgba(58,35,20,.34), transparent 76%),
-        radial-gradient(closest-side at 70% 64%, rgba(58,35,20,.30), transparent 78%),
-        radial-gradient(closest-side at 88% 46%, rgba(58,35,20,.26), transparent 80%);
-      opacity:.40;
-      pointer-events:none;
-      transform-origin: 30% 40%;
-      animation: sway 8.5s ease-in-out infinite;
-      filter: blur(.25px);
-    }
-
-    details.section > summary{
-      list-style:none;
-      cursor:pointer;
-      padding: 14px 14px;
+    .section-h{
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:12px;
-      user-select:none;
-      position:relative;
-      z-index:1;
-      background:
-        radial-gradient(700px 150px at 0% 0%, rgba(52,179,90,.06), transparent 64%),
-        linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.06));
+      padding:14px 14px;
       border-bottom:1px solid rgba(255,255,255,.08);
-    }
-    details.section > summary::-webkit-details-marker{display:none}
-
-    .sectitle{
-      display:flex; gap:10px; align-items:center;
-      font-weight:800;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      font-size:13px;
-    }
-    .twig{
-      width:26px; height:26px;
-      border-radius: 9px;
-      background: linear-gradient(135deg, var(--bark3), var(--leaf2));
-      border:1px solid rgba(255,255,255,.12);
+      background:
+        radial-gradient(700px 160px at 0% 0%, rgba(255,255,255,.08), transparent 64%),
+        linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.06));
       position:relative;
-      overflow:hidden;
     }
-    .twig::after{
-      content:"";
-      position:absolute; inset:-40% -40%;
-      background: radial-gradient(circle at 40% 40%, rgba(255,255,255,.10), transparent 60%);
-      transform: rotate(18deg);
-      opacity:.7;
-    }
-    .chev{
-      color: var(--muted);
-      font-size:13px;
-      opacity:.9;
-      transition: transform .15s ease;
-    }
-    details[open] .chev{transform: rotate(90deg);}
 
-    .section-body{padding:14px; position:relative; z-index:1;}
-    .cards{
+    .section-h h2{
+      margin:0;
+      font-size: 14px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .badge{
+      width:10px; height:10px;
+      border-radius:999px;
+      background: var(--soft2);
+      box-shadow: 0 0 0 4px rgba(255,255,255,.06);
+    }
+
+    .section-b{
+      padding:14px;
       display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:12px;
-    }
-    @media (max-width: 680px){
-      .cards{grid-template-columns:1fr}
+      gap:14px;
     }
 
-    /* Branch-edged article cards */
+    /* big lead story + smaller stack, like Orbis Vox layout */
+    .layout{
+      display:grid;
+      grid-template-columns: 1.35fr .65fr;
+      gap:14px;
+      align-items:start;
+    }
+    @media (max-width: 820px){
+      .layout{grid-template-columns:1fr}
+    }
+
+    .lead, .stack{
+      display:grid;
+      gap:14px;
+    }
+    .stack{grid-auto-rows: minmax(0, auto);}
+
+    /* Article cards with more whitespace */
     .card{
       position:relative;
       border-radius: 22px;
       border:1px solid rgba(255,255,255,.12);
-      background:
-        radial-gradient(450px 160px at 20% 0%, rgba(52,179,90,.06), transparent 64%),
-        linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.10));
-      padding: 14px 14px 12px;
+      background: rgba(0,0,0,.10);
+      padding: 18px 16px;
       overflow:hidden;
+      min-height: 130px;
     }
+
+    /* branch edges */
     .card::before,
     .card::after{
       content:"";
       position:absolute;
-      top:-18px;
-      width:140px; height:110px;
+      top:-22px;
+      width:150px; height:120px;
       background:
         radial-gradient(closest-side at 20% 60%, rgba(58,35,20,.60), transparent 70%),
         radial-gradient(closest-side at 55% 40%, rgba(58,35,20,.50), transparent 70%),
         radial-gradient(closest-side at 75% 65%, rgba(58,35,20,.45), transparent 70%);
       filter: blur(.2px);
-      opacity:.86;
+      opacity:.82;
       pointer-events:none;
       transform-origin: 40% 50%;
       animation: branchWiggle 9s ease-in-out infinite;
     }
-    .card::before{left:-50px; transform: rotate(-18deg);}
-    .card::after{right:-50px; transform: rotate(18deg) scaleX(-1); animation-delay: -3s;}
+    .card::before{left:-55px; transform: rotate(-18deg);}
+    .card::after{right:-55px; transform: rotate(18deg) scaleX(-1); animation-delay:-3s;}
     @keyframes branchWiggle{
       0%,100%{ transform: rotate(-18deg) translateY(0px); }
       50%{ transform: rotate(-16deg) translateY(2px); }
     }
 
-    .card h4{
+    .card h3{
       margin:0;
-      font-size:14px;
-      letter-spacing:.08em;
+      font-size: 16px;
+      letter-spacing:.06em;
       text-transform:uppercase;
+    }
+
+    /* Section accent colouring via CSS var */
+    .section[data-acc] .section-h{
+      background:
+        radial-gradient(700px 160px at 0% 0%, color-mix(in oklab, var(--acc) 22%, transparent), transparent 64%),
+        linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.06));
+    }
+    .section[data-acc] .badge{
+      background: var(--acc);
+      box-shadow: 0 0 0 4px color-mix(in oklab, var(--acc) 22%, transparent);
+    }
+    .section[data-acc]{
+      background:
+        radial-gradient(900px 220px at 0% 0%, color-mix(in oklab, var(--acc) 10%, transparent), transparent 62%),
+        linear-gradient(180deg, rgba(0,0,0,.12), rgba(0,0,0,.10));
+    }
+    .section[data-acc] .card{
+      background:
+        radial-gradient(520px 180px at 15% 0%, color-mix(in oklab, var(--acc) 10%, transparent), transparent 65%),
+        rgba(0,0,0,.10);
     }
 
     /* Puzzles */
     .puzzles{
-      position:relative;
-      z-index:1;
-      margin-top:16px;
+      margin-top:18px;
       display:grid;
       grid-template-columns: 1fr 1fr;
       gap:16px;
@@ -447,7 +454,9 @@
     .panel{
       border-radius: var(--radius2);
       border:1px solid rgba(255,255,255,.12);
-      background: linear-gradient(180deg, rgba(30,18,10,.46), rgba(19,42,27,.22));
+      background:
+        radial-gradient(700px 220px at 0% 0%, rgba(166,218,149,.08), transparent 64%),
+        linear-gradient(180deg, rgba(30,18,10,.46), rgba(19,42,27,.16));
       box-shadow: var(--shadow);
       overflow:hidden;
       position:relative;
@@ -459,7 +468,7 @@
         radial-gradient(closest-side at 20% 55%, rgba(58,35,20,.42), transparent 72%),
         radial-gradient(closest-side at 55% 35%, rgba(58,35,20,.34), transparent 76%),
         radial-gradient(closest-side at 82% 62%, rgba(58,35,20,.28), transparent 80%);
-      opacity:.35;
+      opacity:.30;
       pointer-events:none;
       transform-origin: 30% 40%;
       animation: sway 10.5s ease-in-out infinite;
@@ -473,14 +482,17 @@
       display:flex; align-items:center; justify-content:space-between; gap:10px;
       border-bottom:1px solid rgba(255,255,255,.08);
       background:
-        radial-gradient(700px 160px at 0% 0%, rgba(52,179,90,.06), transparent 64%),
+        radial-gradient(700px 160px at 0% 0%, rgba(255,255,255,.08), transparent 64%),
         linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.06));
     }
-    .panel-h h3{
+    .panel-h h2{
       margin:0;
-      font-size:13px;
-      letter-spacing:.12em;
+      font-size: 14px;
+      letter-spacing:.14em;
       text-transform:uppercase;
+      display:flex;
+      align-items:center;
+      gap:10px;
     }
     .panel-b{position:relative; z-index:1; padding:14px}
 
@@ -514,11 +526,9 @@
       color: var(--text);
       font-size:16px;
       font-weight:800;
-      caret-color: var(--fern);
+      caret-color: rgba(255,255,255,.85);
     }
-    .given{
-      background: rgba(255,255,255,.05);
-    }
+    .given{ background: rgba(255,255,255,.05); }
     .cell.correct{
       background: var(--good);
       box-shadow: inset 0 0 0 3px var(--goodB);
@@ -527,12 +537,11 @@
       background: var(--bad);
       box-shadow: inset 0 0 0 3px var(--badB);
     }
-
-    /* Thicker 3x3 lines */
     .cell[data-r="2"], .cell[data-r="5"]{ border-bottom: 2px solid rgba(255,255,255,.18); }
     .cell[data-c="2"], .cell[data-c="5"]{ border-right: 2px solid rgba(255,255,255,.18); }
 
     /* Wordsearch */
+    .ws-wrap{display:grid; gap:12px}
     .wordsearch{
       display:grid;
       grid-template-columns: repeat(12, 1fr);
@@ -570,15 +579,59 @@
       box-shadow: inset 0 0 0 3px var(--badB);
     }
 
+    .wordlist{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      align-items:center;
+      padding: 8px 10px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.10);
+    }
+    .word{
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      font-size:12px;
+      color: rgba(238,247,238,.85);
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+
     footer{
-      position:relative;
-      z-index:1;
       margin-top:18px;
       color: rgba(188,208,190,.72);
       font-size:12px;
       text-align:center;
       letter-spacing:.06em;
     }
+
+    /* Popup */
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:22px;
+      transform: translateX(-50%) translateY(20px);
+      padding: 12px 14px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 20px 60px rgba(0,0,0,.55);
+      color: var(--text);
+      letter-spacing:.04em;
+      opacity:0;
+      pointer-events:none;
+      transition: opacity .18s ease, transform .18s ease;
+      z-index:999;
+    }
+    .toast.show{
+      opacity:1;
+      transform: translateX(-50%) translateY(0px);
+    }
+    .toast b{color: rgba(255,255,255,.92)}
   </style>
 </head>
 
@@ -586,172 +639,191 @@
   <!-- Animated leaves layer -->
   <div class="leaf-layer" aria-hidden="true">
     <div class="leaf" style="--t:26s;--x0:-10vw;--y0:10vh;--x1:120vw;--y1:30vh;left:2vw;top:8vh;"></div>
-    <div class="leaf" style="--t:34s;--x0:-20vw;--y0:60vh;--x1:120vw;--y1:40vh;left:10vw;top:55vh;opacity:.55;"></div>
-    <div class="leaf" style="--t:29s;--x0:-15vw;--y0:30vh;--x1:120vw;--y1:75vh;left:18vw;top:26vh;opacity:.62;"></div>
-    <div class="leaf" style="--t:38s;--x0:-25vw;--y0:15vh;--x1:120vw;--y1:85vh;left:35vw;top:12vh;opacity:.50;"></div>
-    <div class="leaf" style="--t:31s;--x0:-18vw;--y0:80vh;--x1:120vw;--y1:55vh;left:52vw;top:78vh;opacity:.58;"></div>
-    <div class="leaf" style="--t:27s;--x0:-12vw;--y0:22vh;--x1:120vw;--y1:10vh;left:70vw;top:20vh;opacity:.60;"></div>
-    <div class="leaf" style="--t:41s;--x0:-30vw;--y0:50vh;--x1:120vw;--y1:20vh;left:84vw;top:46vh;opacity:.48;"></div>
-    <div class="leaf" style="--t:33s;--x0:-16vw;--y0:72vh;--x1:120vw;--y1:92vh;left:92vw;top:70vh;opacity:.52;"></div>
+    <div class="leaf" style="--t:34s;--x0:-20vw;--y0:60vh;--x1:120vw;--y1:40vh;left:10vw;top:55vh;opacity:.50;"></div>
+    <div class="leaf" style="--t:29s;--x0:-15vw;--y0:30vh;--x1:120vw;--y1:75vh;left:18vw;top:26vh;opacity:.58;"></div>
+    <div class="leaf" style="--t:38s;--x0:-25vw;--y0:15vh;--x1:120vw;--y1:85vh;left:35vw;top:12vh;opacity:.46;"></div>
+    <div class="leaf" style="--t:31s;--x0:-18vw;--y0:80vh;--x1:120vw;--y1:55vh;left:52vw;top:78vh;opacity:.54;"></div>
+    <div class="leaf" style="--t:27s;--x0:-12vw;--y0:22vh;--x1:120vw;--y1:10vh;left:70vw;top:20vh;opacity:.56;"></div>
+    <div class="leaf" style="--t:41s;--x0:-30vw;--y0:50vh;--x1:120vw;--y1:20vh;left:84vw;top:46vh;opacity:.44;"></div>
+    <div class="leaf" style="--t:33s;--x0:-16vw;--y0:72vh;--x1:120vw;--y1:92vh;left:92vw;top:70vh;opacity:.48;"></div>
   </div>
 
   <div class="wrap">
     <header class="nav">
       <div class="brand">
         <div class="brand-badge" aria-hidden="true"></div>
-        <div>
-          <h1>PATHWAYS</h1>
-        </div>
+        <div><h1>PATHWAYS</h1></div>
       </div>
 
       <nav class="navlinks" aria-label="Primary">
-        <a href="#news">Soon</a>
-        <a href="#features">Soon</a>
-        <a href="#opinion">Soon</a>
-        <a href="#sports">Soon</a>
-        <a href="#culture">Soon</a>
-        <a href="#puzzles">Soon</a>
+        <a href="#news">News</a>
+        <a href="#features">Features</a>
+        <a href="#opinion">Opinion</a>
+        <a href="#sports">Sports</a>
+        <a href="#culture">Culture</a>
+        <a href="#puzzles">Puzzles</a>
       </nav>
 
       <div class="search">
         <input id="searchInput" type="search" placeholder="Search…" aria-label="Search" />
-        <div class="pill">Soon</div>
       </div>
     </header>
 
-    <section class="hero" aria-label="Intro">
-      <div class="rootbox">
-        <h2 class="root-title">PATHWAYS</h2>
+    <section class="hero" aria-label="Title">
+      <h2 class="title">PATHWAYS</h2>
+    </section>
+
+    <!-- Sections stacked vertically -->
+    <section class="section" id="news" data-acc style="--acc: var(--acc-news);">
+      <div class="section-h">
+        <h2><span class="badge" aria-hidden="true"></span> News</h2>
+      </div>
+      <div class="section-b">
+        <div class="layout">
+          <div class="lead">
+            <article class="card article" data-title="coming soon"><h3>Coming soon</h3></article>
+            <article class="card article" data-title="coming soon"><h3>Coming soon</h3></article>
+          </div>
+          <div class="stack">
+            <article class="card article" data-title="coming soon"><h3>Coming soon</h3></article>
+            <article class="card article" data-title="coming soon"><h3>Coming soon</h3></article>
+            <article class="card article" data-title="coming soon"><h3>Coming soon</h3></article>
+          </div>
+        </div>
       </div>
     </section>
 
-    <main class="grid" aria-label="Content">
-
-      <!-- NEWS -->
-      <details class="section" id="news" open>
-        <summary>
-          <div class="sectitle"><span class="twig" aria-hidden="true"></span> Soon</div>
-          <div class="chev">›</div>
-        </summary>
-        <div class="section-body">
-          <div class="cards">
-            <article class="card article" data-title="coming soon">
-              <h4>Coming soon</h4>
-            </article>
-            <article class="card article" data-title="coming soon">
-              <h4>Coming soon</h4>
-            </article>
-            <article class="card article" data-title="coming soon">
-              <h4>Coming soon</h4>
-            </article>
-            <article class="card article" data-title="coming soon">
-              <h4>Coming soon</h4>
-            </article>
+    <section class="section" id="features" data-acc style="--acc: var(--acc-feat);">
+      <div class="section-h">
+        <h2><span class="badge" aria-hidden="true"></span> Features</h2>
+      </div>
+      <div class="section-b">
+        <div class="layout">
+          <div class="lead">
+            <article class="card article" data-title="coming soon"><h3>Coming soon</h3></article>
+            <article class="card article" data-title="coming soon"><h3>Coming soon</h3></article>
           </div>
-        </div>
-      </details>
-
-      <!-- FEATURES -->
-      <details class="section" id="features">
-        <summary>
-          <div class="sectitle"><span class="twig" aria-hidden="true"></span> Soon</div>
-          <div class="chev">›</div>
-        </summary>
-        <div class="section-body">
-          <div class="cards">
-            <article class="card article" data-title="coming soon"><h4>Coming soon</h4></article>
-            <article class="card article" data-title="coming soon"><h4>Coming soon</h4></article>
-            <article class="card article" data-title="coming soon"><h4>Coming soon</h4></article>
-            <article class="card article" data-title="coming soon"><h4>Coming soon</h4></article>
+          <div class="stack">
+            <article class="card article" data-title="coming soon"><h3>Coming soon</h3></article>
+            <article class="card article" data-title="coming soon"><h3>Coming soon</h3></article>
+            <article class="card article" data-title="coming soon"><h3>Coming soon</h3></article>
           </div>
-        </div>
-      </details>
-
-      <!-- OPINION -->
-      <details class="section" id="opinion">
-        <summary>
-          <div class="sectitle"><span class="twig" aria-hidden="true"></span> Soon</div>
-          <div class="chev">›</div>
-        </summary>
-        <div class="section-body">
-          <div class="cards">
-            <article class="card article" data-title="coming soon"><h4>Coming soon</h4></article>
-            <article class="card article" data-title="coming soon"><h4>Coming soon</h4></article>
-            <article class="card article" data-title="coming soon"><h4>Coming soon</h4></article>
-            <article class="card article" data-title="coming soon"><h4>Coming soon</h4></article>
-          </div>
-        </div>
-      </details>
-
-      <!-- SPORTS -->
-      <details class="section" id="sports">
-        <summary>
-          <div class="sectitle"><span class="twig" aria-hidden="true"></span> Soon</div>
-          <div class="chev">›</div>
-        </summary>
-        <div class="section-body">
-          <div class="cards">
-            <article class="card article" data-title="coming soon"><h4>Coming soon</h4></article>
-            <article class="card article" data-title="coming soon"><h4>Coming soon</h4></article>
-            <article class="card article" data-title="coming soon"><h4>Coming soon</h4></article>
-            <article class="card article" data-title="coming soon"><h4>Coming soon</h4></article>
-          </div>
-        </div>
-      </details>
-
-      <!-- CULTURE -->
-      <details class="section" id="culture">
-        <summary>
-          <div class="sectitle"><span class="twig" aria-hidden="true"></span> Soon</div>
-          <div class="chev">›</div>
-        </summary>
-        <div class="section-body">
-          <div class="cards">
-            <article class="card article" data-title="coming soon"><h4>Coming soon</h4></article>
-            <article class="card article" data-title="coming soon"><h4>Coming soon</h4></article>
-            <article class="card article" data-title="coming soon"><h4>Coming soon</h4></article>
-            <article class="card article" data-title="coming soon"><h4>Coming soon</h4></article>
-          </div>
-        </div>
-      </details>
-    </main>
-
-    <section class="puzzles" id="puzzles" aria-label="Puzzles">
-
-      <!-- SUDOKU -->
-      <div class="panel" aria-label="Sudoku">
-        <div class="panel-h">
-          <h3>Soon</h3>
-          <div class="pill" style="padding:8px 10px;">Soon</div>
-        </div>
-        <div class="panel-b">
-          <div class="sudoku" id="sudoku" aria-label="Sudoku grid"></div>
         </div>
       </div>
+    </section>
 
-      <!-- WORDSEARCH -->
-      <div class="panel" aria-label="Wordsearch">
-        <div class="panel-h">
-          <h3>Soon</h3>
-          <div class="pill" style="padding:8px 10px;">Soon</div>
-        </div>
-        <div class="panel-b">
-          <div class="wordsearch" id="wordsearch" aria-label="Wordsearch grid"></div>
+    <section class="section" id="opinion" data-acc style="--acc: var(--acc-op);">
+      <div class="section-h">
+        <h2><span class="badge" aria-hidden="true"></span> Opinion</h2>
+      </div>
+      <div class="section-b">
+        <div class="layout">
+          <div class="lead">
+            <article class="card article" data-title="coming soon"><h3>Coming soon</h3></article>
+            <article class="card article" data-title="coming soon"><h3>Coming soon</h3></article>
+          </div>
+          <div class="stack">
+            <article class="card article" data-title="coming soon"><h3>Coming soon</h3></article>
+            <article class="card article" data-title="coming soon"><h3>Coming soon</h3></article>
+            <article class="card article" data-title="coming soon"><h3>Coming soon</h3></article>
+          </div>
         </div>
       </div>
+    </section>
 
+    <section class="section" id="sports" data-acc style="--acc: var(--acc-sport);">
+      <div class="section-h">
+        <h2><span class="badge" aria-hidden="true"></span> Sports</h2>
+      </div>
+      <div class="section-b">
+        <div class="layout">
+          <div class="lead">
+            <article class="card article" data-title="coming soon"><h3>Coming soon</h3></article>
+            <article class="card article" data-title="coming soon"><h3>Coming soon</h3></article>
+          </div>
+          <div class="stack">
+            <article class="card article" data-title="coming soon"><h3>Coming soon</h3></article>
+            <article class="card article" data-title="coming soon"><h3>Coming soon</h3></article>
+            <article class="card article" data-title="coming soon"><h3>Coming soon</h3></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="culture" data-acc style="--acc: var(--acc-cult);">
+      <div class="section-h">
+        <h2><span class="badge" aria-hidden="true"></span> Culture</h2>
+      </div>
+      <div class="section-b">
+        <div class="layout">
+          <div class="lead">
+            <article class="card article" data-title="coming soon"><h3>Coming soon</h3></article>
+            <article class="card article" data-title="coming soon"><h3>Coming soon</h3></article>
+          </div>
+          <div class="stack">
+            <article class="card article" data-title="coming soon"><h3>Coming soon</h3></article>
+            <article class="card article" data-title="coming soon"><h3>Coming soon</h3></article>
+            <article class="card article" data-title="coming soon"><h3>Coming soon</h3></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="puzzles" data-acc style="--acc: var(--acc-puzz);">
+      <div class="section-h">
+        <h2><span class="badge" aria-hidden="true"></span> Puzzles</h2>
+      </div>
+      <div class="section-b">
+        <div class="puzzles">
+          <!-- Sudoku -->
+          <div class="panel" aria-label="Sudoku">
+            <div class="panel-h">
+              <h2><span class="badge" aria-hidden="true" style="background:var(--acc-puzz)"></span> Sudoku</h2>
+            </div>
+            <div class="panel-b">
+              <div class="sudoku" id="sudoku" aria-label="Sudoku grid"></div>
+            </div>
+          </div>
+
+          <!-- Wordsearch -->
+          <div class="panel" aria-label="Wordsearch">
+            <div class="panel-h">
+              <h2><span class="badge" aria-hidden="true" style="background:var(--acc-puzz)"></span> Wordsearch</h2>
+            </div>
+            <div class="panel-b">
+              <div class="ws-wrap">
+                <div class="wordlist" id="wordList" aria-label="Word list"></div>
+                <div class="wordsearch" id="wordsearch" aria-label="Wordsearch grid"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <footer>PATHWAYS</footer>
   </div>
 
+  <div class="toast" id="toast" role="status" aria-live="polite"><b>Well done!</b></div>
+
   <script>
     // ---------------------------
-    // SEARCH FILTER (articles) - still works, but no visible extra words
+    // TOAST POPUP
+    // ---------------------------
+    const toast = document.getElementById("toast");
+    let toastTimer = null;
+    function showToast(msg="Well done!"){
+      toast.innerHTML = "<b>" + msg + "</b>";
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("show"), 1600);
+    }
+
+    // ---------------------------
+    // SEARCH FILTER (article cards)
     // ---------------------------
     const searchInput = document.getElementById('searchInput');
     const articles = Array.from(document.querySelectorAll('.article'));
-
     function applySearch(){
       const q = (searchInput.value || "").trim().toLowerCase();
       articles.forEach(card => {
@@ -763,10 +835,9 @@
     applySearch();
 
     // ---------------------------
-    // SUDOKU (green if correct, red if wrong)
-    // Resets on refresh (no localStorage)
+    // SUDOKU (green if correct, red if wrong; toast when fully solved)
+    // Resets on refresh (no storage)
     // ---------------------------
-    // 0 = blank; non-zero = given
     const sudokuPuzzle = [
       [5,3,0, 0,7,0, 0,0,0],
       [6,0,0, 1,9,5, 0,0,0],
@@ -781,7 +852,6 @@
       [0,0,0, 0,8,0, 0,7,9],
     ];
 
-    // matching solution for correctness-check
     const sudokuSolution = [
       [5,3,4, 6,7,8, 9,1,2],
       [6,7,2, 1,9,5, 3,4,8],
@@ -797,9 +867,13 @@
     ];
 
     const sudokuEl = document.getElementById('sudoku');
+    const sudokuState = Array.from({length:9}, () => Array.from({length:9}, () => 0));
+    let sudokuCompleted = false;
 
     function buildSudoku(){
       sudokuEl.innerHTML = "";
+      sudokuCompleted = false;
+
       for(let r=0; r<9; r++){
         for(let c=0; c<9; c++){
           const cell = document.createElement('div');
@@ -819,21 +893,27 @@
             inp.value = String(val);
             inp.readOnly = true;
             inp.tabIndex = -1;
+            sudokuState[r][c] = val;
           }else{
             inp.value = "";
+            sudokuState[r][c] = 0;
+
             inp.addEventListener('input', () => {
-              // keep only 1-9
               const ch = (inp.value || "").slice(-1);
               if(!/^[1-9]$/.test(ch)){
                 inp.value = "";
+                sudokuState[r][c] = 0;
                 setSudokuState(cell, null);
+                checkSudokuComplete();
                 return;
               }
               inp.value = ch;
-
               const n = Number(ch);
+              sudokuState[r][c] = n;
+
               const correct = (n === sudokuSolution[r][c]);
               setSudokuState(cell, correct);
+              checkSudokuComplete();
             });
 
             inp.addEventListener('keydown', (e) => {
@@ -852,7 +932,9 @@
               if(/^[1-9]$/.test(ch)){
                 inp.value = ch;
                 const n = Number(ch);
+                sudokuState[r][c] = n;
                 setSudokuState(cell, n === sudokuSolution[r][c]);
+                checkSudokuComplete();
               }
             });
           }
@@ -869,22 +951,45 @@
       if(correct === false) cell.classList.add('incorrect');
     }
 
+    function checkSudokuComplete(){
+      if(sudokuCompleted) return;
+
+      for(let r=0; r<9; r++){
+        for(let c=0; c<9; c++){
+          if(sudokuState[r][c] !== sudokuSolution[r][c]) return;
+        }
+      }
+      sudokuCompleted = true;
+      showToast("Well done!");
+    }
+
     buildSudoku();
 
     // ---------------------------
-    // WORDSEARCH (more mixed)
+    // WORDSEARCH (words shown + mixed placement)
     // Click a letter:
     // - green if that letter belongs to ANY hidden word placement
     // - red if it doesn't
-    // Resets on refresh
+    // Completion: all “good” coordinates clicked at least once -> toast
     // ---------------------------
     const SIZE = 12;
     const wordsearchEl = document.getElementById('wordsearch');
+    const wordListEl = document.getElementById('wordList');
 
-    // keep the hidden words internal (no extra UI words)
     const hiddenWords = ["PATHWAYS","ROOT","LEAF","BARK","OAK","PINE","CAMPUS","INK"];
 
-    // directions: (dr, dc)
+    // render word list
+    function renderWordList(){
+      wordListEl.innerHTML = "";
+      hiddenWords.forEach(w => {
+        const pill = document.createElement("span");
+        pill.className = "word";
+        pill.textContent = w;
+        wordListEl.appendChild(pill);
+      });
+    }
+    renderWordList();
+
     const dirs = [
       [0,1], [1,0], [0,-1], [-1,0],
       [1,1], [1,-1], [-1,1], [-1,-1]
@@ -907,8 +1012,7 @@
     }
 
     function placeWord(grid, word){
-      // try a bunch of times, place it somewhere mixed
-      for(let tries=0; tries<800; tries++){
+      for(let tries=0; tries<900; tries++){
         const [dr, dc] = dirs[randInt(0, dirs.length-1)];
         const r = randInt(0, SIZE-1);
         const c = randInt(0, SIZE-1);
@@ -936,20 +1040,23 @@
       }
     }
 
+    let wsGoodSet = new Set();
+    let wsFoundSet = new Set();
+    let wsCompleted = false;
+
     function buildWordsearch(){
       const grid = makeEmptyGrid();
-      const goodSet = new Set();
+      wsGoodSet = new Set();
+      wsFoundSet = new Set();
+      wsCompleted = false;
 
-      // place longer words first for better success
       const sorted = [...hiddenWords].sort((a,b)=>b.length-a.length);
       for(const w of sorted){
         const coords = placeWord(grid, w);
-        coords.forEach(k => goodSet.add(k));
+        coords.forEach(k => wsGoodSet.add(k));
       }
-
       fillRandom(grid);
 
-      // render
       wordsearchEl.innerHTML = "";
       for(let r=0;r<SIZE;r++){
         for(let c=0;c<SIZE;c++){
@@ -959,26 +1066,42 @@
           cell.dataset.key = r + "," + c;
 
           cell.addEventListener("click", () => {
-            // toggle: if already marked, clear
+            // toggle off if already marked
             if(cell.classList.contains("good") || cell.classList.contains("bad")){
+              if(cell.classList.contains("good")){
+                wsFoundSet.delete(cell.dataset.key);
+              }
               cell.classList.remove("good","bad");
+              checkWordsearchComplete();
               return;
             }
 
-            const isGood = goodSet.has(cell.dataset.key);
+            const isGood = wsGoodSet.has(cell.dataset.key);
             if(isGood){
               cell.classList.add("good");
+              wsFoundSet.add(cell.dataset.key);
+              checkWordsearchComplete();
             }else{
               cell.classList.add("bad");
-              // soften the sting: fade the red a bit after a moment (still shows it was wrong)
               setTimeout(() => {
-                if(cell.classList.contains("bad")) cell.style.opacity = ".75";
+                if(cell.classList.contains("bad")) cell.style.opacity = ".78";
               }, 450);
             }
           });
 
           wordsearchEl.appendChild(cell);
         }
+      }
+    }
+
+    function checkWordsearchComplete(){
+      if(wsCompleted) return;
+      if(wsGoodSet.size === 0) return;
+
+      // complete when all good cells have been clicked at least once
+      if(wsFoundSet.size === wsGoodSet.size){
+        wsCompleted = true;
+        showToast("Well done!");
       }
     }
 
